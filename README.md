@@ -8,7 +8,30 @@
 
 ![微信截图_20201227131555](img/微信截图_20201227131555.png)
 
-- 
+- 一道面试题 —— 获取一张图片，若获取失败则报错
+
+  ```javascript
+  const imgAddress = "xxxxx"
+  const imgPromise = (url) => {
+    return new Promise((resolve,reject) => {
+      const img = new Image();
+      img.src = url
+      img.onload =() => {
+        resolve(img)
+      }
+      img.onerror = () => {
+        reject(new Error('图片加载出错'))
+      }
+    })
+  }
+  imgPromise(imgAddress).then(img => {
+    document.body.appendChild(img)
+  }).catch(err => {
+    document.body.innerHTML = err
+  })
+  ```
+
+  
 
 # 2020-12-26 
 
