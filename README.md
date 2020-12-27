@@ -31,6 +31,36 @@
   })
   ```
 
+- 一道面试题 —— 柯里化函数
+
+  ```javascript
+  // 时间监听，ie是只支持attchEvent
+  const whichEvent = (function() {
+    if(window.addEventListener) {
+      // element绑定事件的元素、type监听类型、listener执行的回调函数、useCapture是捕获还是冒泡
+      return function(element, type, listener, useCapture) {
+        element.addEventListener(type, function(e){
+          listener.call(element,e)
+        }, useCapture)
+      }
+    } else if(window.attachEvent){
+      // ie只支持冒泡
+      return function(element, type, handler) {
+        element.attachEvent('on'+type, function(e){
+          handler.call(element, e)
+        })
+      }
+    }
+  })()
+  ```
+
+  
+
+  ```javascript
+  // 实现 add(1)(2)(3) -> 6 ， add(1,2,3)(4) -> 10 ，add(1)(2,3,4) -> 10
+  
+  ```
+
   
 
 # 2020-12-26 
