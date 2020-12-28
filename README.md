@@ -2,6 +2,49 @@
 
 **这是Leo日常学习、工作记录**
 
+# 2020-12-29
+
+- 惰性单例模式：
+
+  - 核心：调用创建单例函数式才占用内存（闭包）
+
+    ```js
+    // 普通单例
+    var Singleton = function(name) {
+         this.name = name;
+      	// 已经占用内存了...
+         this.instance = null;
+    };
+    Singleton.getInstance = function(name) {
+         if (!this.instance) {
+             this.instance = new Singleton(name);
+         }
+         return this.instance;
+    };
+    var a = Singleton.getInstance('sven1');
+    var b = Singleton.getInstance('sven2');
+    alert(a === b); // true
+    
+    
+    // 惰性单例
+    var Singleton = function(name) {
+         this.name = name;
+    };
+    Singleton.getInstance = (function() {
+         // 调用时才占用内存空间
+         var instance = null;
+         return function(name) {
+             if (!instance) {
+                 instance = new Singleton(name);
+             }
+             return instance;
+         }
+    })();
+    var a = Singleton.getInstance( 'sven1' );
+    var b = Singleton.getInstance( 'sven2' );
+    alert ( a === b ); // true
+    ```
+
 # 2020-12-27 
 
 - 设计模式的核心是方便代码的维护和项目重构？
@@ -10,7 +53,7 @@
 
 - 一道面试题 —— 获取一张图片，若获取失败则报错
 
-  ```javascript
+```javascript
   const imgAddress = "xxxxx"
   const imgPromise = (url) => {
     return new Promise((resolve,reject) => {
@@ -29,7 +72,7 @@
   }).catch(err => {
     document.body.innerHTML = err
   })
-  ```
+```
 
 - 一道面试题 —— 柯里化函数
 
@@ -97,3 +140,4 @@
   - 一边写代码一边产出半成品文档（因为注释较多） —— 这是个“成也萧何败也萧何”的问题
   - 杜绝了手误导致的变量名错误（找不到该变量命就会报错提示）
   - **静态类型有利于构建大型应用**，静态类型检查可以做到early fail，即你编写的代码即使没有被执行到，一旦你编写代码时发生类型不匹配，语言在编译阶段（解释执行也一样，可以在运行前）即可发现。针对大型应用，测试调试分支覆盖困难，很多代码并不一定能够在所有条件下执行到。而假如你的代码简单到任何改动都可以从UI体现出来，这确实跟大型应用搭不上关系，那么静态类型检查确实没什么作用。
+
