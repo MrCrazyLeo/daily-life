@@ -4,46 +4,76 @@
 
 # 2020-12-29
 
-- 惰性单例模式：
+- 单例模式
 
-  - 核心：调用创建单例函数式才占用内存（闭包）
+  单例模式：
 
-    ```js
-    // 普通单例
-    var Singleton = function(name) {
-         this.name = name;
-      	// 已经占用内存了...
-         this.instance = null;
-    };
-    Singleton.getInstance = function(name) {
-         if (!this.instance) {
-             this.instance = new Singleton(name);
-         }
-         return this.instance;
-    };
-    var a = Singleton.getInstance('sven1');
-    var b = Singleton.getInstance('sven2');
-    alert(a === b); // true
-    
-    
-    // 惰性单例
-    var Singleton = function(name) {
-         this.name = name;
-    };
-    Singleton.getInstance = (function() {
-         // 调用时才占用内存空间
-         var instance = null;
-         return function(name) {
-             if (!instance) {
-                 instance = new Singleton(name);
-             }
-             return instance;
-         }
-    })();
-    var a = Singleton.getInstance( 'sven1' );
-    var b = Singleton.getInstance( 'sven2' );
-    alert ( a === b ); // true
-    ```
+  核心：调用创建单例函数式才占用内存
+
+  ```js
+  // 普通单例
+  var Singleton = function(name) {
+       this.name = name;
+    	// 已经占用内存了...
+       this.instance = null;
+  };
+  Singleton.getInstance = function(name) {
+       if (!this.instance) {
+           this.instance = new Singleton(name);
+       }
+       return this.instance;
+  };
+  var a = Singleton.getInstance('sven1');
+  var b = Singleton.getInstance('sven2');
+  alert(a === b); // true
+  
+  
+  // 惰性单例
+  var Singleton = function(name) {
+       this.name = name;
+  };
+  Singleton.getInstance = (function() {
+       // 调用时才占用内存空间
+       var instance = null;
+       return function(name) {
+           if (!instance) {
+               instance = new Singleton(name);
+           }
+           return instance;
+       }
+  })();
+  var a = Singleton.getInstance( 'sven1' );
+  var b = Singleton.getInstance( 'sven2' );
+  alert ( a === b ); // true
+  ```
+
+  透明的单例模式
+
+  ```javascript
+  // 所谓透明，就是可以直接new，而不用像上边一样记住Singleton.getInstance写法
+  const CreateDiv = (function(){
+   	let instance;
+    const _CreateDiv = function(html){
+      if(instance) {
+        return instance
+      }
+      this.html=html
+      this.init()
+      return instance = this
+    }
+    _CreateDiv.prototype.init = function() {
+      const div=document.createElement('div')
+      div.innerHTML = this.html
+      document.body.appendChild(div)
+    }
+    return _CreateDiv
+  })()
+  var a = new CreateDiv('sven1');
+  var b = new CreateDiv('sven2');
+  alert(a === b); // => true
+  ```
+
+  
 
 # 2020-12-27 
 
