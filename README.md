@@ -73,6 +73,34 @@
   alert(a === b); // => true
   ```
 
+  代理实现单例模式
+
+  ```javascript
+  // 普通的创建 div 的类：
+  const CreateDiv = function(html) {
+       this.html = html;
+       this.init();
+  };
+  CreateDiv.prototype.init = function() {
+       var div = document.createElement('div');
+       div.innerHTML = this.html;
+       document.body.appendChild(div);
+  };
+  // 代理
+  const ProxySingletonCreateDiv = (function() {
+      let instance;
+      return function(html) {
+          if (!instance) {
+              instance = new CreateDiv(html);
+          }
+          return instance;
+      }
+  })();
+  const a = new ProxySingletonCreateDiv('sven1');
+  const b = new ProxySingletonCreateDiv('sven2');
+  alert(a === b);
+  ```
+
   
 
 # 2020-12-27 
