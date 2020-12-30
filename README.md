@@ -2,13 +2,39 @@
 
 **这是Leo日常学习、工作记录**
 
+# 2020-12-30
+
+## 从URL到页面渲染经历了什么？
+
+
+
+## \<dns-prefetch\> \<preconnect\>
+
+```html
+<link ref="dns-prefetch">
+```
+
+这个是启用现代浏览器的dns预解析。对于要重定向的域名有效。
+
+> 最优的方案应该是：通过js初始化一个iframe异步加载一个页面，而这个页面里包含本站所有的需要手动dns prefetching的域名。
+
+\<preconnect\>预连接
+
+> 尽管 `dns-prefetch` 仅执行 DNS查找，但`preconnect` 会建立与服务器的连接。如果站点是通过HTTPS服务的，则此过程包括DNS解析，建立TCP连接以及执行TLS握手。将两者结合起来可提供进一步减少[跨域请求](https://wiki.developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS)的感知延迟的机会。您可以安全地将它们一起使用,如下所示：
+>
+> ```html
+> <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+> <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+> ```
+
+
+
 # 2020-12-29
 
-- HTTP请求头与响应头
+##  HTTP请求头与响应头
 
   - 浏览器请求头
     - Accept(text/html、\*/\*)
-    - 
     - Accept-Encoding
     - Accept-Language
     - Connection(keep-alive、close)
@@ -49,7 +75,7 @@
       - **Access-Control-Allow-Credentials: true** 是否允许发送cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可。如果access-control-allow-origin为*，当前字段就不能为true
     - Content-Range
 
-- 单例模式
+## 单例模式
 
   单例模式：
 
@@ -150,11 +176,11 @@
 
 # 2020-12-27 
 
-- 设计模式的核心是方便代码的维护和项目重构？
+## 设计模式的核心是方便代码的维护和项目重构？
 
 ![微信截图_20201227131555](img/微信截图_20201227131555.png)
 
-- 一道面试题 —— 获取一张图片，若获取失败则报错
+## 一道面试题 —— 获取一张图片，若获取失败则报错
 
 ```javascript
   const imgAddress = "xxxxx"
@@ -177,46 +203,46 @@
   })
 ```
 
-- 一道面试题 —— 柯里化函数
+## 一道面试题 —— 柯里化函数
 
-  ```javascript
-  // 时间监听，ie是只支持attchEvent
-  const whichEvent = (function() {
-    if(window.addEventListener) {
-      // element绑定事件的元素、type监听类型、listener执行的回调函数、useCapture是捕获还是冒泡
-      return function(element, type, listener, useCapture) {
-        element.addEventListener(type, function(e){
-          listener.call(element,e)
-        }, useCapture)
-      }
-    } else if(window.attachEvent){
-      // ie只支持冒泡
-      return function(element, type, handler) {
-        element.attachEvent('on'+type, function(e){
-          handler.call(element, e)
-        })
-      }
+```javascript
+// 时间监听，ie是只支持attchEvent
+const whichEvent = (function() {
+  if(window.addEventListener) {
+    // element绑定事件的元素、type监听类型、listener执行的回调函数、useCapture是捕获还是冒泡
+    return function(element, type, listener, useCapture) {
+      element.addEventListener(type, function(e){
+        listener.call(element,e)
+      }, useCapture)
     }
-  })()
-  ```
+  } else if(window.attachEvent){
+    // ie只支持冒泡
+    return function(element, type, handler) {
+      element.attachEvent('on'+type, function(e){
+        handler.call(element, e)
+      })
+    }
+  }
+})()
+```
 
-  
 
-  ```javascript
-  // 实现 add(1)(2)(3) -> 6 ， add(1,2,3)(4) -> 10 ，add(1)(2,3,4) -> 10
-  
-  ```
 
-  
+```javascript
+// 实现 add(1)(2)(3) -> 6 ， add(1,2,3)(4) -> 10 ，add(1)(2,3,4) -> 10
+
+```
+
+
 
 # 2020-12-26 
 
-- 前端是否需要写自动测试的代码
+## 前端是否需要写自动测试的代码
 
-  ```javascript
-  if(你写的是一个utils类 || 你写的是一个公共component || 你写的是一个开源项目)
-    return 你需要写单元测试（UT）代码
-  ```
+```javascript
+if(你写的是一个utils类 || 你写的是一个公共component || 你写的是一个开源项目)
+  return 你需要写单元测试（UT）代码
+```
 
 ![WX20201226-231903@2x](img/WX20201226-231903@2x.png)
 
@@ -224,12 +250,14 @@
 
 # 2020-12-25
 
-- 代码评审（Code Review)的作用
-  - 降低低级bug产出，提高代码产出质量
-  - 学习别人更好的代码风格和解决方案
-  - 代码评审可以更好地评估工时，因为业务有时候是相似的，通过回顾以往代码，可以了解该模块的业务背景及开发手段，从而优化更好的方案，对于评估做类似模块的工时也会更为准确
-  - 代码评审让团队成员不再只是涉及自；己开发的模块，而是对别人模块也有所了解，这样其他成员可以在后续工期接手前人的代码
-  - 代码评审有助于指导培养新工程师
+## 代码评审（Code Review)的作用
+
+- 降低低级bug产出，提高代码产出质量
+- 学习别人更好的代码风格和解决方案
+- 代码评审可以更好地评估工时，因为业务有时候是相似的，通过回顾以往代码，可以了解该模块的业务背景及开发手段，从而优化更好的方案，对于评估做类似模块的工时也会更为准确
+- 代码评审让团队成员不再只是涉及自；己开发的模块，而是对别人模块也有所了解，这样其他成员可以在后续工期接手前人的代码
+- 代码评审有助于指导培养新工程师
+
 - 需求评审的作用
   - 明白需求的背景和目标
   - 统一需求实现的过程、方案以及相关功能点
@@ -238,9 +266,10 @@
 
 # 2020-12-16
 
-- Typescript的优势到底在哪？
-  - 类型推断，减少“不知是字符串还是数字所以要转成数字”类似的兜底情况
-  - 一边写代码一边产出半成品文档（因为注释较多） —— 这是个“成也萧何败也萧何”的问题
-  - 杜绝了手误导致的变量名错误（找不到该变量命就会报错提示）
-  - **静态类型有利于构建大型应用**，静态类型检查可以做到early fail，即你编写的代码即使没有被执行到，一旦你编写代码时发生类型不匹配，语言在编译阶段（解释执行也一样，可以在运行前）即可发现。针对大型应用，测试调试分支覆盖困难，很多代码并不一定能够在所有条件下执行到。而假如你的代码简单到任何改动都可以从UI体现出来，这确实跟大型应用搭不上关系，那么静态类型检查确实没什么作用。
+## Typescript的优势到底在哪？
+
+- 类型推断，减少“不知是字符串还是数字所以要转成数字”类似的兜底情况
+- 一边写代码一边产出半成品文档（因为注释较多） —— 这是个“成也萧何败也萧何”的问题
+- 杜绝了手误导致的变量名错误（找不到该变量命就会报错提示）
+- **静态类型有利于构建大型应用**，静态类型检查可以做到early fail，即你编写的代码即使没有被执行到，一旦你编写代码时发生类型不匹配，语言在编译阶段（解释执行也一样，可以在运行前）即可发现。针对大型应用，测试调试分支覆盖困难，很多代码并不一定能够在所有条件下执行到。而假如你的代码简单到任何改动都可以从UI体现出来，这确实跟大型应用搭不上关系，那么静态类型检查确实没什么作用。
 
