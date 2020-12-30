@@ -1,10 +1,20 @@
 # daily-life
 
-**这是Leo日常学习、工作记录**
+
 
 # 2020-12-30
 
 ## 从URL到页面渲染经历了什么？
+
+### 1.DNS查询
+
+### 2.TCP连接
+
+### 3.HTTP请求
+
+### 4.服务器响应
+
+### 5.客户端渲染
 
 
 
@@ -32,6 +42,93 @@
 ##  缓存机制和对应HTTP字段
 
 
+
+## 一道链式调用的面试题：Hero("37er")
+
+> 编写代码，满足以下条件：  
+>
+>   （1）Hero("37er");执行结果为 
+>
+>   Hi! This is 37er 
+>
+>   （2）Hero("37er").kill(1).recover(30);执行结果为 
+>
+>   Hi! This is 37er 
+>
+>   Kill 1 bug 
+>
+>   Recover 30 bloods 
+>
+>   （3）Hero("37er").sleep(10).kill(2)执行结果为 
+>
+>   Hi! This is 37er 
+>
+>   //等待10s后 
+>
+>   Kill 2 bugs //注意为bugs 
+>
+>   （双斜线后的为提示信息，不需要打印）
+>
+> ```javascript
+> // 使用构造函数的形式
+> function Hero(name) {
+>   this.name = name;
+>   console.log(name);
+>   return this;
+> }
+> 
+> Hero.prototype.kill = function () {
+>   console.log('Kill');
+>   return this
+> }
+> 
+> Hero.prototype.sleep = function (time) {
+>   var start = new Date().getTime();
+>   console.log('Timeout');
+>   while((start + time * 1000) > new Date().getTime()) {
+> 
+>   }
+>   return this;
+> }
+> 
+> // 创建一个实例
+> var hero = function(name) { 
+>   return new Hero(name);
+> }
+> hero("37er").sleep(10).kill(2)
+> ```
+>
+> ```javascript
+> // 使用对象的形式
+> var Hero = function(text) {
+>     console.log('Hi! This is ' + text)
+>     var obj = {
+>         kill: function(num) {
+>         if (num == 1) {
+>           console.log(`Kills ${num} bug`);
+>         } else {
+>           console.log(`Kills ${num} bugs`);
+>         }
+>                 return this;
+>     },
+>     sleep: function(time) {
+>       var start = new Date().getTime();
+>             while((start + time*1000) > new Date().getTime()) {
+>         
+>             }
+>       			console.log('')
+>             return this;
+>     },
+>     recover: function(num) {
+>             console.log('Recover ' + num + 'bloods');
+>             return this;
+>         }
+>     }
+>   return obj;
+> }
+> ```
+>
+> 
 
 
 
