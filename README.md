@@ -2,6 +2,46 @@
 
 # 2021-01-02
 
+### 一道算法题： 乱序排序（洗牌）
+
+```javascript
+const arr = [1,2,3,4,5,6,7]
+// Fisher-Yates洗牌算法，实现十分简单，并且它可以保证均匀性，即元素的各种排列顺序出现的概率都相等
+function shuffle(arr){
+  for(let i=arr.length - 1;i>0;i--){
+    const j = Math.floor(Math.random() * (i+1))
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+  }
+}
+shuffle(arr)
+console.log(arr)
+```
+
+顺便提一嘴，一开始我想的是下边这种解决方式，这种洗牌方式出来的结果是不等概率
+
+```javascript
+const arr = [1,2,3,4,5,6,7]
+function shuffle(arr){
+	const len = arr.length
+  for(let i=0;i<;i++){
+  	const j = Math.floor(Math.random() * len)
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+  }
+}
+shuffle(arr)
+console.log(arr)
+```
+
+> 其原理是，在第 i 次循环中，从**所有元素**中等可能地选一个元素，与第 i 个元素交换。这种算法的错误可以如下证明：对于一个长度为 ![[公式]](https://www.zhihu.com/equation?tex=+n) 的数组，算法创造了 ![[公式]](https://www.zhihu.com/equation?tex=n%5En) 个等可能的基本事件，这些事件对应于 ![[公式]](https://www.zhihu.com/equation?tex=n%21) 种排列顺序。在非平凡情况下， ![[公式]](https://www.zhihu.com/equation?tex=n%5En) 不能被 ![[公式]](https://www.zhihu.com/equation?tex=n%21) 整除，所以各种排列顺序不可能等概率。
+>
+> 出自：[10809 一种错误的洗牌算法，以及乱排常数 (1)](https://zhuanlan.zhihu.com/p/31547382)
+
+
+
 ## 一道面试题： 水平垂直居中
 
 ### 行内元素水平居中
