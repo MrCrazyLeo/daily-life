@@ -1,14 +1,146 @@
 # daily-life
 
+# 2021-01-02
+
+## 一道面试题： 水平垂直居中
+
+### 行内元素水平居中
+
+```css
+text-align:center;
+```
+
+### 块状元素水平居中
+
+```css
+margin: 0 auto
+```
+
+###   flex 
+
+```css
+{
+  display: flex;
+  justify-content: center; /*使子项目水平居中*/
+  align-items: center; /*使子项目垂直居中*/
+}
+```
+
+### 已知高度宽度元素的水平垂直居中
+
+#### 绝对定位与负边距实现 
+
+```css
+#container{
+    position:relative;
+}
+ 
+#center{
+    width:100px;
+    height:100px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-50px 0 0 -50px;
+}
+```
+
+![绝对定位与负边距](img/绝对定位与负边距.jpg)
+
+#### 绝对定位与margin
+
+```css
+#container{
+    position:relative;
+}
+ 
+#center{
+    position:absolute;
+    margin:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+```
+
+### 未知高度和宽度元素的水平垂直居中
+
+#### 当要被居中的元素是inline或者inline-block元素
+
+```css
+#container{
+    display:table-cell;
+    text-align:center;
+    vertical-align:middle;
+}
+#center{}
+```
+
+#### Css3的transform
+
+```css
+#container{
+    position:relative;
+}
+ 
+#center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
+
+
+
+## 一道面试题：去重
+
+**常规方法**
+
+```javascript
+var arr=[1,2,3,3,4,5,5,6,6]
+var res = []
+for(let i=0;i<arr.length;i++){
+ if(res.indexOf(arr[i]) === -1) {
+   res.push(arr[i])
+ }
+}
+console.log('去重之后的数组 ',res)
+```
+
+**ES6**
+
+```javascript
+const arr=[1,2,3,3,4,5,5,6,6]
+const t = new Set(arr)
+[...t]
+
+// 或
+const arr=[1,2,3,3,4,5,5,6,6]
+Array.from(new Set(arr))
+
+// 或使用正则表达式
+// (arr+',').replace(/(\d+,)\1+/ig,'$1') -> "1,2,3,4,5,6,"
+// (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',') -> ["1", "2", "3", "4", "5", "6", ""]
+(arr+',').replace(/(\d+,)\1+/ig,'$1').split(',').slice(0,-1) // ["1", "2", "3", "4", "5", "6"]
+```
+
+
+
 # 2021-01-01
 
 ## 前端安全常见问题
 
 ### CSRF 跨站请求伪造
 
+针对客户，利用客户身份干坏事
+
+
+
 ### XSS 跨站脚本攻击
 
-
+针对服务器
 
 
 
