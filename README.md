@@ -24,7 +24,7 @@ console.log(arr)
 ```javascript
 const arr = [1,2,3,4,5,6,7]
 function shuffle(arr){
-	const len = arr.length
+  const len = arr.length
   for(let i=0;i<;i++){
   	const j = Math.floor(Math.random() * len)
     const temp = arr[i]
