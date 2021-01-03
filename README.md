@@ -1,5 +1,28 @@
 # daily-life
 
+# 2021-01-03
+
+### 用ES5实现私有变量
+
+核心：基于闭包
+```javascript
+function Person(name){
+  const _name = name
+  this.getName = function(){
+    return _name
+  }
+}
+const p = new Person('xxx')
+console.log(p._name) // undefinded
+console.log(p.getName()) // xxx
+```
+
+
+
+
+
+
+
 # 2021-01-02
 
 ### 一道算法题： 乱序排序（洗牌）
