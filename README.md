@@ -2,6 +2,40 @@
 
 # 2021-01-04
 
+## for of 、for in 区别  
+
+1. for in循环的是key，for of循环的是value
+
+2. for of是ES6引入的特性，修复了ES5引入的for in的不足
+
+   ```javascript
+   let aArray = ['a',123,{a:'1',b:'2'}]
+   for(let index in aArray){
+       console.log(`${aArray[index]}`);
+   } // a 123 [object Object]
+   
+   // 此时给aArray增加一个name的属性
+   aArray.name ='xxx'
+   for(let index in aArray){
+       console.log(`${aArray[index]}`);
+   } // a 123 [object Object]
+   
+   // 此时aArray已经是object了...
+   // 如果实在想用for...of来遍历普通对象的属性的话，可以通过和Object.keys()搭配使用，先获取对象的所有key的数组,然后遍历
+   for(var key of Object.keys(aArray)){
+       //使用Object.keys()方法获取对象key的数组
+       console.log(key+": "+aArray[key]);
+   } 
+   // 0: a
+   // 1: 123
+   // 2: [object Object]
+   
+   ```
+
+3. `for...of`不能循环普通的对象，需要通过和`Object.keys()`搭配使用 
+
+   
+
 ## 设计模式在前端的应用
 
 ###  迭代器模式
@@ -96,7 +130,7 @@ console.log(p.getName()) // xxx
 
 # 2021-01-02
 
-### 一道算法题： 乱序排序（洗牌）
+## 一道算法题： 乱序排序（洗牌。）
 
 ```javascript
 const arr = [1,2,3,4,5,6,7]
