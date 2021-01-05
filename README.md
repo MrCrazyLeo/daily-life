@@ -1,5 +1,105 @@
 # daily-life
 
+# 2021-01-05
+
+### JS大数问题
+
+#### 最大整数问题
+
+因为JS的Number类型是遵循`IEEE 754`规范表示，这就意味着JavaScript能精确表示的数字是优先的，可以精确到个位的最大整数是9007 1992 5474 0992（9千万亿多），也就是2^53，超过这个范围精度就会丢失，所以出现下边现象：
+
+```javascript
+Math.pow(2, 53);    // 9007199254740992
+Math.pow(2, 53) === Math.pow(2, 53) + 1;    // true
+9007199254740992 === 9007199254740992 + 1;    // true
+```
+
+**解决方案**:
+
+#### 最大浮点数问题
+
+前面讲到，在`JavaScript`中，使用浮点数标准`IEEE 754`表示数字的，在表示小数的时候，在转化二进制的时候有些数是不能完整转化的，比如0.3，转化成二进制是一个很长的循环的数，是超过了`JavaScript`能表示的范围的，所以近似等于0.30000000000000004。这个是二进制浮点数最大的问题（不仅 JavaScript，所有遵循 IEEE 754 规范的语言都是如此）。所以要判断两个值是否相等，可以用ES6引入的极小常量`Number.EPSILON`。Number.EPSILON是JS实际能达到的最小精度，比2^(-52)大
+
+```javascript
+function IsEqual(num1,num2){
+  let EPSILON = Number.EPSILON ? Number.EPSILON : Math.pow(2,-52)
+  return Math.abs(num1 - num2) < EPSILON
+}
+```
+
+
+
+## BigInt
+
+为解决大数（大于2^53-1）问题，JS内置了一种新的数字基本类型BigInt，可以表示任意精度整数。
+
+> 可以用在一个整数字面量后面加 `n` 的方式定义一个 `BigInt` ，如：`10n`，或者调用函数`BigInt()`
+
+它在某些方面类似于 [`Number`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number) ，但是也有几个关键的不同点：不能用于 [`Math`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math) 对象中的方法；不能和任何 [`Number`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number) 实例混合运算，两者必须转换成同一种类型。在两种类型来回转换时要小心，因为 `BigInt` 变量在转换成 [`Number`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number) 变量时可能会丢失精度。
+
+以下操作符可以和 `BigInt` 一起使用： `+`、``*``、``-``、``**``、``%`` 。除 `>>>` （无符号右移）之外的 [位操作](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) 也可以支持。因为 `BigInt` 都是有符号的， `>>>` （无符号右移）不能用于 `BigInt`。[为了兼容 asm.js ](https://github.com/tc39/proposal-bigint/blob/master/ADVANCED.md#dont-break-asmjs)，`BigInt` 不支持单目 (`+`) 运算符。
+
+`/` 操作符对于整数的运算也没问题。可是因为这些变量是 `BigInt` 而不是 `BigDecimal` ，该操作符结果会向零取整，也就是说不会返回小数部分。
+
+```javascript
+const rounded = 5n / 2n;
+// ↪ 2n, not 2.5n
+```
+
+`BigInt` 和 [`Number`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number) 不是严格相等的，但是宽松相等的。[`Number`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number) 和 `BigInt` 可以进行比较。
+
+注意被 `Object` 包装的 `BigInt`s 使用 object 的比较规则进行比较，只用同一个对象在比较时才会相等。
+
+```javascript
+0n === Object(0n); // false
+Object(0n) === Object(0n); // false
+
+const o = Object(0n);
+o === o // true
+```
+
+对任何 `BigInt` 值使用 [`JSON.stringify()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) 都会引发 `TypeError`，因为默认情况下 `BigInt` 值不会在 `JSON` 中序列化。但是，如果需要，可以实现 `toJSON` 方法：
+
+```
+JSON.stringify(BigInt(1)); // Uncaught TypeError: Do not know how to serialize a BigInt
+// 重新实现toJSON方法
+BigInt.prototype.toJSON = function() { return this.toString(); }
+JSON.stringify(BigInt(1));
+// '"1"'
+BigInt(10).toString // '10' 会转成数值再转成字符串，所以依旧有精度损失问题
+```
+
+
+
+## instanceof原理
+
+实际就是考察原型链的问题
+> **instanceof 检测一个对象A是不是另一个对象B的实例的原理：**
+>
+> 查看对象B的prototype指向的对象是否在对象A的__proto__链上。如果在，则返回true,如果不在则返回false。不过有一个特殊的情况，当对象B的prototype为null将会报错(类似于空指针异常)。
+>
+> ```javascript
+> function _instanceof(A, B) {
+>     var O = B.prototype;// 取B的显示原型
+>     A = A.__proto__;// 取A的隐式原型
+>     while (true) {
+>         //Object.prototype.__proto__ === null
+>         if (A === null)
+>             return false;
+>         if (O === A)// 这里重点：当 O 严格等于 A 时，返回 true
+>             return true;
+>         A = A.__proto__;
+>     }
+> }
+> 
+> var Person = function() {};
+> var student = new Person();
+> console.log(student instanceof Person);  // true
+> _instanceof(student,Person) // true
+> ```
+
+
+
 # 2021-01-04
 
 ## no-cache 和 no-store的区别
@@ -67,6 +167,8 @@ https://www.html.cn/archives/7340
 > 除法：
 >
 > 0.3 / 0.2 = 1.4999999999999998
+
+处理大数也会有问题！
 
 
 
