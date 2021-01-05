@@ -60,7 +60,7 @@ o === o // true
 
 对任何 `BigInt` 值使用 [`JSON.stringify()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) 都会引发 `TypeError`，因为默认情况下 `BigInt` 值不会在 `JSON` 中序列化。但是，如果需要，可以实现 `toJSON` 方法：
 
-```
+```javascript
 JSON.stringify(BigInt(1)); // Uncaught TypeError: Do not know how to serialize a BigInt
 // 重新实现toJSON方法
 BigInt.prototype.toJSON = function() { return this.toString(); }
