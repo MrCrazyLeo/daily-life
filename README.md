@@ -2,6 +2,82 @@
 
 # 2021-01-04
 
+## no-cache 和 no-store的区别
+
+- no-cache和no-store都是HTTP协议头Cache-Control的值
+
+  - no-store 彻底禁用缓存，所有内容都不会被缓存（无论是本地还是服务器），每次都从服务器获取
+  - no-cache 可以本地缓存，可以代理服务器缓存，在浏览器使用缓存前，会往返对比Etag，如果Etag没变，返回304，则使用缓存
+
+- 除了no-cache和no-store，Cache-Control头的取值还有：
+
+  - public 所有内容都被缓存（客户端、代理服务器都缓存）
+
+  - private 客户端缓存、代理服务器不缓存
+
+  - max-age **常见**
+
+    > 缓存的内容将在 xxx 秒后失效，这个选项只在 HTTP1.1 可用，并如果和 Last-Modified 一起使用时，优先级较高。
+
+
+
+## webpack loader加载顺序
+
+loader加载顺序从右往左
+```javascript
+require("!style!css!less!bootstrap/less/bootstrap.less");
+
+//=> the file "bootstrap.less" in the folder "less" in the "bootstrap"
+
+//module (that is installed from github to "node_modules") is
+
+//transformed by the "less-loader". The result is transformed by the
+
+//"css-loader" and then by the "style-loader".
+
+//If configuration has some transforms bound to the file, they will not be applied.
+```
+
+
+
+## Vue响应式原理
+
+### 十二字真言
+
+数据劫持 收集依赖 派发更新
+
+
+
+## JS精度问题
+
+https://www.html.cn/archives/7340
+
+> 加法：
+>
+> 0.1 + 0.2 = 0.30000000000000004
+>
+> 减法：
+>
+> 0.3 - 0.2 = 0.09999999999999998
+>
+> 乘法：
+>
+> 19.9 * 100 = 1989.9999999999998
+>
+> 除法：
+>
+> 0.3 / 0.2 = 1.4999999999999998
+
+
+
+## 一道面试题：对于CORS，GET、POST的区别
+
+GET是简单请求，不会触发Option
+
+POST在请求头传入格式为formdata时是简单请求，传入json的话是复杂请求，会进行option验证
+
+
+
 ## for of 、for in 区别  
 
 1. for in循环的是key，for of循环的是value
@@ -32,8 +108,12 @@
    
    ```
 
-3. `for...of`不能循环普通的对象，需要通过和`Object.keys()`搭配使用 
+3. `for...of`不能循环普通的对象，需要通过和`Object.keys()`搭配使用 。for of更适合遍历数组，for in适合遍历对象。for in也可以遍历数组，但是会有如下问题：
 
+   1. index索引为字符串型数字，不能直接进行几何运算；
+   2. 遍历顺序有可能不是按照实际数组的内部顺序；
+   3. 使用for in会遍历数组所有的可枚举属性，包括原型。
+   
    
 
 ## 设计模式在前端的应用
@@ -302,13 +382,13 @@ Array.from(new Set(arr))
 
 ### CSRF 跨站请求伪造
 
-针对客户，利用客户身份干坏事
+针对客户，利用客户身份干坏事。CSRF是攻击者借助受害者cookie骗取服务器新人，可以在受害者毫不知情的情况下以受害者名义伪造请求发送给受供给服务器，从而在并未授权的情况下执行权限保护之内的操作
 
 
 
 ### XSS 跨站脚本攻击
 
-针对服务器
+XSS是恶意攻击者往网页嵌入恶意脚本代码，当用户浏览网页的时候，脚本执行，达到恶意攻击用户的目的
 
 
 
