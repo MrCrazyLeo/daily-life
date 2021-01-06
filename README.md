@@ -9,39 +9,120 @@
 
 ### ES2015新特性
 
-let、const、dead zone静态死区
+- let、const、dead zone静态死区
 
-箭头函数
+- 箭头函数
 
-for...of
+- for...of
 
-Promise
+- Promise
 
-Generator
+- Generator
 
-Class
+- Class
 
-Module
+- Module
 
-Set()
+- Set()
 
-Map()
+- Map()
 
-Proxy
+- Proxy
 
-Reflect
+- Reflect
 
-Symbol
+- Symbol
 
 ### ES2016新特性
 
+- 数值拓展： \*\* 相当于Math.pow()
+- 数组扩展：includes()
+
+### ES2017新特性
+
+- async/await
+
+  > [ES2017 标准引入了 async 函数，使得异步操作变得更加方便](https://es6.ruanyifeng.com/#docs/async)
+  >
+  > 原理：将`Generator函数`和自动执行器`spawn`包装在一个函数里
+  >
+  > 形式：将`Generator函数`的`*`替换成`async`，将`yield`替换成`await`
+
+- 函数参数尾逗号
+
+- 共享内存和原子操作：由全局对象`SharedArrayBuffer`和`Atomics`实现，将数据存储在一块共享内存空间中，这些数据可在`JS主线程`和`web-worker线程`之间共享
+
+- 字符串扩展
+
+  padStart()、padEnd()
+
+- 对象扩展
+
+  Object.getOwnPropertyDescriptors()
+
+  Object.values()
+
+  Object.entries()
+
+### ES2018新特性
+
+- 字符串拓展 **放松对标签模板里字符串转义的限制**：遇到不合法的字符串转义返回`undefined`，并且从`raw`上可获取原字符串
+- 对象拓展
+
+  - 扩展运算符(...)**：转换对象为用逗号分隔的参数序列(`{ ...obj }`，相当于`rest/spread参数`的逆运算)
+
+  - 克隆对象：`const obj = { __proto__: Object.getPrototypeOf(obj1), ...obj1 }`
+
+  - 合并对象：`const obj = { ...obj1, ...obj2 }`
+
+  - 转换字符串为对象：`{ ..."hello" }`
+
+  - 转换数组为对象：`{ ...[1, 2] }`
+
+  - 与对象解构赋值结合：`const { x, ...rest/spread } = { x: 1, y: 2, z: 3 }`(不能复制继承自原型对象的属性)
+
+  - 修改现有对象部分属性：`const obj = { x: 1, ...{ x: 2 } }
+- 正则拓展
+  - s修饰符：dotAll模式修饰符，使.匹配任意单个字符(dotAll模式)
+  - dotAll：是否设置s修饰符
+  - 后行断言：x只有在y后才匹配
+  - 后行否定断言：x只有不在y后才匹配
+  - Unicode属性转义：匹配符合Unicode某种属性的所有字符
+
+    - 正向匹配：\p{PropRule}
+    - 反向匹配：\P{PropRule}
+    - 限制：\p{...}和\P{...}只对Unicode字符有效，使用时需加上u修饰符
+  - 具名组匹配：为每组匹配指定名字(?<GroupName>)
+    - 形式：str.exec().groups.GroupName
+    - 解构赋值替换
+      - 声明：const time = "2017-09-11"、const regexp = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u
+      - 匹配：time.replace(regexp, "$<day>/$<month>/$<year>")
+- Promise.finally
+- Async 异步迭代器 for await of ：循环等待每个Promise对象变为resolved状态才进行下一步
+
+### ES2019新特性
+
+- 字符串扩展：直接输入U+2028和U+2029、JSON.stringify()改造、trimStart()、trimEnd()
+
+- 对象扩展：Object.fromEntries()
+
+- 数组扩展：flat()、flatMap()、sort稳定性
+
+- 函数扩展：toString()改造（返回函数原始代码(与编码一致)）、catch()参数可省略
+
+- Symbol.description 返回Symbol值的描述
+
+### ES2020新特性
+
+- globalThis：顶层对象
+- BigInt
+-  **链判断操作符(?.)**：是否存在对象属性(不存在返回`undefined`且不再往下执行)
+- **空判断操作符(??)**：是否值为`undefined`或`null`，是则使用默认值
+- **import()**：动态导入(返回`Promise`)
+- **for-in遍历顺序**：不同的引擎已就如何迭代属性达成一致，从而使行为标准化
+- **Promise.allSettled()**：将多个实例包装成一个新实例，返回全部实例状态变更后的状态数组(齐变更再返回)
 
 
-### ES8新特性
-
-async/await
-
-> [ES2017 标准引入了 async 函数，使得异步操作变得更加方便](https://es6.ruanyifeng.com/#docs/async)
 
 
 
