@@ -1,5 +1,50 @@
 # daily-life
 
+# 2021-01-06
+
+## ES6
+[1.5万字概括ES6全部特性(已更新ES2020](https://juejin.cn/post/6844903959283367950#heading-39)
+
+![170de4be1318de5e](img/170de4be1318de5e.png)
+
+### ES2015新特性
+
+let、const、dead zone静态死区
+
+箭头函数
+
+for...of
+
+Promise
+
+Generator
+
+Class
+
+Module
+
+Set()
+
+Map()
+
+Proxy
+
+Reflect
+
+Symbol
+
+### ES2016新特性
+
+
+
+### ES8新特性
+
+async/await
+
+> [ES2017 标准引入了 async 函数，使得异步操作变得更加方便](https://es6.ruanyifeng.com/#docs/async)
+
+
+
 # 2021-01-05
 
 ### JS大数问题
@@ -31,7 +76,7 @@ function IsEqual(num1,num2){
 
 ## BigInt
 
-为解决大数（大于2^53-1）问题，JS内置了一种新的数字基本类型BigInt，可以表示任意精度整数。
+为解决大数（大于2^53-1）问题，JS内置了一种新的数字基本类型BigInt，可以表示任意精度**整数**。（注意，是`整数`）
 
 > 可以用在一个整数字面量后面加 `n` 的方式定义一个 `BigInt` ，如：`10n`，或者调用函数`BigInt()`
 
@@ -163,6 +208,8 @@ https://www.html.cn/archives/7340
 > 乘法：
 >
 > 19.9 * 100 = 1989.9999999999998
+>
+> 9.96 * 10 = 99.60000000000001
 >
 > 除法：
 >
