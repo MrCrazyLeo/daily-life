@@ -1,5 +1,14 @@
 # daily-life
 
+# 2021-01-07
+
+## 手写Promise
+
+- then收集依赖 -> 异步触发resolve -> resolve执行依赖
+- async/await 自动执行、返回Promise的resolve/reject值
+
+
+
 # 2021-01-06
 
 ## ES6
