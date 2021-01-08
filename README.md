@@ -2,6 +2,21 @@
 
 # 2021-01-08
 
+## 把数组排成最小的数
+
+![WX20210108-163333@2x](img/WX20210108-163333@2x.png)
+
+一行代码搞定：借助JS自带的sort函数（底层用了快排）
+```javascript
+function PrintMinNumber(numbers)
+{
+    // write code here
+    return numbers.sort((a,b) => `${a}${b}` - `${b}${a}`).join('')
+}
+```
+
+
+
 ## 实现16:9的效果
 
 ```html
@@ -32,6 +47,8 @@
 ```
 
 ![WX20210108-150527](img/WX20210108-150527.png)
+
+
 
 # 2021-01-07
 
