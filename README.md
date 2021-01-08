@@ -1,5 +1,38 @@
 # daily-life
 
+# 2021-01-08
+
+## 实现16:9的效果
+
+```html
+<style>
+  div::before{
+    content: "";
+    display: block;
+    padding-bottom: 56.25%;
+    width: 0;
+    height: 0;
+  }
+  div#main {
+    width: auto;
+    height: auto;
+    line-height: 100%;
+    background-color: #ff5000;
+    position: relative
+  }
+  span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+  }
+</style>
+<div id="main"><span>16:9</span></div>
+```
+
+![WX20210108-150527](img/WX20210108-150527.png)
+
 # 2021-01-07
 
 ## 手写Promise
