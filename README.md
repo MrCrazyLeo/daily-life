@@ -2,7 +2,31 @@
 
 # 2021-01-09
 
+## 单链表反转
+
+```javascript
+function ReverseList(pHead)
+{
+   if(pHead === null) return null
+    let pre = null
+    while(pHead){
+        let temp = pHead.next
+        pHead.next = pre
+        pre = pHead
+        pHead = temp
+    }
+    return pre
+}
+```
+
+![WX20210109-212830@2x](img/WX20210109-212830@2x.png)
+
+（上边[图示](https://leetcode-cn.com/problems/reverse-linked-list/solution/206-fan-zhuan-lian-biao-shuang-zhi-zhen-fa-di-gui-/)有个错误，应该是pre先移动到cur的位置，然后cur移动到下一个节点上（也就是temp上））
+
+
+
 ## 斐波那契数列
+
 
 ### 计算某个位置的数
 
