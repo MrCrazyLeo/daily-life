@@ -2,24 +2,49 @@
 
 # 2021-01-10
 
-## 树的三种遍历（递归 & 迭代）
+## 常见前端鉴权方案
 
-### 深度优先遍历
+(参考)[https://cloud.tencent.com/developer/article/1745622]
 
-- 先序遍历
+### Session + Cookie
 
-  ```javascript
-  
-  ```
+创建会话 -> 服务器创建sessionId，setCookie -> 客户端在请求的时候在请求头字段必须携带这个token
 
-  
+![a7308nqc59](img/a7308nqc59.svg)
 
-- 
+> 如果某个用户一直在操作，同一个 sessionID 可能会长期有效，如果相关 cookie 泄露，可能导致比较大的风险，可以在生成 sessionID 的同时生成一个 refreshID，在 sessionID 过期之后使用 refreshID 请求服务端生成新的 sessionID（这个方案需要前端判断 sessionID 失效，并携带 refreshID 发请求)。
 
 
 
-### 广度优先遍历
+### JWT
 
+![e7ro2w5c82](img/e7ro2w5c82.svg)
+
+### OAuth
+
+第三方授权登录
+
+### SSO
+
+单点登录
+
+### HTTP Auth Authentication
+
+一般多被用在内部安全性要求不高的的系统上，如路由器网页管理接口
+
+
+
+
+
+## 浏览器的事件循环和node.js事件循环的区别
+
+[参考](https://juejin.cn/post/6844903761949753352#heading-2)
+
+- Node端，micronTask在事件循环的各个阶段之间执行
+- 浏览器端，microTask在事件循环的macroTask执行完之后再执行
+- **由于node版本更新到11，Event Loop运行原理发生了变化，一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这点就跟浏览器端一致**
+> 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染等。
+常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5新特性) 、nextTick等。
 
 
 
