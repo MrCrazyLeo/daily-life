@@ -1,5 +1,29 @@
 # daily-life
 
+# 2021-01-10
+
+## 树的三种遍历（递归 & 迭代）
+
+### 深度优先遍历
+
+- 先序遍历
+
+  ```javascript
+  
+  ```
+
+  
+
+- 
+
+
+
+### 广度优先遍历
+
+
+
+
+
 # 2021-01-09
 
 ## 单链表反转
@@ -27,12 +51,19 @@ function ReverseList(pHead)
 
 ## 斐波那契数列
 
-
-### 计算某个位置的数
-
-
-
-### 返回n个斐波那契数
+```java
+int fib(int n) {
+    if (n == 2 || n == 1)
+        return 1;
+    int prev = 1, curr = 1;
+    for (int i = 3; i <= n; i++) {
+        int sum = prev + curr;
+        prev = curr;
+        curr = sum;
+}
+    return curr;
+}
+```
 
 
 
@@ -41,8 +72,6 @@ function ReverseList(pHead)
 - 参考https://www.yuque.com/doubaozia/rgec8l/dndiqb
 
 - 虚拟列表：在首屏加载的时候，只加载可视区域内需要的列表项，当滚动发生时，动态计算可视区域内的列表项，并将非可视区的列表项删除
-
-  
 
 - 增加上下缓冲区，避免滑动过快导致出现白屏
 
