@@ -2,6 +2,153 @@
 
 # 2021-01-13
 
+# HTTPS
+
+> HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。
+>
+> 默认端口443
+
+![v2-a994fbf3094d737814fe01c2b919477b_r](img/v2-a994fbf3094d737814fe01c2b919477b_r.jpg)
+
+1. 首先客户端通过URL访问服务器建立SSL链接
+2. 服务端收到客户端请求后，会将网络支持的证书信息（证书中包含公钥）传送一份给客户端
+3. 客户端的服务器开始协商SSL连接的安全等级，也就是信息加密等级
+4. 客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后将会话密钥加密，并传送给服务端
+5. 服务端利用自己的私钥解密出会话密钥
+6. 服务器利用会话密钥加密与客户端之间的通信
+
+HTTPS缺点：
+
+1. 费钱买证书
+2. 由于连接繁琐，所以降低了通讯效率
+3. SSL涉及到的安全算法会消耗 CPU 资源，对服务器资源消耗较大。
+
+
+
+## Vue父子组件挂载顺序
+
+- 父beforeCreate-> 父create -> 子beforeCreate-> 子created -> 子mounted -> 父mounted
+
+- 加载渲染过程
+
+  >父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
+- 更新过程
+
+  >父beforeUpdate->子beforeUpdate->子updated->父updated
+- 销毁过程
+
+  >父beforeDestroy->子beforeDestroy->子destroyed->父destroyed
+  
+  
+
+
+ # new的实质
+
+1. 新建一个对象f
+
+2. f.\_\_proto\_\_ = F.prototype ,将新建实例的\_\_proto\_\_指向构造函数的prototype
+
+3. 将this指向新创建的对象实例
+
+4. 返回新对象，如果原构造函数返回类型是基本类型(null、undefined、boolean、number、string)，那么返回新对象；如果是对象类型，那么返回该对象类型
+
+   ```javascript
+   function myNew(fn,...args){
+     let obj = Object.create(fn.prototype)
+     let res = fn.apply(obj,args)
+     return res instanceof Object ? res : obj
+   }
+   ```
+
+   
+
+
+
+# [封装](https://juejin.cn/post/6844903480868470798#heading-10)
+
+## 构造函数
+
+JS提供一个构造函数模式，用来在创建对象时初始化对象，构造函数其实就是普通的函数。只不过有如下特点：
+
+- 首字母大写
+- 内部使用this
+- 使用new生成实例
+
+通过构造函数添加属性和方法实际上也就是通过this添加属性和方法。因为this总是指向当前对象，所以通过this添加的属性和方法是会是之前构造函数对象和方法的拷贝，这就造成了内存的浪费
+
+```javascript
+function Cat(name,color){
+  this.name = name;
+  this.color = color;
+  this.eat = function(){
+    alert('吃老鼠')
+  }
+}
+var cat1  = new Cat('tom','red')
+```
+
+
+
+## 原型链
+
+解决上边内存浪费的问题，引入了新问题：后边派生的方法没法继承到
+
+```javascript
+function Cat(name,color){
+  this.name = name;
+  this.color = color;
+}
+Cat.prototype.type = "猫科动物";
+Cat.prototype.eat = function(){alert("吃老鼠")};
+var cat1 = new Cat("大毛","黄色");
+var cat2 = new Cat("二毛","黑色");
+cat1.eat === cat2.eat // true，指向同一内存
+
+```
+
+
+
+# 继承
+
+## 类式继承
+
+> 如果父类的构造函数中有引用类型，就会在子类中被所有实例共用，那么一个子类的实例如果更改了这个引用类型，就会影响到其他子类的实例。
+
+
+
+## 构造函数继承
+
+> 导致内存浪费
+
+
+
+## 组合式继承
+
+> 避免了内存浪费，又使得每个实例化的子类互不影响
+
+```
+function Super(name, age) {
+    this.name = name;
+    this.age = age;
+}
+function Sub(name, age, sex) {
+    Super.call(this, name, age);
+    this.sex = sex;
+}
+// 原型继承
+Sub.prototype = new Super();
+// 构造函数指向
+Sub.prototype.constructor = Sub;
+```
+
+
+
+## 寄生组合继承
+
+> 解决组合式继承父类构造函数被创建两次的问题（call一次、new一次）
+
+
+
 # 严格模式
 
 - 禁止删除变量
@@ -98,7 +245,9 @@ Border-image
 
 ## D3与Echarts的区别
 
+[参考](https://blog.csdn.net/ysj1218/article/details/80523474)
 
+![WX20210113-140238@2x](img/WX20210113-140238@2x.png)
 
 
 
