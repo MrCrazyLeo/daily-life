@@ -1,5 +1,41 @@
 # daily-life
 
+# 2021-01-13
+
+## JS旋转二维数组
+
+```javascript
+var rotate = function(matrix){
+  //逆时针旋转 90 度
+    //列 = 行
+    //行 = n - 1 - 列(j);  n表示总行数
+    var temp = [];
+    var len = matrix.length;
+    for(var i = 0; i < len; i++){
+        for(var j = 0; j < len; j++){
+            var k = len - 1 -j;
+          	// 注意初始化，不然报错
+            if(!temp[k]){
+                temp[k] = [];
+            }
+            temp[k][i] = matrix[i][j];
+        }
+    }
+ 
+   return temp;
+};
+var arr = [
+[1,2,3],
+[4,5,6],
+[7,8,9]
+];
+
+console.log(rotate(arr));
+console.log(arr);
+```
+
+
+
 # 2021-01-11
 
 ## CSS3新特性
@@ -7,6 +43,8 @@
 clip-path
 
 选择器世界?
+
+Border-image
 
 
 
@@ -33,6 +71,11 @@ clip-path
 ![a7308nqc59](img/a7308nqc59.svg)
 
 > 如果某个用户一直在操作，同一个 sessionID 可能会长期有效，如果相关 cookie 泄露，可能导致比较大的风险，可以在生成 sessionID 的同时生成一个 refreshID，在 sessionID 过期之后使用 refreshID 请求服务端生成新的 sessionID（这个方案需要前端判断 sessionID 失效，并携带 refreshID 发请求)。
+
+> [**Cookie**和**Session**有什么区别？](https://www.nowcoder.com/discuss/583456?channel=undefined&source_id=undefined)
+>
+> - Session是服务端保存的一个数据结构，用于跟踪用户的状态，这个数据可以保存在集群、数据库、文件中；
+> - Cookie是客户端保存用户信息的一个机制，用来记录用户的一些信息，也是实现Session的一种方式
 
 
 
