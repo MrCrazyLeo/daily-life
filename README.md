@@ -2,6 +2,50 @@
 
 # 2021-01-13
 
+# 严格模式
+
+- 禁止删除变量
+
+- 禁止未声明变量直接使用
+
+- 重名错误
+  - 函数不能重名
+  - 对象不能有重名的属性
+  
+- 禁止八进制表示法 
+
+- 不允许使用一些保留字为变量明明
+  
+- 包括`implements`, `interface`, `let`, `package`, `private`, `protected`, `public`, `static`,`yield`
+  
+- arguments对象的限制
+
+  - 不允许对arguments赋值
+
+  - arguments不在跟踪参数的变化
+
+  - 禁止使用arguments.callee
+
+  - 函数声明必须在顶层
+
+    ```javascript
+    "use strict";
+    
+    if (true) {
+      function f() { } // 语法错误
+    }
+    
+    for (var i = 0; i < 5; i++) {
+      function f2() { } // 语法错误
+    }
+    ```
+  
+- 其他不表。
+
+![WechatIMG44](img/WechatIMG44.jpeg)
+
+
+
 ## JS旋转二维数组
 
 ```javascript
