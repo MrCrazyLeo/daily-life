@@ -2,6 +2,58 @@
 
 # 2021-01-24
 
+手写深拷贝
+
+```javascript
+// 没有解决循环引用的版本
+function myDeepCopy(obj){
+  if(typeof obj === 'object') {
+    let clone = Array.isArray(obj) ? [] : {}
+    for(const key in obj){
+      clone[key] = myDeepCopy(obj[key])
+    }
+    return clone
+  } else return obj // 基本类型直接返回即可
+}
+
+var obj = {
+  a:1,
+  b:null,
+  c:true,
+  d:{},
+  e: {
+    f: {
+      g: 1
+    }
+  },
+  h:[]
+}
+console.log(myDeepCopy(obj))
+// 上边会导致循环引用的问题
+// 比如加入这段话
+obj.obj = obj
+// 那么如何解决循环引用的问题呢，那就是使用hash
+// JS里边就用weekMap做弱引用就好（方便垃圾回收）
+// 直接用map会因为强引用而部分内存没法释放
+function myDeepCopy2(obj, map = new WeakMap()){
+  if(typeof obj === 'object'){
+    const isArray = Array.isArray(obj) 
+    let clone = isArray ? [] : {}
+    if(map.get(obj)){
+      return map.get(obj)
+    }
+    map.set(obj, clone)
+    for(const key in obj){
+      clone[key] = myDeepCopy2(obj[key], map)
+    }
+    return clone
+  }
+  else return obj
+}
+```
+
+
+
 ## Object.defineProperty
 
 有writable、enumerable、configurable、value、get、set这些key值
