@@ -1,5 +1,13 @@
 # daily-life
 
+# 2021-01-15
+
+## [].slice.call()
+
+[].slice.call(arguments)能将具有`length`属性的对象转成数组：
+
+
+
 # 2021-01-24
 
 手写深拷贝
