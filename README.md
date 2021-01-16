@@ -2,6 +2,37 @@
 
 # 2021-01-15
 
+## 富途的一道考察任务队列的算法题
+
+```javascript
+function testAsync() {
+  setTimeout(()=>{
+    return new Promise((resolve,reject) => resolve(111)).then(res => console.log(res))
+  },0)
+  console.log('Hi ~')
+  const test = () => {
+    setTimeout(() => {console.log('test')},0)
+    return 'Out async'
+  }
+  const hello = function() {
+    console.log('In async')
+    const res = await test()
+    console.log(res)
+  }
+  hello()
+  console.log('Hello ~')
+}
+testAsync()
+// Hi ~
+// In async
+// Hello ~
+// Out async
+// 111
+// test
+```
+
+
+
 ## [].slice.call()
 
 [].slice.call(arguments)能将具有`length`属性的对象转成数组：
@@ -165,6 +196,12 @@ HTTPS缺点：
    ```
 
    
+
+新建一个对象f
+
+f的隐式原型指向构造函数的prototype
+
+将this[指向这个新创建]()
 
 
 
@@ -653,7 +690,7 @@ function PrintMinNumber(numbers)
 - **空判断操作符(??)**：是否值为`undefined`或`null`，是则使用默认值
 - **import()**：动态导入(返回`Promise`)
 - **for-in遍历顺序**：不同的引擎已就如何迭代属性达成一致，从而使行为标准化
-- **Promise.allSettled()**：将多个实例包装成一个新实例，返回全部实例状态变更后的状态数组(齐变更再返回)
+- **Promise.allSettled()**：该方法返回一个Promise对象，等所有Promise都已敲定（fulfilled或者rejected）才返回这么一个Promise。并带一个对象数组，每个对象对应每个Promise的结果。
 
 
 
