@@ -484,8 +484,10 @@ Border-image
 - Node端，micronTask在事件循环的各个阶段之间执行
 - 浏览器端，microTask在事件循环的macroTask执行完之后再执行
 - **由于node版本更新到11，Event Loop运行原理发生了变化，一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这点就跟浏览器端一致**
-> 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染等。
-常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5新特性) 、nextTick等。
+> 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染、postMessage、MessaeChannel、SetImmediate（Node）等。
+常见的 micro-task 比如: new Promise().then catch finally、MutationObserver(html5新特性) 、process.nextTick（Node）等。
+
+![](https://user-gold-cdn.xitu.io/2019/1/12/16841bad1cda741f?imageslim)
 
 
 
@@ -1613,9 +1615,20 @@ const whichEvent = (function() {
 
 
 ```javascript
-// 实现 add(1)(2)(3) -> 6 ， add(1,2,3)(4) -> 10 ，add(1)(2,3,4) -> 10
-
+// 实现 add(1)(2)(3) -> 6 ， add(1,2)(3)，add(1)(2,3)
+const fixCurry = (fn, totalArg) => {
+  const length = totalArg || fn.length;
+  return function resultFn (...args) {
+    return args.length < length ? resultFn.bind(null, ...args) : fn(...args);
+  };
+};
+const add = fixCurry((a, b, c) => a + b + c, 3);
+console.log(add(1)(2)(3));
+console.log(add(1,2,3));
+console.log(add(1)(2,3));
 ```
+
+
 
 
 
