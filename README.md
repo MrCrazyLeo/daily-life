@@ -1,5 +1,38 @@
 # daily-life
 
+# 2021-01-17
+
+## webpack工作原理
+
+
+
+
+
+## babel工作原理
+
+- 用户输入ES6代码
+- babelon 将代码转成AST树
+- babel使用babel-travese遍历ES6的AST语法树生成新的ES5的AST树
+- 使用babel-generator生成ES5代码
+
+
+
+# 2021-01-16
+
+## H5
+
+- 更加语义化：aside、header、article、nav、section、details、summary（在没有css样式的情况下能有更好的布局）
+- 前端存储机制：localStorage、SessionStorage、IndexDB
+- 地理位置相关的API 
+- 支持音频、视频
+- postMeassage
+- canvas和svg
+- WebSocket
+- WebWorker
+- 增强型表单：\<input\>标签属性up up，date、e-mail、range等
+
+
+
 # 2021-01-15
 
 ## webpack的loader和plugin的区别
@@ -133,10 +166,6 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 ![WX20210114-102944@2x](img/WX20210114-102944@2x.png)
 
-```javascript
-
-```
-
 
 
 
@@ -167,9 +196,11 @@ true + true // 2
 
 ![v2-a994fbf3094d737814fe01c2b919477b_r](img/v2-a994fbf3094d737814fe01c2b919477b_r.jpg)
 
+上边这张图是错的，HTTPS使用非对称加密。私钥只存在于服务器上，服务器下发的内容不可能被伪造，因为别人都没有私钥，所以无法加密。 所有人都有公钥，但私钥只有服务器有，所以服务器才能看到被加密的内容。
+
 1. 首先客户端通过URL访问服务器建立SSL链接
 2. 服务端收到客户端请求后，会将网络支持的证书信息（证书中包含公钥）传送一份给客户端
-3. 客户端的服务器开始协商SSL连接的安全等级，也就是信息加密等级
+3. 客户端与服务器开始协商SSL连接的安全等级，也就是信息加密等级
 4. 客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后将会话密钥加密，并传送给服务端
 5. 服务端利用自己的私钥解密出会话密钥
 6. 服务器利用会话密钥加密与客户端之间的通信
@@ -481,7 +512,7 @@ Border-image
 
 [参考](https://juejin.cn/post/6844903761949753352#heading-2)
 
-- Node端，micronTask在事件循环的各个阶段之间执行
+- Node端，microTask在事件循环的各个阶段之间执行
 - 浏览器端，microTask在事件循环的macroTask执行完之后再执行
 - **由于node版本更新到11，Event Loop运行原理发生了变化，一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这点就跟浏览器端一致**
 > 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染、postMessage、MessaeChannel、SetImmediate（Node）等。
@@ -502,11 +533,16 @@ function ReverseList(pHead)
    if(pHead === null) return null
     let pre = null
     while(pHead){
+      	// 先把当前节点的下一个节点保存起来
         let temp = pHead.next
+        // 然后重新赋值当前节点的下一个节点
         pHead.next = pre
+      	// 之后因为要过渡到下一个节点，所以把pre前任指针指向当前节点
         pre = pHead
+      	// 把当前节点指针指向下一个节点
         pHead = temp
     }
+  	// 记得是pre
     return pre
 }
 ```
