@@ -1,5 +1,14 @@
 daily-life
 
+# 2021-01-19
+
+## CSS优先级
+
+- 不同级别：!important > 行内样式 > ID选择器 > 类选择器 > 标签 > 通配符(*) > 继承 > 浏览器默认属性
+- 同级别： 后写覆盖先写
+
+
+
 # 2021-01-17
 
 ## webpack工作原理
@@ -499,7 +508,7 @@ Border-image
 
 (参考)[https://cloud.tencent.com/developer/article/1745622]
 
-### Session + Cookie
+- **Session + Cookie**
 
 创建会话 -> 服务器创建sessionId，setCookie -> 客户端在请求的时候在请求头字段必须携带这个token
 
@@ -514,19 +523,19 @@ Border-image
 
 
 
-### JWT
+- **JWT**
 
 ![e7ro2w5c82](img/e7ro2w5c82.svg)
 
-### OAuth
+- **OAuth**
 
 第三方授权登录
 
-### SSO
+- **SSO**
 
-单点登录
+单点登录 
 
-### HTTP Auth Authentication
+- **HTTP Auth Authentication**
 
 一般多被用在内部安全性要求不高的的系统上，如路由器网页管理接口
 
