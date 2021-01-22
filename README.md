@@ -2,7 +2,17 @@ daily-life
 
 # 2021-01-22
 
+# module、chunk、bunble的区别
+
+- webpack一切皆module，每个源文件都是module
+- chunk就是文件集合
+- bunble，最终输出文件
+
+
+
 ## Gzip原理
+
+gzip 使用`deflate`算法进行压缩。gzip 对于要压缩的文件，首先使用`LZ77`算法的一个变种进行压缩，对得到的结果再使用`Huffman编码`的方法
 
 
 
