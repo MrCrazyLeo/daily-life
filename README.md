@@ -1,11 +1,76 @@
 daily-life
 
+# 2021-01-23
+
+# git cherry-pick
+
+
+
+
+# Set、WeakSet、Map、WeakMap
+
+- Set
+
+- **WeakSet**
+
+  - 允许你将**弱引用对象**储存在一个集合里边
+
+  - 跟Set的区别：
+
+    - WeakSet只能存储对象引用，不能存放值，而Set对象可以
+
+    - WeakSet对象中存储的对象值都是被弱引用的，即垃圾回收机制不考虑WeakSet对该对象的引用，如果没有其他变量或者属性引用这个对象值，则这个对象将会被垃圾回收掉（不考虑该对象还存在WeakSet中）。所以WeakSet对象里有多少个成员元素，取决于GC有没有运行，运行前后成员元素个数可能不一致，遍历结束之后有的成员被回收了所以不见了。WeakSet对象是无法被遍历的（ES6规定）。也没办法拿到它包含的所有元素
+
+      ```javascript
+      const arr = [[1,2],[3,4]]
+      const weakset  = new WeakSet(arr)
+      console.log(weakset) // WeakSet {Array(2), Array(2)}[[Entries]]0: Array(2)1: Array(2)__proto__: WeakSet
+      
+      ```
+
+    - 有add(value)、has(value)、delete(value)方法
+
+    - clear方法被废弃了
+
+- **Map**
+
+  - 字典，可以储存不重复的值。与上边集合的区别：集合以[value1, value2]储存元素，字典以[key,value]形式储存
+
+  - 只有对同一个对象引用，Map结构才会将其视为同一个键。如下：
+
+    ```javascript
+    const map = new Map()
+    map.set(['a'], 5)
+    map.get(['a']) // undefinded，因为键是数组，上下不是对应同一内存地址
+    ```
+
+- **WeakMap**:
+
+  WeakMap的键名是弱引用，键值可以说任何正常的值。在没有其他引用和该键引用同一对象，这个对象会被垃圾回收（相应的key变成无效）。所以WeakMap是不可枚举的。方法有set、get、has、delete
+
+
+
+# 优化webpack构建打包速度
+
+- 开发环境用
+  - 自动刷新
+  - 热更新
+  - DLLPlugin
+- 生产环境用
+  - 优化babal-loader（缓存、规范打包范围include / exclude）
+  - IgnorePlugin
+  - noParse
+  - happyPack 多进程
+  - ParallelUglifyPlugin
+
+
+
 # 2021-01-22
 
 # module、chunk、bunble的区别
 
 - webpack一切皆module，每个源文件都是module
-- chunk就是文件集合
+- chunk就是多模块（文件）集合
 - bunble，最终输出文件
 
 
