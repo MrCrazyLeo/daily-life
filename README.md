@@ -9,7 +9,10 @@ daily-life
 
 # Set、WeakSet、Map、WeakMap
 
-- Set
+- **Set**
+
+  - 向 Set 加入值的时候，不会发生类型转换，所以`5`和`"5"`是两个不同的值。Set 内部判断两个值是否不同，使用的算法叫做**“Same-value-zero equality”**，它类似于**精确相等**运算符（`===`），主要的区别是**`NaN`等于自身，而精确相等运算符认为`NaN`不等于自身。**
+  - 有方法：set、has、delete、clear
 
 - **WeakSet**
 
@@ -19,7 +22,7 @@ daily-life
 
     - WeakSet只能存储对象引用，不能存放值，而Set对象可以
 
-    - WeakSet对象中存储的对象值都是被弱引用的，即垃圾回收机制不考虑WeakSet对该对象的引用，如果没有其他变量或者属性引用这个对象值，则这个对象将会被垃圾回收掉（不考虑该对象还存在WeakSet中）。所以WeakSet对象里有多少个成员元素，取决于GC有没有运行，运行前后成员元素个数可能不一致，遍历结束之后有的成员被回收了所以不见了。WeakSet对象是无法被遍历的（ES6规定）。也没办法拿到它包含的所有元素
+    - WeakSet对象中存储的对象值都是被弱引用的，即垃圾回收机制不考虑WeakSet对该对象的引用，如果没有其他变量或者属性引用这个对象值，则这个对象将会被垃圾回收掉（不考虑该对象还存在WeakSet中）。所以WeakSet对象里有多少个成员元素，取决于GC有没有运行，运行前后成员元素个数可能不一致，遍历结束之后有的成员被回收了所以不见了。WeakSet对象是**无法被遍历**的（ES6规定）。也没办法拿到它包含的所有元素
 
       ```javascript
       const arr = [[1,2],[3,4]]
@@ -28,9 +31,9 @@ daily-life
       
       ```
 
-    - 有add(value)、has(value)、delete(value)方法
+    - 有add(value)、has(value)、delete(value)方法。clear方法被废弃了
 
-    - clear方法被废弃了
+    - 遍历方法：keys()、values()、entries()返回一个包含Set对象中所有元素的键值对迭代器、forEach(callbackFn, thisArg)：用于对集合成员执行callbackFn操作，如果提供了 thisArg 参数，回调中的this会是这个参数，**没有返回值**。遍历顺序是插入顺序。
 
 - **Map**
 
@@ -44,9 +47,13 @@ daily-life
     map.get(['a']) // undefinded，因为键是数组，上下不是对应同一内存地址
     ```
 
+  - 有操作方法：set(key,value)、get(key)、has(key)、delete(key)、clear()
+
+  - 有遍历方法：Keys()、values()、entries()返回所有成员的迭代器、forEach()
+
 - **WeakMap**:
 
-  WeakMap的键名是弱引用，键值可以说任何正常的值。在没有其他引用和该键引用同一对象，这个对象会被垃圾回收（相应的key变成无效）。所以WeakMap是不可枚举的。方法有set、get、has、delete
+  WeakMap的键名是弱引用，键值可以说任何正常的值。在没有其他引用和该键引用同一对象，这个对象会被垃圾回收（相应的key变成无效）。所以WeakMap是不可枚举的。方法有set、get、has、delete。**不能遍历！**
 
 
 
