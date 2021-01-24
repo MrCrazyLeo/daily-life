@@ -1,11 +1,31 @@
 daily-life
 
-# 2021-01-23
+# 2021-01-24
 
 # git cherry-pick
 
+是将指定提交应用于其他分支
+
+```bash
+git cherry-pick <commitHash>
+```
+
+`git cherry-pick`命令的参数，不一定是提交的哈希值，分支名也是可以的，表示转移该分支的最新提交。
+
+```bash
+git cherry-pick feature
+```
+
+也可以一次性转移多个提交
+
+```bash
+git cherry-pick <HashA> <HashB> # 将 A 和 B 两个提交应用到当前分支
+git cherry-pick A..B # 转移一系列的连续提交
+```
 
 
+
+# 2021-01-23
 
 # Set、WeakSet、Map、WeakMap
 
