@@ -9,6 +9,7 @@ function fastSort(arr){
     const same = []
     const len = arr.length
     // 注意这里要返回数组！！
+    // 或者写成 if (len<=1) {return arr;}
     if(!len) return []
     const pivot = arr[len >> 1]
     for(let i=0;i<len;i++){
@@ -16,6 +17,30 @@ function fastSort(arr){
     }
     return fastSort(left).concat(same, fastSort(right))
  }
+```
+
+
+
+## 归并排序
+
+```javascript
+function merge(left,right){
+    var result = []
+    while(left.length && right.length) {
+        if(left[0]<right[0]) result.push(left.shift())
+        else result.push(right.shift())
+    }
+    return result.concat(left,right)
+}
+function mergeSort(arr){
+    if(arr.length < 2) return arr
+    const middle = arr.length >> 1
+    const left = arr.slice(0,middle)
+    const right = arr.slice(middle)
+    return merge(mergeSort(left),mergeSort(right))
+}
+var a  = [1,2,4,5,1,11,8]
+console.log(mergeSort(a)) // [1,1,2,4,5,8,11]
 ```
 
 
