@@ -1,5 +1,17 @@
 # 2021-01-27
 
+## Vue组件生命周期
+
+- Vue3
+
+  ![lifecycle](img/lifecycle.png)
+
+- Vue2
+
+  ![lifecycleVue2](img/lifecycleVue2.png)
+
+
+
 ## 三路快排
 
 ```javascript
@@ -42,6 +54,8 @@ function mergeSort(arr){
 var a  = [1,2,4,5,1,11,8]
 console.log(mergeSort(a)) // [1,1,2,4,5,8,11]
 ```
+
+![3505216999-58da612e4591c_articlex](img/3505216999-58da612e4591c_articlex.png)
 
 
 
