@@ -1,8 +1,75 @@
-daily-life
+# 2021-01-27
+
+## 三路快排
+
+```javascript
+function fastSort(arr){
+    const left = []
+    const right = []
+    const same = []
+    const len = arr.length
+    // 注意这里要返回数组！！
+    if(!len) return []
+    const pivot = arr[len >> 1]
+    for(let i=0;i<len;i++){
+        arr[i] > pivot ? right.push(arr[i]) : arr[i] === pivot ? same.push(arr[i]) : left.push(arr[i])
+    }
+    return fastSort(left).concat(same, fastSort(right))
+ }
+```
+
+
+
+# 2021-01-26
+
+## 大前端
+核心是跨平台技术
+
+
+
+## Vue组件是如何渲染和更新组件的
+### 初次渲染过程
+1. 解析模板为render函数（或在开发环境已完成，vue-loader）
+2. 触发响应式，监听data 属性getter、setter
+3. 执行render函数，生成vnode，patch(elem, vnode)
+
+### 更新过程
+
+1. 修改data，触发setter（此前getter已被监听）
+2. 重新执行render函数，生成newVnode
+3. patch(vnode, newVnode)
+
+
+
+# 2021-01-25
+
+## 红绿灯交替闪烁
+
+```javascript
+function red(){console.log('红灯亮了')}
+function green(){console.log('绿灯亮了')}
+function yellow(){console.log('黄灯亮了')}
+const light = function (cb,timer) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      cb()
+      resolve()
+    }, timer)
+  })
+}
+async function step(){
+  await light(red,1000)
+  await light(green,1000)
+  await light(yellow,1000)
+}
+step()
+```
+
+
 
 # 2021-01-24
 
-# git cherry-pick
+## git cherry-pick
 
 是将指定提交应用于其他分支
 
@@ -27,7 +94,7 @@ git cherry-pick A..B # 转移一系列的连续提交
 
 # 2021-01-23
 
-# Set、WeakSet、Map、WeakMap
+## Set、WeakSet、Map、WeakMap
 
 - **Set**
 
@@ -77,7 +144,7 @@ git cherry-pick A..B # 转移一系列的连续提交
 
 
 
-# 优化webpack构建打包速度
+## 优化webpack构建打包速度
 
 - 开发环境用
   - 自动刷新
@@ -94,7 +161,7 @@ git cherry-pick A..B # 转移一系列的连续提交
 
 # 2021-01-22
 
-# module、chunk、bunble的区别
+## module、chunk、bunble的区别
 
 - webpack一切皆module，每个源文件都是module
 - chunk就是多模块（文件）集合
@@ -110,7 +177,7 @@ gzip 使用`deflate`算法进行压缩。gzip 对于要压缩的文件，首先�
 
 # 2021-01-20
 
-# 三种常见的浏览器渲染流程
+## 三种常见的浏览器渲染流程
 
 其实就是`layout`和`Paint`都是可以避免的
 
@@ -1063,9 +1130,7 @@ require("!style!css!less!bootstrap/less/bootstrap.less");
 
 ## Vue响应式原理
 
-### 十二字真言
-
-数据劫持 收集依赖 派发更新
+**十二字真言**：数据劫持 收集依赖 派发更新
 
 
 
@@ -1105,7 +1170,13 @@ POST在请求头传入格式为formdata时是简单请求，传入json的话是�
 
 ## for of 、for in 区别  
 
-1. for in循环的是key，for of循环的是value
+1. for in循环的是key（对象的属性），for of循环的是value（对象的值）
+
+   ```javascript
+   var s = [1,2,3,4]
+   for(let item of s ){console.log(item)} // 1 2 3 4
+   for(let item in s ){console.log(item)} // 0 1 2 3
+   ```
 
 2. for of是ES6引入的特性，修复了ES5引入的for in的不足
 
@@ -1138,7 +1209,7 @@ POST在请求头传入格式为formdata时是简单请求，传入json的话是�
    1. index索引为字符串型数字，不能直接进行几何运算；
    2. 遍历顺序有可能不是按照实际数组的内部顺序；
    3. 使用for in会遍历数组所有的可枚举属性，包括原型。
-   
+
    
 
 ## 设计模式在前端的应用
@@ -1471,10 +1542,6 @@ XSS是恶意攻击者往网页嵌入恶意脚本代码，当用户浏览网页�
 > <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 > <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
 > ```
-
-
-
-##  缓存机制和对应HTTP字段
 
 
 
