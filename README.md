@@ -1,3 +1,23 @@
+# 2021-01-28
+
+## Vuex原理
+
+本质就是一个对象，挂载到Vue实例下边，注入到每一个组件之中。因为Vue是单例，Vuex也是单例。单向数据流的概念，方便状态监控、管理。默认不开启严格模式，开启之后，如果直接修改store里边的状态，控制台会报错，依旧能改变仓库里边该变量的值，Vue管理工具跟踪不到这个变化。
+
+
+
+## 父子组件生命周期执行方式
+
+[Vue中父子组件生命周期执行顺序回顾](https://juejin.cn/post/6844904113914773518)
+
+1. 1. 父beforeCreate -> 父created -> 子beforeCreate -> 子created -> 子mounted -> 父mounted
+   2. 父监听到数据变化, beforeUpdate, 把相关数据给到子 -> 子beforeUpdate -> 子updated -> 父updated
+   3. 父beforeDestroy -> 子beforeDestroy -> 子destroyed -> 父destroyed
+
+![WX20210128-100838@2x](img/WX20210128-100838@2x.png)
+
+
+
 # 2021-01-27
 
 ## Vue nextTick原理与作用
