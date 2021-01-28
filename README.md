@@ -18,6 +18,8 @@
 
 
 
+
+
 # 2021-01-27
 
 ## Vue nextTick原理与作用
@@ -254,8 +256,31 @@ gzip 使用`deflate`算法进行压缩。gzip 对于要压缩的文件，首先�
 
 ## CSS优先级
 
-- 不同级别：!important > 行内样式 > ID选择器 > 类选择器 > 标签 > 通配符(*) > 继承 > 浏览器默认属性
+- 不同级别：!important > 行内样式 > ID选择器 > 类选择器、属性选择器、伪类 > 标签、伪元素 > 通配符(*) > 继承 > 浏览器默认属性
+
 - 同级别： 后写覆盖先写
+
+- 超越最大 
+
+  ![超越最大](img/超越最大.png)
+
+- 超越!important
+
+  ```html
+  <div class="box" style="background: #f00; width: 300px!important;">我的宽度是多少呢？？<div>
+  ```
+
+  ```css
+  .box {
+  	max-width: 100px;
+  }
+  ```
+
+  这时候 `.box` 的宽度只有 `100px` , 而不是 `300px`, 可见，`max-width` 可以超越 `width!important`!但是，这实际上不是优先级的问题，因为优先级是比较相同属性的，而 `max-width` 和 `width` 是两个不同的属性。之所以举这个例子，是要告诉大家，有时候不管怎么设置容器的 `width` 都不生效，检查一下是不是有人写了 `max-width` 坑了你哈。
+
+  ![超越!important](img/超越!important.png)
+
+
 
 
 
