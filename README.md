@@ -1,3 +1,146 @@
+# 2021-01-30
+
+## AMD、CMD、CommonJS、ES6 Module
+
+- **AMD** 异步模块加载Asynchronous Module Definition
+
+> AMD一开始是CommonJS规范中的一个草案，全称是Asynchronous Module Definition，即异步模块加载机制。后来由该草案的作者以RequireJS实现了AMD规范，所以一般说AMD也是指RequireJS。
+>
+
+```javascript
+//a.js
+//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数
+define(functin() {
+       return 1;
+       })
+// b.js
+//数组中声明需要加载的模块，可以是模块名、js文件路径
+require(['a'],function(a){
+  console.log(a) // 1
+})
+```
+
+RequireJS的特点
+
+> 对于依赖的模块，AMD推崇**依赖前置，提前执行**。也就是说，在`define`方法里传入的依赖模块(数组)，会在一开始就下载并执行。
+
+- **CMD**
+
+> CMD是SeaJS在推广过程中生产的对模块定义的规范，在Web浏览器端的模块加载器中，SeaJS与RequireJS并称，SeaJS作者为阿里的玉伯。
+
+```javascript
+//a.js
+/*
+* define 接受 factory 参数，factory 可以是一个函数，也可以是一个对象或字符串，
+* factory 为对象、字符串时，表示模块的接口就是该对象、字符串。
+* define 也可以接受两个以上参数。字符串 id 表示模块标识，数组 deps 是模块依赖.
+*/
+define(function(require, exports, module) {
+  var $ = require('jquery');
+
+  exports.setColor = function() {
+    $('body').css('color','#333');
+  };
+});
+
+//b.js
+//数组中声明需要加载的模块，可以是模块名、js文件路径
+seajs.use(['a'], function(a) {
+  $('#el').click(a.setColor);
+});
+
+```
+
+- SeaJS特点：
+
+  对于依赖的模块，CMD推崇**依赖就近，延迟执行**。也就是说，只有到`require`时依赖模块才执行。
+
+- **CommonJS**
+
+  CommonJS规范为CommonJS小组所提出，目的是弥补JavaScript在服务器端缺少模块化机制，NodeJS、webpack都是基于该规范来实现的。
+
+```javascript
+//a.js
+module.exports = function () {
+  console.log("hello world")
+}
+
+//b.js
+var a = require('./a');
+
+a();//"hello world"
+
+//或者
+
+//a2.js
+exports.num = 1;
+exports.obj = {xx: 2};
+
+//b2.js
+var a2 = require('./a2');
+
+console.log(a2);//{ num: 1, obj: { xx: 2 } }
+
+```
+
+CommonJS特点：
+
+ - 所有代码都运行在模块作用于，不会污染全局环境；
+
+ - 模块是同步加载的，即只有加载完成，才能执行后面操作
+
+ - 模块在首次执行后会缓存，再次加载只返回缓存结果，如果想要再次执行，可清除缓存；
+
+ - require返回的值是被输出的值的拷贝，模块内部的变化也不会影响到这个值。
+
+   
+
+- **ES6 Module**
+
+  > ES6 Module是ES6中规定的模块体系，相比上面提到的规范， ES6 Module有更多的优势，有望成为浏览器和服务器通用的模块解决方案。
+
+```javascript
+//a.js
+var name = 'lin';
+var age = 13;
+var job = 'ninja';
+
+export { name, age, job};
+
+//b.js
+import { name, age, job} from './a.js';
+
+console.log(name, age, job);// lin 13 ninja
+
+//或者
+
+//a2.js
+export default function () {
+  console.log('default ');
+}
+
+//b2.js
+import customName from './a2.js';
+customName(); // 'default'
+```
+
+ES6 Module特点
+
+- CommonJS模块是运行时加载，ES6 Module是编译时输出接口；
+
+- CommonJS加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口；
+
+- CommonJS输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；
+
+- CommonJS `this`指向当前模块，ES6 Module `this`指向`undefined`;
+
+
+目前浏览器对ES6 Module兼容还不太好，我们平时在webpack中使用的`export`/`import`，会被打包为`exports`/`require`。
+
+
+
+
+
 # 2021-01-28
 
 ## Vuex原理
