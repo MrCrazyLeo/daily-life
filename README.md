@@ -1,3 +1,41 @@
+# 2021-02-02
+
+## 手写系列
+
+### 手写防抖
+
+```javascript
+function myDebounce(fn,delay) {
+  let timer = null
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this,args)
+    },delay)
+  }
+}
+```
+
+### 手写节流
+
+```javascript
+function myThrottle(fn,delay){
+	let flag = false
+	return (...args) => {
+    if(flag) return
+    flag = true
+    setTimeout(() => {
+      fn.apply(this, args)
+      flag = false
+    },delay)
+	}
+}
+```
+
+### 手写
+
+
+
 # 2021-01-30
 
 ## AMD、CMD、CommonJS、ES6 Module
@@ -85,7 +123,7 @@ console.log(a2);//{ num: 1, obj: { xx: 2 } }
 
 CommonJS特点：
 
- - 所有代码都运行在模块作用于，不会污染全局环境；
+ - 所有代码都运行在模块作用域，不会污染全局环境；
 
  - 模块是同步加载的，即只有加载完成，才能执行后面操作
 
@@ -127,12 +165,11 @@ customName(); // 'default'
 ES6 Module特点
 
 - CommonJS模块是运行时加载，ES6 Module是编译时输出接口；
-
 - CommonJS加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口；
-
 - CommonJS输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；
-
 - CommonJS `this`指向当前模块，ES6 Module `this`指向`undefined`;
+- ES Module可以解决重复引用的问题
+- CommonJS模块的require()是同步加载模块，ES6的import命令是异步加载，有一个独立的模块依赖的解析阶段
 
 
 目前浏览器对ES6 Module兼容还不太好，我们平时在webpack中使用的`export`/`import`，会被打包为`exports`/`require`。
