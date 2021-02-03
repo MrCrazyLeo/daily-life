@@ -1,4 +1,37 @@
-# 2021-02-02
+# 2021-02-03
+
+[发现一道异步实现方式差异导致结果不同的题](https://www.cnblogs.com/fangdongdemao/p/10262209.html)
+关于async跟promise的先后问题，实现不一样，也有因为浏览器版本导致差异的问题
+
+```javascript
+async function async1() {
+   console.log( 'async1 start' ) //2
+   await async2()
+   console.log( 'async1 end' )//7
+ }
+async function async2() {
+  console.log( 'async2' )//3
+}
+console.log( 'script start' ) //1
+setTimeout( function () {
+  console.log( 'setTimeout' )//8
+}, 0 )
+async1();
+new Promise( function ( resolve ) {
+  console.log( 'promise1' )//4
+  resolve();
+} ).then( function () {
+  console.log( 'promise2' ) //6
+} )
+console.log( 'script end' )//5
+```
+
+![WechatIMG2022](img/WechatIMG2022.png)
+
+如上图，可看到，chrome88.0.4324.96版本，显示左边结果，async1 end在promise2前边出现；而同一机器上的safari则是promise2在前，async1 end在后。在公司的chrome66版本，也是跟safari同样的结果。我预期结果是async1 end在promise2前边出现的结果。
+
+
+
 
 ## 手写系列
 
@@ -32,7 +65,18 @@ function myThrottle(fn,delay){
 }
 ```
 
-### 手写
+### 手写new
+
+> 1. 新建实例o
+>
+> 2. 将o的隐式原型指向Object的原型上
+>
+> 3. 将this指向当前实例o
+> 4. 如果构造函数的返回值是对象，那么返回对象；如果不是，返回当前实例o
+
+```javascript
+
+```
 
 
 
