@@ -1,4 +1,10 @@
-# 2021-02-03
+# 2021-02-04
+
+## 前端一键替换皮肤方案
+
+
+
+
 
 [发现一道异步实现方式差异导致结果不同的题](https://www.cnblogs.com/fangdongdemao/p/10262209.html)
 关于async跟promise的先后问题，实现不一样，也有因为浏览器版本导致差异的问题
@@ -252,7 +258,9 @@ ES6 Module特点
 
 ## Vue nextTick原理与作用
 
-Vue异步执行Dom更新。只要观察到数据变化（data、watch、computed），Vue将开启一个队列，并缓冲在同一时间循环中发生的所有数据改变。如果同一个watcher被多次触发，只会被推入队列中一次（比如同一个周期内疯狂点击按钮触发的事件，此时只会被认为是同一个）。这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作上非常重要。然后，在下一个时间循环“tick”中，Vue刷新队列并执行实际（已去重）工作。Vue在内部尝试对异步队列使用原生的`Promise.then`和`MessageChannel`，如果执行环境不支持，会采用`setTimeOut(cb,0)`代替
+Vue异步执行Dom更新。只要观察到数据变化（data、watch、computed），Vue将开启一个队列，并缓冲在同一时间循环中发生的所有数据改变。如果同一个watcher被多次触发，只会被推入队列中一次（比如同一个周期内疯狂点击按钮触发的事件，此时只会被认为是同一个）。这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作上非常重要。然后，在下一个时间循环“tick”中，Vue刷新队列并执行实际（已去重）工作。Vue在内部尝试对异步队列使用原生的`Promise.then`和`MessageChannel`，如果执行环境不支持，会采用`setTimeOut(cb,0)`代替。
+
+Vue2.4以前用MutationObserver（属于微任务）模拟nextTick，之后（Vue2.5+）使用MessageChannel来解决兼容性不好的问题
 
 
 
