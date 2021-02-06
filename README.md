@@ -1,44 +1,3 @@
-# 2021-02-04
-
-## 前端一键替换皮肤方案
-
-
-
-
-
-[发现一道异步实现方式差异导致结果不同的题](https://www.cnblogs.com/fangdongdemao/p/10262209.html)
-关于async跟promise的先后问题，实现不一样，也有因为浏览器版本导致差异的问题
-
-```javascript
-async function async1() {
-   console.log( 'async1 start' ) //2
-   await async2()
-   console.log( 'async1 end' )//7
- }
-async function async2() {
-  console.log( 'async2' )//3
-}
-console.log( 'script start' ) //1
-setTimeout( function () {
-  console.log( 'setTimeout' )//8
-}, 0 )
-async1();
-new Promise( function ( resolve ) {
-  console.log( 'promise1' )//4
-  resolve();
-} ).then( function () {
-  console.log( 'promise2' ) //6
-} )
-console.log( 'script end' )//5
-```
-
-![WechatIMG2022](img/WechatIMG2022.png)
-
-如上图，可看到，chrome88.0.4324.96版本，显示左边结果，async1 end在promise2前边出现；而同一机器上的safari则是promise2在前，async1 end在后。在公司的chrome66版本，也是跟safari同样的结果。我预期结果是async1 end在promise2前边出现的结果。
-
-
-
-
 ## 手写系列
 
 ### 手写防抖
@@ -83,6 +42,71 @@ function myThrottle(fn,delay){
 ```javascript
 
 ```
+
+### 手写原生ajax
+
+### 手写Promise
+
+### 手写发布-订阅模式
+
+
+
+
+# 2021-02-06
+
+
+
+
+
+
+# 2021-02-05
+
+## 401和403
+
+两者容易混淆。简单说，401就是认证失败，比如token失效、token缺失、token伪造，导致服务端无法识别你的身份，这时会返回 401，客户端此时只能重试。；403是服务器知道你是哪位，但是它拒绝提供资源，甚至可以直接返回404给到客户端。
+
+
+
+# 2021-02-04
+
+## 前端一键替换皮肤方案
+
+
+
+
+
+[发现一道异步实现方式差异导致结果不同的题](https://www.cnblogs.com/fangdongdemao/p/10262209.html)
+关于async跟promise的先后问题，实现不一样，也有因为浏览器版本导致差异的问题
+
+```javascript
+async function async1() {
+   console.log( 'async1 start' ) //2
+   await async2()
+   console.log( 'async1 end' )//7
+ }
+async function async2() {
+  console.log( 'async2' )//3
+}
+console.log( 'script start' ) //1
+setTimeout( function () {
+  console.log( 'setTimeout' )//8
+}, 0 )
+async1();
+new Promise( function ( resolve ) {
+  console.log( 'promise1' )//4
+  resolve();
+} ).then( function () {
+  console.log( 'promise2' ) //6
+} )
+console.log( 'script end' )//5
+```
+
+![WechatIMG2022](img/WechatIMG2022.png)
+
+如上图，可看到，chrome88.0.4324.96版本，显示左边结果，async1 end在promise2前边出现；而同一机器上的safari则是promise2在前，async1 end在后。在公司的chrome66版本，也是跟safari同样的结果。我预期结果是async1 end在promise2前边出现的结果。
+
+
+
 
 
 
@@ -563,6 +587,14 @@ Gzip分成1-9个等级，等级要根据项目压测来定。压缩越狠越吃�
 - babel使用babel-travese遍历ES6的AST语法树生成新的ES5的AST树
 - 使用babel-generator生成ES5代码
 
+[Babel 入门教程](https://www.ruanyifeng.com/blog/2016/01/babel.html)
+
+```
+Babel默认只转换新的JavaScript句法（syntax），而不转换新的API，比如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码。
+
+举例来说，ES6在Array对象上新增了Array.from方法。Babel就不会转码这个方法。如果想让这个方法运行，必须使用babel-polyfill，为当前环境提供一个垫片。
+```
+
 
 
 # 2021-01-16
@@ -1033,6 +1065,16 @@ Border-image
 >
 > - Session是服务端保存的一个数据结构，用于跟踪用户的状态，这个数据可以保存在集群、数据库、文件中；
 > - Cookie是客户端保存用户信息的一个机制，用来记录用户的一些信息，也是实现Session的一种方式
+
+> [ Cookie 与 Session 有什么不同](https://juejin.cn/post/6844904073934667790)
+>
+> - 存储位置不同：session在服务端、cookie在客户端
+> - 大小不同
+> - 过期时间不同：cookie可以保存很长一段时间，session只存在一次会话中，浏览器关闭之后session就失效了
+> - 安全性不同：cookie存储在客户端容易被篡改、盗用；session在服务端比较安全；
+> - 存储大小不同：cookie能存储4kB数据（不同浏览器限制不一样），session比cookie高很多
+> - 存取方式不同：cookie只保存ASCII字符串，加入需求存取 Unicode 字符或者二进制数据，需求先进行编码。Session 中能够存取**任何类型**的数据；
+> - 服务端压力不同：session是存储在服务端的，高并发时服务器资源极速上升；cookie则不存在此问题。
 
 
 
