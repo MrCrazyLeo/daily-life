@@ -533,6 +533,19 @@ Gzip分成1-9个等级，等级要根据项目压测来定。压缩越狠越吃�
 
 ![image-20210129141335888](img/image-20210129141335888.png)
 
+公司项目目前配置
+
+```
+gzip_min_lenght 200k
+gzip_comp_level 4
+gzip_buffers 4 16k
+gzip_types text/plain application/x-jacascript text/css application text/js application/javascript
+gzip_vary off
+gzip_disable "MSIE [1-6]\."
+```
+
+
+
 # 2021-01-20
 
 ## 三种常见的浏览器渲染流程
@@ -1066,7 +1079,9 @@ Border-image
 
 ## Canvas与Svg的区别
 
+![WX20210207-153251@2x](img/WX20210207-153251@2x.png)
 
+![WX20210207-153156@2x](img/WX20210207-153156@2x.png)
 
 ## D3与Echarts的区别
 
@@ -1405,13 +1420,19 @@ Math.pow(2, 53) === Math.pow(2, 53) + 1;    // true
 
 ### 最大浮点数问题
 
-前面讲到，在`JavaScript`中，使用浮点数标准`IEEE 754`表示数字的，在表示小数的时候，在转化二进制的时候有些数是不能完整转化的，比如0.3，转化成二进制是一个很长的循环的数，是超过了`JavaScript`能表示的范围的，所以近似等于0.30000000000000004。这个是二进制浮点数最大的问题（不仅 JavaScript，所有遵循 IEEE 754 规范的语言都是如此）。所以要判断两个值是否相等，可以用ES6引入的极小常量`Number.EPSILON`。Number.EPSILON是JS实际能达到的最小精度，比2^(-52)大
+前面讲到，在`JavaScript`中，使用浮点数标准`IEEE 754`表示数字的，在表示小数的时候，在转化二进制的时候有些数是不能完整转化的，比如0.3，转化成二进制是一个很长的循环的数，是超过了`JavaScript`能表示的范围的，所以近似等于0.30000000000000004。这个是二进制浮点数最大的问题（不仅 JavaScript，所有遵循 IEEE 754 规范的语言都是如此）。所以要判断两个值是否相等，可以用ES6引入的极小常量`Number.EPSILON`。Number.EPSILON是JS实际能达到的最小精度，比2^(-52)大 *
 
 ```javascript
 function IsEqual(num1,num2){
   let EPSILON = Number.EPSILON ? Number.EPSILON : Math.pow(2,-52)
   return Math.abs(num1 - num2) < EPSILON
 }
+```
+
+存疑：Number.EPSILON貌似跟2^(-52)一样大
+
+```
+Number.EPSILON === 2**(-52) // true
 ```
 
 
