@@ -52,9 +52,38 @@ function myThrottle(fn,delay){
 
 
 
-# 2021-02-06
+# 2021-02-07
 
+## 拍平数组
 
+```javascript
+var arr = [1,[2,3],[4,[5,6,[7]]]]
+// 法1
+function myFlat(arr) {
+    let res = [] 
+    arr.map(item => {
+        // 记得，这里要res = res.concat(myFlat(item))，res.concat不会改变原数组的。
+        if(Array.isArray(item)) res = res.concat(myFlat(item))
+        else res.push(item)
+    })
+    return res
+}
+// 法2
+function myFlat2(arr){
+  return arr.reduce((prev,cur) => prev.concat(Array.isArray(cur) ? myFlat2(cur) : cur),[])
+}
+// 法3
+arr.flat(Infinity)
+// 法4
+arr.toString().split(',').map(val => parseInt(val))
+// 法5
+function myFlat(arr){
+  while(arr.some(item => Array.isArray(item))){
+    arr = [].concat.apply([],arr)
+  }
+  return arr
+}
+```
 
 
 
