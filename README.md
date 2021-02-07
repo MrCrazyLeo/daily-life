@@ -43,9 +43,62 @@ function myThrottle(fn,delay){
 
 ```
 
+### 手写深拷贝
+
+```javascript
+// 没有解决循环引用的版本
+function myDeepCopy(obj){
+  if(typeof obj === 'object') {
+    let clone = Array.isArray(obj) ? [] : {}
+    for(const key in obj){
+      clone[key] = myDeepCopy(obj[key])
+    }
+    return clone
+  } else return obj // 基本类型直接返回即可
+}
+
+var obj = {
+  a:1,
+  b:null,
+  c:true,
+  d:{},
+  e: {
+    f: {
+      g: 1
+    }
+  },
+  h:[]
+}
+console.log(myDeepCopy(obj))
+// 上边会导致循环引用的问题
+// 比如加入这段话
+obj.obj = obj
+// 那么如何解决循环引用的问题呢，那就是使用hash
+// JS里边就用weekMap做弱引用就好（方便垃圾回收）
+// 直接用map会因为强引用而部分内存没法释放
+function myDeepCopy2(obj, map = new WeakMap()){
+  if(typeof obj === 'object'){
+    const isArray = Array.isArray(obj) 
+    let clone = isArray ? [] : {}
+    if(map.get(obj)){
+      return map.get(obj)
+    }
+    map.set(obj, clone)
+    for(const key in obj){
+      clone[key] = myDeepCopy2(obj[key], map)
+    }
+    return clone
+  }
+  else return obj
+}
+```
+
 ### 手写原生ajax
 
 ### 手写Promise
+
+- then收集依赖 -> 异步触发resolve -> resolve执行依赖
+- async/await 自动执行、返回Promise的resolve/reject值
 
 ### 手写发布-订阅模式
 
@@ -678,7 +731,7 @@ function testAsync() {
     setTimeout(() => {console.log('test')},0)
     return 'Out async'
   }
-  const hello = function() {
+  const hello = async function() {
     console.log('In async')
     const res = await test()
     console.log(res)
@@ -729,58 +782,6 @@ testAsync()
 
 
 # 2021-01-24
-
-手写深拷贝
-
-```javascript
-// 没有解决循环引用的版本
-function myDeepCopy(obj){
-  if(typeof obj === 'object') {
-    let clone = Array.isArray(obj) ? [] : {}
-    for(const key in obj){
-      clone[key] = myDeepCopy(obj[key])
-    }
-    return clone
-  } else return obj // 基本类型直接返回即可
-}
-
-var obj = {
-  a:1,
-  b:null,
-  c:true,
-  d:{},
-  e: {
-    f: {
-      g: 1
-    }
-  },
-  h:[]
-}
-console.log(myDeepCopy(obj))
-// 上边会导致循环引用的问题
-// 比如加入这段话
-obj.obj = obj
-// 那么如何解决循环引用的问题呢，那就是使用hash
-// JS里边就用weekMap做弱引用就好（方便垃圾回收）
-// 直接用map会因为强引用而部分内存没法释放
-function myDeepCopy2(obj, map = new WeakMap()){
-  if(typeof obj === 'object'){
-    const isArray = Array.isArray(obj) 
-    let clone = isArray ? [] : {}
-    if(map.get(obj)){
-      return map.get(obj)
-    }
-    map.set(obj, clone)
-    for(const key in obj){
-      clone[key] = myDeepCopy2(obj[key], map)
-    }
-    return clone
-  }
-  else return obj
-}
-```
-
-
 
 ## Object.defineProperty
 
@@ -835,9 +836,13 @@ HTTPS缺点：
 
 ## HTTP/2
 
+HTTP 2.0是由谷歌SPDY进化而来，现有的实现基本都是走SSL（说是可以不用SSL，但基本没这么干的），传输层使用TCP。
+
 
 
 ## HTTP/3
+
+HTTP 3.0是由谷歌QUIC进化出来的，QUIC没有大动HTTP 2.0，在把传输层调整为UDP后，为适应UDP而做了一些微调。
 
 HTTP/3解决了HTTP/2的问题：
 
@@ -1207,9 +1212,46 @@ function ReverseList(pHead)
 }
 ```
 
+![9ce26a709147ad9ce6152d604efc1cc19a33dc5d467ed2aae5bc68463fdd2888](img/9ce26a709147ad9ce6152d604efc1cc19a33dc5d467ed2aae5bc68463fdd2888.gif)
+
 ![WX20210109-212830@2x](img/WX20210109-212830@2x.png)
 
 （上边[图示](https://leetcode-cn.com/problems/reverse-linked-list/solution/206-fan-zhuan-lian-biao-shuang-zhi-zhen-fa-di-gui-/)有个错误，应该是pre先移动到cur的位置，然后cur移动到下一个节点上（也就是temp上））
+
+**也可以用递归**
+
+```javascript
+function ReverseList2(pHead){
+  if(!pHead || !pHead.next) return pHead
+  const head = ReverseList2(pHead.next)
+  pHead.next.next = pHead
+  pHead.next = null
+  return head
+}
+```
+
+![8951bc3b8b7eb4da2a46063c1bb96932e7a69910c0a93d973bd8aa5517e59fc8](img/8951bc3b8b7eb4da2a46063c1bb96932e7a69910c0a93d973bd8aa5517e59fc8.gif)
+
+**也可以用双指针**
+
+```javascript
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL) { return NULL; }
+        ListNode* cur = head;
+        while (head->next != NULL) {
+            ListNode* t = head->next->next;
+            head->next->next = cur;
+            cur = head->next;
+            head->next = t;
+        }
+        return cur;
+    }
+};
+```
+
+![1c8927d9ff605502793d81ab344dbc17e16d6db2d8dd789045f56af432079519](img/1c8927d9ff605502793d81ab344dbc17e16d6db2d8dd789045f56af432079519.gif)
 
 
 
@@ -1290,15 +1332,6 @@ function PrintMinNumber(numbers)
 ```
 
 ![WX20210108-150527](img/WX20210108-150527.png)
-
-
-
-# 2021-01-07
-
-## 手写Promise
-
-- then收集依赖 -> 异步触发resolve -> resolve执行依赖
-- async/await 自动执行、返回Promise的resolve/reject值
 
 
 
@@ -1958,15 +1991,15 @@ XSS是恶意攻击者往网页嵌入恶意脚本代码，当用户浏览网页�
 
 ## 从URL到页面渲染经历了什么？
 
-### 1.DNS查询
+1. DNS查询
 
-### 2.TCP连接
+2. TCP连接
 
-### 3.HTTP请求
+3. HTTP请求
 
-### 4.服务器响应
+4. 服务器响应
 
-### 5.客户端渲染
+5. 客户端渲染
 
 
 
