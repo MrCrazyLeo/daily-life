@@ -794,7 +794,7 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 # 2021-01-13
 
-## 一道面试题
+## 一道面试题 ：类型转换
 
 ```javascript
 [] == ![] // true 后者为false，前者也是false
@@ -832,6 +832,32 @@ HTTPS缺点：
 1. 费钱买ca证书
 2. 由于连接繁琐，所以降低了通讯效率
 3. SSL涉及到的安全算法会消耗 CPU 资源，对服务器资源消耗较大。
+
+## HTTP/2
+
+
+
+## HTTP/3
+
+HTTP/3解决了HTTP/2的问题：
+
+- 在底层使用了TCP的情况下，TCP的慢启动；拥塞窗口尺寸设置不合理导致的性能急剧下降的问题没有得到解决。基因在此，无法改变
+
+- HTTP 2多路复用只是减少了连接数，队头阻塞的问题并没有得到完全解决。如果TCP丢包率超过2%，HTTP/2表现将不如HTTP1.1。因为HTTP1 是分开使用的TCP连接,具体对比如下示意图所示：
+
+  ![293284-20190319202207552-752723479](img/293284-20190319202207552-752723479.png)
+
+HTTP/3特点：
+
+- 使用UDP作为传输层进行通信
+- 使用TLS1.3，因为QUIC在建立连接的握手过程就完成了TSL加密握手，从协议本身保证了安全性
+- 建立连接快，正常只需要1RTT即可建立连接；如果有缓存之前的secret信息，则直接验证和建立连接，此过程0RTT。建立连接时，也可以带有少量业务数据
+
+![293284-20190319202418277-1784084687](img/293284-20190319202418277-1784084687.png)
+
+HTTP家族对比：
+
+![293284-20190319202244670-114400876](img/293284-20190319202244670-114400876.jpg)
 
 
 
@@ -1149,7 +1175,7 @@ Border-image
 - Node端，microTask在事件循环的各个阶段之间执行
 - 浏览器端，microTask在事件循环的macroTask执行完之后再执行
 - **由于node版本更新到11，Event Loop运行原理发生了变化，一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这点就跟浏览器端一致**
-> 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染、postMessage、MessaeChannel、SetImmediate（Node）等。
+> 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染、postMessage、MessageChannel、SetImmediate（Node）等。
 常见的 micro-task 比如: new Promise().then catch finally、MutationObserver(html5新特性) 、process.nextTick（Node）等。
 
 ![](https://user-gold-cdn.xitu.io/2019/1/12/16841bad1cda741f?imageslim)
