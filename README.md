@@ -104,6 +104,61 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 
 
+# 2021-02-11
+
+## CORS
+
+跨域资源共享(Crocs-Origin Resource Sharing)
+
+- safari、chrome、firefox等的实现方式
+
+  ```javascript
+  var xhr = new XMLHttpRequest()
+  xhr.onreadystatuschange = () => {
+    if(xhr.readyStatus === 4) {
+      if(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304){
+        // 响应成功
+        console.log(xhr.responseText)
+      } else {
+        console.log(`err, ${xhr.status}`)
+      }
+    }
+  }
+  xhr.open('get', 'http://www.xxx.com',true)
+  xhr.send(null)
+  ```
+
+  > 跨域XHR一些安全限制：
+  >
+  > 1. 不能使用setRequestHead()设置自定义头部
+  > 2. 不能发送和接受cookie
+  > 3. 调用获取所有头部信息的方法getAllReponseHeaders(）方法会返回空字符串
+
+- IE的实现
+
+  ```javascript
+  var xdr = new XDomainRequest();
+  xdr.onload = function() {
+    alert(xdr.responseText);
+  }
+  xdr.onerror = function() {
+    alert("error");
+  }
+  xdr.open("get", "http://www.xxx.com/yyy/");
+  xdr.send(null);
+  ```
+
+  
+
+
+
+## 类组件和函数式组件的区别
+
+1. 函数式组件：当组件只接受props属性时，没有自身data、没有生命周期钩子
+2. 类组件：用class关键字构建，有自身状态、生命周期钩子，
+
+
+
 
 # 2021-02-07
 
