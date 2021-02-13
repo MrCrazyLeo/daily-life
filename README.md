@@ -106,9 +106,17 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 # 2021-02-11
 
-## CORS
+## [CORS](https://juejin.cn/post/6844903492729962509)
 
 跨域资源共享(Crocs-Origin Resource Sharing)
+
+浏览器发送跨域请求时，浏览器自动针对普通请求和非普通请求进行区别对待，在请求头加个Origin字段告诉服务器这个请求的源，通过服务器返回响应中Access-Control-Allow-Origin字段的值是不是请求中的Origin，来看服务器允不允许请求该资源
+
+- 简单请求：
+  - 请求方式GET、POST、HEAD
+  - HTTP头信息不超出以下几种字段：Accept、Accept-Language、Content-Language、Last-Event-ID
+  - Content-type只限以下三种：text/plain、multipart/form-data、application/x-www-from-urlencoded
+- 复杂请求——非简单请求的都是复杂请求
 
 - safari、chrome、firefox等的实现方式
 
@@ -1251,19 +1259,19 @@ Border-image
 function ReverseList(pHead)
 {
    if(pHead === null) return null
-    let pre = null
+    let cur = null
     while(pHead){
       	// 先把当前节点的下一个节点保存起来
-        let temp = pHead.next
+        let pre = pHead.next
         // 然后重新赋值当前节点的下一个节点
-        pHead.next = pre
-      	// 之后因为要过渡到下一个节点，所以把pre前任指针指向当前节点
-        pre = pHead
+        pHead.next = cur
+      	// 之后因为要过渡到下一个节点，所以把前任指针指向当前节点
+        cur = pHead
       	// 把当前节点指针指向下一个节点
-        pHead = temp
+        pHead = pre
     }
-  	// 记得是pre
-    return pre
+  	// 记得是cur
+    return cur
 }
 ```
 
