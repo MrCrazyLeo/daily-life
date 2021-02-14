@@ -40,7 +40,11 @@ function myThrottle(fn,delay){
 > 4. 如果构造函数的返回值是对象，那么返回对象；如果不是，返回当前实例o
 
 ```javascript
-
+function myNew(fn){
+  const o = Object.create()
+  o.__proto__ = Object.prototype
+  o.
+}
 ```
 
 ### 手写深拷贝
@@ -101,6 +105,42 @@ function myDeepCopy2(obj, map = new WeakMap()){
 - async/await 自动执行、返回Promise的resolve/reject值
 
 ### 手写发布-订阅模式
+
+
+
+### 手写数组去重
+
+**常规方法**
+
+```javascript
+var arr=[1,2,3,3,4,5,5,6,6]
+var res = []
+for(let i=0;i<arr.length;i++){
+ if(res.indexOf(arr[i]) === -1) {
+   res.push(arr[i])
+ }
+}
+console.log('去重之后的数组 ',res)
+```
+
+**ES6**
+
+```javascript
+const arr=[1,2,3,3,4,5,5,6,6]
+const t = new Set(arr)
+[...t]
+
+// 或
+const arr=[1,2,3,3,4,5,5,6,6]
+Array.from(new Set(arr))
+
+// 或使用正则表达式
+// (arr+',').replace(/(\d+,)\1+/ig,'$1') -> "1,2,3,4,5,6,"
+// (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',') -> ["1", "2", "3", "4", "5", "6", ""]
+(arr+',').replace(/(\d+,)\1+/ig,'$1').split(',').slice(0,-1) // ["1", "2", "3", "4", "5", "6"]
+```
+
+
 
 
 
@@ -1978,40 +2018,6 @@ margin: 0 auto
     left: 50%;
     transform: translate(-50%, -50%);
 }
-```
-
-
-
-## 一道面试题：去重
-
-**常规方法**
-
-```javascript
-var arr=[1,2,3,3,4,5,5,6,6]
-var res = []
-for(let i=0;i<arr.length;i++){
- if(res.indexOf(arr[i]) === -1) {
-   res.push(arr[i])
- }
-}
-console.log('去重之后的数组 ',res)
-```
-
-**ES6**
-
-```javascript
-const arr=[1,2,3,3,4,5,5,6,6]
-const t = new Set(arr)
-[...t]
-
-// 或
-const arr=[1,2,3,3,4,5,5,6,6]
-Array.from(new Set(arr))
-
-// 或使用正则表达式
-// (arr+',').replace(/(\d+,)\1+/ig,'$1') -> "1,2,3,4,5,6,"
-// (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',') -> ["1", "2", "3", "4", "5", "6", ""]
-(arr+',').replace(/(\d+,)\1+/ig,'$1').split(',').slice(0,-1) // ["1", "2", "3", "4", "5", "6"]
 ```
 
 
