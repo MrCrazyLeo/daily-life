@@ -101,8 +101,19 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 ### 手写Promise
 
+- Promise解决的问题：解决回调地狱，使得异步过程同步化，简洁代码逻辑
+
 - then收集依赖 -> 异步触发resolve -> resolve执行依赖
+
 - async/await 自动执行、返回Promise的resolve/reject值
+
+  #### Promise.all
+
+  #### Promise.race
+
+  #### Promise.try
+
+  
 
 ### 手写发布-订阅模式
 
@@ -139,6 +150,27 @@ Array.from(new Set(arr))
 // (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',') -> ["1", "2", "3", "4", "5", "6", ""]
 (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',').slice(0,-1) // ["1", "2", "3", "4", "5", "6"]
 ```
+
+### 手写柯里化
+
+```javascript
+function curring(fn,...args){
+  if(args.length >= fn.length){
+    return fn(...args)
+  }
+  return function(...args2){
+    return curring(fn,...args,...args2)
+  }
+}
+```
+
+### 手写reduce
+
+### 手写bind
+
+### 手写apply
+
+### 手写call
 
 
 
