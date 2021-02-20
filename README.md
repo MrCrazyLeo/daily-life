@@ -101,7 +101,9 @@ function myDeepCopy2(obj, map = new WeakMap()){
 
 ### 手写Promise
 
-- Promise解决的问题：解决回调地狱，使得异步过程同步化，简洁代码逻辑
+- [Promise解决的问题](https://segmentfault.com/a/1190000016273587)：解决回调地狱，使得异步过程同步化，简洁代码逻辑（可读性问题）；还有一个是异步回调信任问题，比如回调过早（被当成同步调用）、回调过晚或者没有回调、回调次数过多（如下）。
+
+  > 一个来自[《YDKJS》](https://github.com/getify/You-Dont-Know-JS/blob/master/async & performance/README.md#you-dont-know-js-async--performance)的例子：一个程序员开发了一个付款的系统，它良好的运行了很长时间。突然有一天，一个客户在付款的时候信用卡被连续刷了五次。这名程序员在调查了以后发现，一个第三方的工具库因为某些原因把付款回调执行了五次。在与第三方团队沟通之后问题得到了解决。
 
 - then收集依赖 -> 异步触发resolve -> resolve执行依赖
 
@@ -171,8 +173,6 @@ function curring(fn,...args){
 ### 手写apply
 
 ### 手写call
-
-
 
 
 
@@ -1104,15 +1104,39 @@ cat1.eat === cat2.eat // true，指向同一内存
 
 ## 继承
 
-### 类式继承
+### 类式继承（原型链继承）
 
-> 如果父类的构造函数中有引用类型，就会在子类中被所有实例共用，那么一个子类的实例如果更改了这个引用类型，就会影响到其他子类的实例。
+> 缺点1：如果父类的构造函数中有引用类型，就会在子类中被所有实例共用，那么一个子类的实例如果更改了这个引用类型，就会影响到其他子类的实例。
 
+```javascript
+// es5写法
+function Parent(){
+  this.name = ['leo']
+}
+function Child(){}
+Child.prototype = new Parent()
+var child1  = new Child()
+child1.name // ['leo']
+child1.name.push('hh')
+var child2 = new Child();
+console.log(child2.name) // ['leo','hh']
+```
 
+> 缺点2：在创建 Child 的实例时，不能向Parent传参
+>
 
-### 构造函数继承
+### 构造函数继承（经典继承）
 
-> 导致内存浪费
+> 导致内存浪费：方法都在构造函数中定义，每次创建实例都会创建一遍方法。
+
+```javascript
+function Parent(name){this.name = name}
+function Child(name){Parent.call(this,name)}
+var child1 = new Child('leo')
+console.log(child1.name) // leo
+var child2 = new Child('hh')
+console.log(child2.name) // hh
+```
 
 
 
@@ -1327,6 +1351,7 @@ Border-image
 
 ## 单链表反转
 
+时间复杂度O(n)，空间复杂度O(1)
 ```javascript
 function ReverseList(pHead)
 {
@@ -1355,6 +1380,8 @@ function ReverseList(pHead)
 
 **也可以用递归**
 
+时间复杂度O(n)，空间复杂度O(n)
+
 ```javascript
 function ReverseList2(pHead){
   if(!pHead || !pHead.next) return pHead
@@ -1369,20 +1396,25 @@ function ReverseList2(pHead){
 
 **也可以用双指针**
 
+> 原链表的头结点就是反转之后链表的尾结点，使用 head记 .
+> 定义指针 cur，初始化为 head .
+> 每次都让 head 下一个结点的 next 指向 cur ，实现一次局部反转
+> 局部反转完成之后，cur 和 head 的 next指针同时 往前移动一个位置
+> 循环上述过程，直至 cur到达链表的最后一个结点 .
+
+时间复杂度O(n)，空间复杂度O(1)
+
 ```javascript
-class Solution {
-public:
-    ListNode* reverseList(ListNode* head) {
-        if (head == NULL) { return NULL; }
-        ListNode* cur = head;
-        while (head->next != NULL) {
-            ListNode* t = head->next->next;
-            head->next->next = cur;
-            cur = head->next;
-            head->next = t;
-        }
-        return cur;
+var reverseList = function(head) {
+    if(!head) return head
+    let cur = head
+    while(head.next) {
+        let t = head.next.next
+        head.next.next = cur
+        cur = head.next
+        head.next = t
     }
+    return cur
 };
 ```
 
