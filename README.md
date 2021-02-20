@@ -95,7 +95,43 @@ function myDeepCopy2(obj, map = new WeakMap()){
   }
   else return obj
 }
+
+// ------------------------- 进阶 -----------------------//
+// 使用while替代for in循环，因for in在遍历时性能十分低下
+// 首先封装一个通用的循环遍历函数forEach
+// iteratee是遍历的回调函数，他可以接收每次遍历的 value和 index两个参数
+function forEach(array, iteratee){
+  let index = -1
+  const len = array.length
+  while(++i < len){
+    iteratee(array[index],index)
+  }
+  return array
+}
+function myDeepCopy3(obj, map = new WeakMap()){
+  if(typeof obj === 'object'){
+    const isArray = Array.isArray(obj) 
+    let clone = isArray ? [] : {}
+    if(map.get(obj)){
+      return map.get(obj)
+    }
+    map.set(obj, clone)
+    const keys = isArray? undefined : Object.keys(obj)
+    forEach(keys || obj,(value,key) => {
+      if(keys) { key = value}
+      clone[key] = myDeepCopy3(obj[key], map)
+    })
+    return clone
+  }
+  else return obj
+}
 ```
+
+完整版：考虑了除object、array和基本类型之外的其他类型
+
+![deepclone](img/deepclone.jpeg)
+
+
 
 ### 手写原生ajax
 
@@ -833,6 +869,40 @@ gzip_disable "MSIE [1-6]\."
 Babel默认只转换新的JavaScript句法（syntax），而不转换新的API，比如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码。
 
 举例来说，ES6在Array对象上新增了Array.from方法。Babel就不会转码这个方法。如果想让这个方法运行，必须使用babel-polyfill，为当前环境提供一个垫片。
+```
+
+![bVbDNYp](img/bVbDNYp.jpg)
+
+## JS代码压缩原理
+
+其实跟上边babel原理类似，
+
+```
+1. 将code转换成AST
+2. 将AST进行优化，生成一个更小的AST
+3. 将新生成的AST再转化成code
+```
+
+```javascript
+// uglify-js的版本需要为2.x, 3.0之后uglifyjs不再暴露Compressor api
+// 2.x的uglify不能自动解析es6，所以这里先切换成es5
+// npm install uglify-js@2.x
+var UglifyJS = require('uglify-js');
+// 原始代码
+var code = `var a;
+var x = { b: 123 };
+a = 123,
+delete x`;
+// 通过 UglifyJS 把代码解析为 AST
+var ast = UglifyJS.parse(code);
+ast.figure_out_scope();
+// 转化为一颗更小的 AST 树
+compressor = UglifyJS.Compressor();
+ast = ast.transform(compressor);
+// 再把 AST 转化为代码
+code = ast.print_to_string();
+// var a,x={b:123};a=123,delete x;
+console.log("code", code);
 ```
 
 
