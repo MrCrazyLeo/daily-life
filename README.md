@@ -319,6 +319,8 @@ function myFlat(arr){
 }
 ```
 
+更多解法，参考[这里](https://segmentfault.com/a/1190000021366004)
+
 
 
 
