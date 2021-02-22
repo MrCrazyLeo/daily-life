@@ -141,6 +141,12 @@ function myDeepCopy3(obj, map = new WeakMap()){
 
   > 一个来自[《YDKJS》](https://github.com/getify/You-Dont-Know-JS/blob/master/async & performance/README.md#you-dont-know-js-async--performance)的例子：一个程序员开发了一个付款的系统，它良好的运行了很长时间。突然有一天，一个客户在付款的时候信用卡被连续刷了五次。这名程序员在调查了以后发现，一个第三方的工具库因为某些原因把付款回调执行了五次。在与第三方团队沟通之后问题得到了解决。
 
+- Promise引入的问题：
+
+  - then链过程导致阅读困难
+  - 没办法写成同步的写法，没办法用try、catch
+  - Promise一旦开始，中途没办法取消
+
 - then收集依赖 -> 异步触发resolve -> resolve执行依赖
 
 - async/await 自动执行、返回Promise的resolve/reject值
@@ -209,6 +215,24 @@ function curring(fn,...args){
 ### 手写apply
 
 ### 手写call
+
+
+
+# 2020-02-22 
+
+## Vue监听数组的方法
+
+
+
+
+
+## CDN
+
+> 摘自https://www.alibabacloud.com/tc/knowledge/what-is-cdn
+
+CDN：内容分发网络。它是一个分布式节点网络（也称为边缘位置服务器），它有助于根据用户的位置，内容源服务器和[边缘服务器](https://www.alibabacloud.com/tc/knowledge/what-is-edge-computing)向最终用户的地点传送内容（网页、视频、图像等）。**CDN节点**具有缓存内容的缓存功能，并且可以从地理上靠近最终用户的位置向用户提供内容。CDN节点由CDN提供商部署在多个地理位置，并且可以跨越多个ISP（因特网服务提供商）网络。
+
+作用：降低源服务器的压力、选择优势服务节点，减少用户访问网站的等待时长、选择带宽/成本最便宜的cdn节点部署内容从而降低成本
 
 
 
@@ -969,7 +993,7 @@ testAsync()
 
 ## [].slice.call()
 
-[].slice.call(arguments)能将具有`length`属性的对象转成数组：
+`[].slice.call(arguments)`能将具有`length`属性的对象（类数组）转成数组，作用与`Array.prototype.slice.call(arguments)`一样
 
 
 
@@ -1041,6 +1065,10 @@ true + true // 2
 
 
 
+## TCP
+
+![tcp_open_close](img/tcp_open_close.jpg)
+
 ## HTTPS
 
 > HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。
@@ -1067,6 +1095,8 @@ HTTPS缺点：
 ## HTTP/2
 
 HTTP 2.0是由谷歌SPDY进化而来，现有的实现基本都是走SSL（说是可以不用SSL，但基本没这么干的），传输层使用TCP。
+
+特性：头部压缩、多路复用、二进制分帧、服务器推送、流控（貌似还有个控制优先级的东东）
 
 
 
