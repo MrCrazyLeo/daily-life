@@ -571,7 +571,7 @@ ES6 Module特点
 
 ## Vue nextTick原理与作用
 
-Vue异步执行Dom更新。只要观察到数据变化（data、watch、computed），Vue将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个watcher被多次触发，只会被推入队列中一次（比如同一个周期内疯狂点击按钮触发的事件，此时只会被认为是同一个）。这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作上非常重要。然后，在下一个事件循环“tick”中，Vue刷新队列并执行实际（已去重）工作。Vue在内部尝试对异步队列使用原生的`Promise.then`和`MessageChannel`，如果执行环境不支持，会采用`setTimeOut(cb,0)`代替。
+Vue 在更新 DOM 时是**异步**执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的 `Promise.then`、`MutationObserver` 和 `setImmediate`（为什么有的资料说是使用Promise.then和MessageChannel？），如果执行环境不支持，则会采用 `setTimeout(fn, 0)` 代替。
 
 Vue2.4以前用MutationObserver（属于微任务）模拟nextTick，之后（Vue2.5+）使用MessageChannel来解决兼容性不好的问题
 
