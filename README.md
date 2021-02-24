@@ -161,6 +161,10 @@ function myDeepCopy3(obj, map = new WeakMap()){
 
 ### 手写发布-订阅模式
 
+```javascript
+
+```
+
 
 
 ### 手写数组去重
@@ -218,11 +222,19 @@ function curring(fn,...args){
 
 
 
+# 2020-02-23
+
+## 防止DoS 洪泛攻击
+
+tcp-abort-on-overflow、tcp-syncack-retries、tcp-max-syn-backlog
+
+
+
 # 2020-02-22 
 
 ## Vue监听数组的方法
 
-
+重写了数组原型上数组的操作方法，在这些方法上加入了notify()
 
 
 
