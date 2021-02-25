@@ -222,6 +222,43 @@ function curring(fn,...args){
 
 
 
+# 2020-02-24
+
+ ## Vue $bus实现
+
+事件总线$bus主要使用vue高级API [vm.$on](https://links.jianshu.com/go?to=https%3A%2F%2Fcn.vuejs.org%2Fv2%2Fapi%2F%23vm-on) 原理
+
+```javascript
+// main.js
+Vue.prototype.$bus = new Vue
+this.$bus.on('foo',handle) //子组件通过$on监听事件
+this.$bus.emit('foo') //子组件通过$emit触发事件
+
+// 等同于
+class Bus{
+  constructor(){
+    this.callbacks = []
+  }
+  $on(name,fn){
+    this.callbacks[name] = this.callbacks[name] || []
+    this.callbacks[name].push(fn)
+  }
+  $emit(name,args){
+    if(this.callbacks[name]){
+      this.callbacks[name].forEach(cb => cb(args))
+    }
+  }
+}
+// main.js
+Vue.prototype.$bus = new Bus()
+// child1
+this.$bus.$on('foo', handle)
+// child2
+this.$bus.$emit('foo')
+```
+
+
+
 # 2020-02-23
 
 ## 防止DoS 洪泛攻击
