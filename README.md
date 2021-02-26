@@ -224,6 +224,29 @@ function curring(fn,...args){
 
 # 2020-02-25
 
+# RAIL
+
+**R**esponse、**A**nimation、**I**dle、**L**oad
+
+- 聚焦用户
+- 100ms内响应用户的输入
+- 10ms内产生1帧，在滚动或者动画执行时
+- 最大化主线程的空闲时间
+- 5s内让网页变得可交互
+
+Lighthouse：
+
+- FCP：First Contentful Paint
+- TTI：Time to Interactive
+- SI: Speed Index
+- TBT: Total Blocking Time
+- LCP: Largest Contentful Paint
+- CLS: Cumulative Layout Shift
+
+WebPageTest: 在线评测网站性能的网站
+
+
+
 ## 数组拷贝
 
 - 浅拷贝（数组、对象值的拷贝是引用而不是值复制）
@@ -1257,7 +1280,7 @@ UDP提供`不可靠`服务，具有TCP没有的优势：
 
 ![v2-a994fbf3094d737814fe01c2b919477b_r](img/v2-a994fbf3094d737814fe01c2b919477b_r.jpg)
 
-上边这张图是错的，HTTPS使用非对称加密。私钥只存在于服务器上，服务器下发的内容不可能被伪造，因为别人都没有私钥，所以无法加密。 所有人都有公钥，但私钥只有服务器有，所以服务器才能看到被加密的内容。
+私钥只存在于服务器上，服务器下发的内容不可能被伪造，因为别人都没有私钥，所以无法加密。 所有人都有公钥，但私钥只有服务器有，所以服务器才能看到被加密的内容。
 
 1. 首先客户端通过URL访问服务器建立SSL链接
 2. 服务端收到客户端请求后，会将网络支持的证书信息（证书中包含公钥）传送一份给客户端
