@@ -222,6 +222,108 @@ function curring(fn,...args){
 
 
 
+# 2020-02-25
+
+## 数组拷贝
+
+- 浅拷贝（数组、对象值的拷贝是引用而不是值复制）
+
+  - [...arr]
+
+  - for循环
+
+    ```javascript
+    var a = [1,2,3]
+    copy = []
+    for(let i=0;i<a.length;i++){
+      copy[i] = a[i]
+    }
+    ```
+
+  - while循环
+
+  - Array.map
+
+    ```javascript
+    var a = [1,2,3]
+    copy = a.map(x => x)
+    ```
+
+  - Array.filter
+
+    ```javascript
+    var a = [1,2,3]
+    copy = a.filter(x => true)
+    ```
+
+  - Array.reduce
+
+    ```javascript
+    var a = [1,2,3]
+    copy = a.reduce((newArray, element) => {
+      newArray.push(element)
+      return newArray
+    },[]) // 初始值提供一个空数组，遍历原数组来填充这个空数组。该数组必须从下一个迭代函数的执行后返回出来
+    ```
+
+  - Array.slice
+
+    ```javascript
+    var a = [1,2,3]
+    copy = a.slice()
+    ```
+
+  - Array.concat 
+
+    ```javascript
+    var a = [1,2,3]
+    copy = a.concat([]) // 不指定参数或者给个空数组
+    ```
+
+  - Array.from
+
+    ```javascript
+    var a = [1,2,3]
+    copy = Array.from(a) // 不指定参数或者给个空数组
+    ```
+
+- 深拷贝
+
+  - JSON.parse(JSON.stringfy(arr))
+
+    > 几种特殊情况：
+    >
+    > 1. 如果obj里边有时间对象，JSON.stringfy再JSON.parse后的结果，时间将只是字符串形式，不是时间对象；
+    >
+    > 2. 如果obj里边有RegExp、Eror对象，序列化结果将只得到空对象；
+    >
+    > 3. 如果obj里边有函数、undefined，序列化的结果会把函数或者undefined丢失；
+    >
+    > 4. 如果obj里边有NaN、Infinity和 -Infinity，序列化之后会变成null
+    >
+    > 5. JSON.parse(JSON.stringfy(arr))只能序列化对象可枚举的自身属性。如果obj的对象是构造函数生成的，则序列化之后会丢弃对象的constructor
+    >
+    >    ```javascript
+    >    class Person{
+    >        constructor(name){
+    >            this.name = name
+    >        }
+    >    }
+    >    var lilei = new Person('lilei')
+    >    var girl = {
+    >        name: 'hanmeimei',
+    >        date: lilei}
+    >    var copy = JSON.parse(JSON.stringify(girl))
+    >    girl.name = '999'
+    >    console.error(11111, girl, copy) // VM769:12 11111 {name: "999", date: Person} {name: "hanmeimei", date: {…}}
+    >    ```
+    >
+    >    
+
+    
+
+
+
 # 2020-02-24
 
 ## [为什么JavaScript是单线程？](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
@@ -1088,6 +1190,7 @@ function formatNumberRgx(num) {
     return parts.join(".")
 }
 
+'10000000000'.replace(/\d{1,3}(?=(\d{3})+$)/g,s => s+'.')
 
 // 使用xxx.toLocaleString().replace(/,/g,'.') -> 貌似有问题，时区不确定
 ```
