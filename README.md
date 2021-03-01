@@ -220,7 +220,53 @@ function curring(fn,...args){
 
 ### 手写call
 
+
+
+# 2021-03-01
+
+## requestAnimationFrame
+
+与setTimeout相比，`requestAnimationFrame`最大的优势是**由系统来决定回调函数的执行时机。**（[来源](https://juejin.cn/post/6844903649366245384)）
+
+```
+// polyfill
+if (!Date.now)
+    Date.now = function() { return new Date().getTime(); };
+ 
+(function() {
+    'use strict';
+     
+    var vendors = ['webkit', 'moz'];
+    for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
+        var vp = vendors[i];
+        window.requestAnimationFrame = window[vp+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = (window[vp+'CancelAnimationFrame']
+                                   || window[vp+'CancelRequestAnimationFrame']);
+    }
+    if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
+        || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
+        var lastTime = 0;
+        window.requestAnimationFrame = function(callback) {
+            var now = Date.now();
+            var nextTime = Math.max(lastTime + 16, now);
+            return setTimeout(function() { callback(lastTime = nextTime); },
+                              nextTime - now);
+        };
+        window.cancelAnimationFrame = clearTimeout;
+    }
+}());
+
+```
+
+
+
 # 2021-02-28
+
+## [JavaScript--排序算法的可视化动画](https://www.jianshu.com/p/342f9b286b83)
+
+
+
+
 
 ## 木头切割问题
 
@@ -237,26 +283,44 @@ function curring(fn,...args){
 function findMax(n,k,arr){
   // 升序啊！！
     arr = arr.sort((a,b) => b-a)
-    let idx = 0
     let count = 0
-    let curDivide = arr[idx]
-    while(idx < n){
-        arr.map(item => {
-           // 注意，向下取整！！
-            count += Math.floor(item/curDivide)
-         })
-        if(count >=k) return curDivide
-        else {
-            count = 0
-            idx++
-            curDivide = arr[idx]
-        }
+    let curDivide = arr[0] // 如果结果存在，一定是在[1,max]之间
+    while(curDivide > 0){
+      for(let i=0;i<n;i++){
+        count += Math.floor(item/curDivide)
+        if(count === 0) break
+      }
+      if(count >=k) return curDivide
+      else {
+        count = 0
+        curDivide--
+      }
     }
     return -1 // 找不到
 }
+
+// 使用二分查找改进
+function findMax(n,k,arr){
+  // 升序啊！！
+    arr = arr.sort((a,b) => b-a)
+    let left = 1
+    let right = arr[0] // 如果结果存在，一定是在[1,max]之间
+    while(left < right){
+      const mid = (left+right+1) >> 1
+      if(helper(mid,n,arr) >=k) left = mid
+      else right = mid - 1 
+    }
+    return left
+}
+function helper(mid,n,arr){
+  let count = 0
+  for(let i=0;i<n;i++){
+    count += Math.floor(arr[i]/mid)
+    if(count === 0) break
+  }
+  return count
+}
 ```
-
-
 
 
 
