@@ -228,6 +228,18 @@ function curring(fn,...args){
 
 与setTimeout相比，`requestAnimationFrame`最大的优势是**由系统来决定回调函数的执行时机。**（[来源](https://juejin.cn/post/6844903649366245384)）
 
+> 首先要明白，**`setTimeout`的执行只是在内存中对图像属性进行改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上**。如果两者的步调不一致，就可能会导致中间某一帧的操作被跨越过去，而直接更新下一帧的图像。假设屏幕每隔16.7ms刷新一次，而`setTimeout`每隔10ms设置图像向左移动1px， 就会出现如下绘制过程：
+>
+> - 第0ms: 屏幕未刷新，等待中，`setTimeout`也未执行，等待中；
+> - 第10ms: 屏幕未刷新，等待中，`setTimeout`开始执行并设置图像属性left=1px；
+> - 第16.7ms: 屏幕开始刷新，屏幕上的图像向左移动了**1px**， `setTimeout `未执行，继续等待中；
+> - 第20ms: 屏幕未刷新，等待中，`setTimeout`开始执行并设置left=2px;
+> - 第30ms: 屏幕未刷新，等待中，`setTimeout`开始执行并设置left=3px;
+> - 第33.4ms: 屏幕开始刷新，屏幕上的图像向左移动了**3px**， `setTimeout`未执行，继续等待中；
+> - …
+>
+> 从上面的绘制过程中可以看出，屏幕没有更新left=2px的那一帧画面，图像直接从1px的位置跳到了3px的的位置，这就是丢帧现象，这种现象就会引起动画卡顿。
+
 ```
 // polyfill
 if (!Date.now)
@@ -2646,7 +2658,7 @@ console.log(arr)
 const arr = [1,2,3,4,5,6,7]
 function shuffle(arr){
   const len = arr.length
-  for(let i=0;i<;i++){
+  for(let i=0;i<len;i++){
   	const j = Math.floor(Math.random() * len)
     const temp = arr[i]
     arr[i] = arr[j]
