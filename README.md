@@ -222,6 +222,45 @@ function curring(fn,...args){
 
 
 
+# 2021-03-03
+
+## history模式和hash模式
+
+history是H5提供的新模式
+
+## SSR
+
+其实就是在服务端安装React、Vue等框架，借助框架的渲染能力输出相关html。不推荐，因为服务器渲染资源宝贵，不过确实能提高首屏加载速度和SEO
+
+```javascript
+// app.js
+const Vue = require('vue')
+
+module.exports = function createApp (context) {
+  return new Vue({
+    data: {
+      url: context.url
+    },
+    template: `<div>访问的 URL 是： {{ url }}</div>`
+  })
+}
+
+// server.js
+const createApp = require('./app')
+
+server.get('*', (req, res) => {
+  const context = { url: req.url }
+  const app = createApp(context)
+
+  renderer.renderToString(app, (err, html) => {
+    // 处理错误……
+    res.end(html)
+  })
+})
+```
+
+
+
 # 2021-03-01
 
 ## requestAnimationFrame
@@ -1314,6 +1353,26 @@ gzip_disable "MSIE [1-6]\."
 其实就是`layout`和`Paint`都是可以避免的
 
 ![1158202-35dabdd33093e413](img/1158202-35dabdd33093e413.webp)
+
+*   **解析 HTML**
+
+在这一步浏览器执行了所有的加载解析逻辑，在解析 HTML 的过程中发出了页面渲染所需的各种外部资源请求。
+
+*   **计算样式**
+
+浏览器将识别并加载所有的 CSS 样式信息与 DOM 树合并，最终生成页面 render 树（:after :before 这样的伪元素会在这个环节被构建到 DOM 树中）。
+
+*   **计算图层布局**
+
+页面中所有元素的相对位置信息，大小等信息均在这一步得到计算。
+
+*   **绘制图层**
+
+在这一步中浏览器会根据我们的 DOM 代码结果，把每一个页面图层转换为像素，并对所有的媒体文件进行解码。
+
+*   **整合图层，得到页面**
+
+最后一步浏览器会合并合各个图层，将数据由 CPU 输出给 GPU 最终绘制在屏幕上。（复杂的视图层会给这个阶段的 GPU 计算带来一些压力，在实际应用中为了优化动画性能，我们有时会手动区分不同的图层）。
 
 
 
