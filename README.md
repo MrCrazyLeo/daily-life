@@ -1648,6 +1648,21 @@ testAsync()
 
 `[].slice.call(arguments)`能将具有`length`属性的对象（类数组）转成数组，作用与`Array.prototype.slice.call(arguments)`一样
 
+## JS将类数组转换成数组
+
+```javascript
+// slice，经典方法
+var arr = Array.prototype.slice.call(arguments);
+// 等同于
+var arr = [].slice.call(arguments)
+// 法2 Array.from
+Array.from(arguments)
+// 法3：扩展运算符
+var args = [...arguments];
+// 法4：JQuery $.makeArray()
+var arr = $.makeArray(arguments);
+```
+
 
 
 ## 千分位
