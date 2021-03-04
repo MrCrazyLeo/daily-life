@@ -222,6 +222,99 @@ function curring(fn,...args){
 
 
 
+# 2021-03-04
+
+## Js判断数组的方法
+
+- 使用instanceof 是不好的
+
+  ```javascript
+  const a = [];
+  const b = {};
+  console.log(a instanceof Array);//true
+  console.log(a instanceof Object);//true,在数组的原型链上也能找到Object构造函数
+  console.log(b instanceof Array);//false
+  ```
+
+- 使用constructor也是不好的，因为constructor可以被重新指向
+
+  ```javascript
+  //定义一个数组
+  const a = [];
+  //作死将constructor属性改成了别的
+  a.contrtuctor = Object;
+  console.log(a.constructor == Array);//false (哭脸)
+  console.log(a.constructor == Object);//true (哭脸)
+  console.log(a instanceof Array);//true (instanceof火眼金睛)
+  ```
+
+- 使用Object.prototype.toString.call：可以，但是有风险
+
+  ```javascript
+  const isArray = (something)=>{
+      return Object.prototype.toString.call(something) === '[object Array]';
+  }
+  
+  cosnt a = [];
+  const b = {};
+  isArray(a);//true
+  isArray(b);//false
+  ```
+
+- 使用Array.isArray：最安全，但是有兼容性问题。给个polyfill：
+
+  ```javascript
+  if(!Array.isArray){
+      Array.isArray = function(arg){
+          return Object.prototype.toString.call(arg)==='[object Array]'
+      }
+  }
+  ```
+
+  
+
+
+
+## interface和type的区别
+
+- 相同点：都可以声明类型、都支持拓展
+
+- 区别：
+
+  - type可以而interface不行
+
+    - type可以声明基本类型的别名、联合类型、元组等类型
+    - type 语句中还可以使用 typeof 获取实例的 类型进行赋值
+
+  - interface可以而type不行
+
+    - interface 能够声明合并
+
+      ```javascript
+      interface User {
+        name: string
+        age: number
+      }
+      
+      interface User {
+        sex: string
+      }
+      
+      /*
+      User 接口为 {
+        name: string
+        age: number
+        sex: string 
+      }
+      */
+      ```
+
+- 其他
+
+  参考[这里](https://juejin.cn/post/6844904114925600776)
+
+
+
 # 2021-03-03
 
 ## history模式和hash模式
