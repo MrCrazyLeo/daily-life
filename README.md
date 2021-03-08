@@ -220,6 +220,35 @@ function curring(fn,...args){
 
 ### 手写call
 
+```javascript
+// xxxx.call(fn,'a','b','c')
+Function.prototype.call = (fn,context=window) => {
+  let args = [].slice.call(1)
+  let obj = fn(...args)
+  
+}
+```
+
+
+
+# 2021-03-05
+
+算2个骰子各扔1次，总和为9的概率
+
+```javascript
+function getProbability(n,sum){
+  const total = Math.pow(6,n)
+  let count = 0 
+  for(let i=1;i<7;i++){
+    if(sum - i !== i && sum - i <=6) count++
+  }
+  console.log(`符合的次数${count}，总次数${total}`)
+  return count/total
+}
+```
+
+
+
 
 
 # 2021-03-04
@@ -1734,6 +1763,34 @@ true + true // 2
 
 
 
+## POST 和 GET
+
+最直观的，GET把请求放在URL中，POST放在request请求的body里边。
+
+标准答案：
+
+- GET在浏览器回退时是无害的，而POST会再次提交请求。
+- GET产生的URL地址可以被Bookmark，而POST不可以。
+- GET请求会被浏览器主动cache，而POST不会，除非手动设置。
+- GET请求只能进行url编码，而POST支持多种编码方式。
+- GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。
+- GET请求在URL中传送的参数是有长度限制的，而POST么有。
+- 对参数的数据类型，GET只接受ASCII字符，而POST没有限制。
+- GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。
+- GET参数通过URL传递，POST放在Request body中。
+
+以下摘自[这里](https://www.oschina.net/news/77354/http-get-post-different)
+
+> “很遗憾，这不是我们要的回答！”
+>
+> 对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+>
+> 而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+>
+> 也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。
+>
+> 并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。
+
 ## TCP
 
 ![tcp_open_close](img/tcp_open_close.jpg)
@@ -1896,13 +1953,6 @@ HTTP家族对比：
    }
    ```
 
-   
-
-新建一个对象f
-
-f的隐式原型指向构造函数的prototype
-
-将this[指向这个新创建]()
 
 
 
@@ -2131,7 +2181,7 @@ Border-image
 
 # 2021-01-10
 
-## 常见前端鉴权方案
+## 前端鉴权方案
 
 (参考)[https://cloud.tencent.com/developer/article/1745622]
 
@@ -2576,7 +2626,7 @@ BigInt(10).toString // '10' 会转成数值再转成字符串，所以依旧有�
 > 
 > var Person = function() {};
 > var student = new Person();
-> console.log(student instanceof Person);  // true
+> console.log(student _instanceof Person);  // true
 > _instanceof(student,Person) // true
 > ```
 
@@ -3160,7 +3210,7 @@ XSS是恶意攻击者往网页嵌入恶意脚本代码，当用户浏览网页�
 
 - Access-Control-Allow-Credentials
 
-  **Access-Control-Allow-Credentials: true** 是否允许发送cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可。如果access-control-allow-origin为*，当前字段就不能为true
+  **Access-Control-Allow-Credentials: true** 是否允许发送cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可。如果Access-Control-Allow-Origin为*，当前字段就不能为true
 
 - Content-Range
 
