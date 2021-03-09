@@ -8,11 +8,8 @@
 ## 布局
 ### flex
 
-经典的题目就是用flex布局画一颗🎲啦。
+经典的题目就是用flex布局画一颗🎲啦。![dice_flex](img/dice_flex.png)
 
-```css
-
-```
 
 
 
@@ -30,7 +27,7 @@
 
 ## 树
 
-### 层次遍历
+层次遍历
 
 ```javascript
 var tree = {
