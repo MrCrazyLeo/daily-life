@@ -162,7 +162,11 @@ function myDeepCopy3(obj, map = new WeakMap()){
 ### 手写发布-订阅模式
 
 ```javascript
-
+class EventEmitter{
+  constructor(){
+    this.events = {}
+  }
+}
 ```
 
 
@@ -1419,6 +1423,8 @@ git cherry-pick A..B # 转移一系列的连续提交
 - **WeakMap**:
 
   WeakMap的键名是弱引用，键值可以说任何正常的值。在没有其他引用和该键引用同一对象，这个对象会被垃圾回收（相应的key变成无效）。所以WeakMap是不可枚举的。方法有set、get、has、delete。**不能遍历！**
+
+> WeakMap 与 Map 在 API 上的区别主要是两个，一是没有遍历操作（即没有`keys()`、`values()`和`entries()`方法），也没有`size`属性。因为没有办法列出所有键名，某个键名是否存在完全不可预测，跟垃圾回收机制是否运行相关。这一刻可以取到键名，下一刻垃圾回收机制突然运行了，这个键名就没了，为了防止出现不确定性，就统一规定不能取到键名。二是无法清空，即不支持`clear`方法。因此，`WeakMap`只有四个方法可用：`get()`、`set()`、`has()`、`delete()`。[摘自阮一峰的ES6入门教程](https://es6.ruanyifeng.com/?search=map&x=0&y=0#docs/set-map)
 
 
 
