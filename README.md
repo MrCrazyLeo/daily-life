@@ -234,6 +234,8 @@ Function.prototype.call = (fn,context=window) => {
 }
 ```
 
+## 手写map
+
 
 
 # 2021-03-05
