@@ -1696,7 +1696,7 @@ var arr = [].slice.call(arguments)
 // 法2 Array.from
 Array.from(arguments)
 // 法3：扩展运算符
-var args = [...arguments];
+var arr = [...arguments];
 // 法4：JQuery $.makeArray()
 var arr = $.makeArray(arguments);
 ```
