@@ -259,6 +259,21 @@ Function.prototype.call = (fn,context=window) => {
 
 
 
+去除字符串头尾空白字符
+
+```javascript
+// 法1 正则
+'   sss   '.replace(/\s+/g,'')
+
+// 法2 trimStart\trimEnd
+function trim(str){
+  str = str.trimStart()
+  return str.trimEnd() 
+}
+```
+
+
+
 # 2021-03-12
 
 ## 缓存
