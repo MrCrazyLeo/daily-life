@@ -238,6 +238,70 @@ Function.prototype.call = (fn,context=window) => {
 
 
 
+# 2021-03-12
+
+## 缓存
+
+资源永久缓存
+
+资源请求最快的就是不向服务器发起请求。
+
+```http
+Cache-Control： max-age=31536000
+```
+
+1. 静态资源带hash
+2. 对资源设置一年的过期时间（31536000），一般认为永不过期
+
+
+
+以下代码输出什么？
+
+```javascript
+var a = {}
+var b = {}
+a[b] = 3
+// 将 b 转化为字符串，即 ({}).toString()，由于 b 是对象，应该返回 [object type]，而这里 type 是 Object，所以最终返回 { '[object Object]': 3 }
+console.log(a) // {[object Object]: 3}
+
+var a = {}
+var b = 2
+a[b] = 3
+console.log(a) // { 2: 3 }
+
+var a = {}
+var b = [1,2] 
+a[b] = 3
+console.log(a) // { '1,2': 3 }
+
+var a = {}
+var b = []
+a[b] = 3
+console.log(a) // { '': 3 }
+
+var a = {}
+var b = []
+a.b= 3 // b会被转成字符串
+console.log(a) // { b : 3 }
+```
+
+this指向问题
+
+```javascript
+var a = 10
+var obj = {
+  a: 20,
+  say: () => {
+    console.log(this.a)
+  }
+}
+obj.say() // 10
+var anotherObj = { a:30 }
+obj.say.apply(anotherObj) // 10，不是30哦
+```
+
+
+
 # 2021-03-05
 
 算2个骰子各扔1次，总和为9的概率
@@ -2326,6 +2390,35 @@ var reverseList = function(head) {
 ```
 
 ![1c8927d9ff605502793d81ab344dbc17e16d6db2d8dd789045f56af432079519](img/1c8927d9ff605502793d81ab344dbc17e16d6db2d8dd789045f56af432079519.gif)
+
+## 反转字符串
+
+```javascript
+// 法1：使用自带函数
+var reverseString = function(s) {
+  return s.split('').reverse().join('')
+};
+
+// 法2：双指针
+var reverseString = function(s) {
+  const n = s.length;
+  for (let left = 0, right = n - 1; left < right; ++left, --right) {
+    [s[left], s[right]] = [s[right], s[left]];
+  }
+};
+
+// 法3：瞎写的
+var reverseString = function(s) {
+  let len = s.length,res = ''
+  while(len){
+    // 记得要重新给res赋值
+    res = res + s[len-1]
+    len--
+  }
+  return res
+};
+
+```
 
 
 
