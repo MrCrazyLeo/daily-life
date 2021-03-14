@@ -388,7 +388,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
-去除字符串头尾空白字符
+## 去除字符串头尾空白字符
 
 ```javascript
 // 法1 正则
@@ -399,9 +399,15 @@ function trim(str){
   str = str.trimStart()
   return str.trimEnd() 
 }
+
+// 法3 我tm直接调用函数
+function myTrim(str){
+  if(typeof str !== 'string') return 
+  return str.trim()
+}
 ```
 
-蛮有意思的虾皮的面试题
+## 蛮有意思的虾皮的面试题
 
 ```javascript
 // 字符串按空格反转（I LOVE SHOPEE => I EVOL EEPOHS）
