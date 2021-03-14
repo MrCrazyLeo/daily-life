@@ -387,7 +387,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
-### 转驼峰
+## 转驼峰
 
 ```javascript
 function camelize(str){
@@ -419,6 +419,24 @@ function camelize(str) {
 camelize('   Leo Ha ha') // "LeoHaHa"
 camelize('L   Leo Ha ha') // "lLeoHaHa"
 ```
+
+## 尾调用
+
+在ES6规范中，有一个尾调用优化，可以实现高效的尾递归方案。ES6的尾调用优化只在严格模式下开启，正常模式是无效的。
+
+```javascript
+'use strict'
+// 尾调用的斐波那契数列
+function fib(n, current = 0, next = 1) {
+    if(n == 0) return 0;
+    if(n == 1) return next; // return next
+    console.log(`fibonacci(${n}, ${next}, ${current + next})`);
+    return fib(n - 1, next, current + next);
+}
+```
+
+
+
 
 
 
