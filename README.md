@@ -380,6 +380,15 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+## iframe
+
+- **HTML内联框架元素**，它能够将另一个HTML页面嵌入到当前页面中。
+- iframe里边触发的事件不能传播到iframe外来，解决方案：对iframe元素监听（如果iframe元素里边没做冒泡拦截之类的）、内外通讯（根据具体业务来吧）
+
+
+
+
+
 # 2021-03-13
 
 ## base64
@@ -1199,9 +1208,18 @@ CDN：内容分发网络。它是一个分布式节点网络（也称为边缘�
   xdr.send(null);
   ```
 
+
+## 天生支持跨域的标签
+
+- \<img\>
+
+- \<script\>
+
+- \<link\>
+
+- \<iframe\>
+
   
-
-
 
 ## 类组件和函数式组件的区别
 
@@ -2516,6 +2534,47 @@ Border-image
 [参考](https://blog.csdn.net/ysj1218/article/details/80523474)
 
 ![WX20210113-140238@2x](img/WX20210113-140238@2x.png)
+
+## canvas被污染
+
+污染画布：不通过 CORS 就可以在画布中使用图片
+
+一旦画布被污染，你就无法读取其数据。例如，你不能再使用画布的 `toBlob()`, `toDataURL()` 或 `getImageData()` 方法，调用它们会抛出安全错误。
+
+这种机制可以避免未经许可拉取远程网站信息而导致的用户隐私泄露。
+
+```javascript
+getImgBase64 (path, callback) {
+    let img = new Image()
+    // 实现在画布中使用跨域元素的图像。设置 Access-Control-Allow-Origin 为 “*”,同时服务器要支持跨到指定的域
+    img.crossOrigin = 'anonymous'
+    img.onload = function () {
+        let canvas = document.createElement('canvas')
+        let ctx = canvas.getContext('2d')
+        // 获取图片宽高
+        let imgWidth = img.width
+        let imgHeight = img.height
+        // 设置画布宽高与图片宽高相同
+        canvas.width = imgWidth
+        canvas.height = imgHeight
+        // 绘制图片
+        ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+
+        // 图片展示的 data URI
+        let dataUrl = canvas.toDataURL('image/jpeg')
+        callback(dataUrl)
+    }
+
+    img.onerror = function () {
+    }
+    img.src = path
+}
+
+getImgBase64(imgUrl, function (base64) {
+    console.log(base64)
+})
+
+```
 
 
 
