@@ -238,7 +238,7 @@ Function.prototype.call = (fn,context=window) => {
 
 [引自](http://www.fly63.com/article/detial/6582)
 
-Map利用链表，hash的思想来实现。用obj来存储
+Map利用链表，hash的思想来实现。用obj来存储map的属性名和属性值，这样就可以实现map的key可以是任意数据类型啦~~~
 
 ```javascript
 function Mymap() {  //构造函数
