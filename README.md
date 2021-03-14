@@ -387,6 +387,39 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+### 转驼峰
+
+```javascript
+function camelize(str){
+  return str.replace(/\W+(.)/g, (match,chr) => {
+    return chr.toUpperCase()
+  })
+}
+console.log(camelize('Bar char')) // 'BarChar'
+
+// 高级点
+function camelize(str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+    return index === 0 ? word.toLowerCase() : word.toUpperCase();
+  }).replace(/\s+/g, '');
+}
+
+camelize("EquipmentClass name");
+camelize("Equipment className");
+camelize("equipment class name");
+camelize("Equipment Class Name"); // 均为"equipmentClassName"
+
+// 也可以
+function camelize(str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+    return index === 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+}
+camelize('   Leo Ha ha') // "LeoHaHa"
+camelize('L   Leo Ha ha') // "lLeoHaHa"
+```
+
 
 
 # 2021-03-13
