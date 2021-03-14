@@ -234,11 +234,138 @@ Function.prototype.call = (fn,context=window) => {
 }
 ```
 
-## 手写map
+### 手写Map
+
+[引自](http://www.fly63.com/article/detial/6582)
+
+Map利用链表，hash的思想来实现。用obj来存储
+
+```javascript
+function Mymap() {  //构造函数
+    this.init();
+}
+
+//初始化函数，创建桶（数组），每个位置都是一个对象，每个对象的属性上设置next属性，并且初始化为null。
+Mymap.prototype.init = function () {  
+    this.tong = new Array(8);
+    for (var i = 0; i < 8; i++) {
+        this.tong[i] = new Object();
+        this.tong[i].next = null;
+    }
+};
+//添加数据。
+Mymap.prototype.set = function (key, value) {
+    var index = this.hash(key);        //获取到当前设置的key设置到那个位置上
+    var TempBucket = this.tong[index]; //获取当前位置的对象
+    while (TempBucket.next) {          //遍历如果当前对象链接的下一个不为空
+        if (TempBucket.next.key == key) {  //如果要设置的属性已经存在，覆盖其值。
+            TempBucket.next.value = value;
+            return;                          //return ,不在继续遍历
+        } else {
+            TempBucket = TempBucket.next;  //把指针指向下一个对象。
+        }
+
+    }
+    TempBucket.next = {  //对象的next是null ,添加对象。
+        key: key,
+        value: value,
+        next: null
+    }
+};
+
+//查询数据
+Mymap.prototype.get = function (key) {
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.key == key){
+            return TempBucket.value;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
+    return undefined;
+}
+
+//删除数据
+Mymap.prototype.delete = function(key){
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.next.key == key){
+            TempBucket.next = TempBucket.next.next;
+            return true;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
+}
+//看当前属性是否存在
+Mymap.prototype.has = function(key){
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.key == key){
+            return true;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
+    return false;
+}
+//清空这个map
+Mymap.prototype.clear = function(){
+    this.init();
+}
+//使设置的属性平均分配到每个位置上，使得不会某个链条过长。
+Mymap.prototype.hash = function (key) {
+    var index = 0;
+    if (typeof key == "string") {
+        for (var i = 0; i < 3; i++) {
+            index = index + isNaN(key.charCodeAt(i)) ? 0 : key.charCodeAt(i);
+        }
+    }
+    else if (typeof key == 'object') {
+        index = 0;
+    }
+    else if (typeof key == 'number') {
+        index = isNaN(key) ? 7 : key;
+    } else {
+        index = 1;
+    }
+
+    return index % 8;
+}
+
+var map = new Mymap();    //使用构造函数的方式实例化map
+var a = {}
+var b = {name:'leo'}
+var o = {}
+o[a] = 'a'
+console.log(o[b]) // 'a'，因为obj的key值都是字符串
+map.set(a,'map的a')
+console.log(map.get(a)) // 'map的a'
+console.log(map.get(b)) // undefined，map可以存储任意类型
+
+```
+
+
+
+## JS实现堆
+
+包括插入和删除元素函数的实现
+
+
+
+## JS实现链表
+
+新增、插入、删除
 
 
 
 # 2021-03-13
+
+
 
 ## base64
 
@@ -269,6 +396,39 @@ Function.prototype.call = (fn,context=window) => {
 function trim(str){
   str = str.trimStart()
   return str.trimEnd() 
+}
+```
+
+蛮有意思的虾皮的面试题
+
+```javascript
+// 字符串按空格反转（I LOVE SHOPEE => I EVOL EEPOHS）
+function reverseString(str) {
+  return str.split('').reverse().join('')}
+function test(str) {
+  let arr = str.split(' ')
+  let len = arr.length
+  let res = ''
+  for(let i=0;i<len;i++){
+    res = res + reverseString(arr[i]) + ' '
+  }
+  return res.trimEnd()
+}
+console.log(test('I LOVE SHOPEE')) // I EVOL EEPOHS
+
+// 链表按空格反转（I->' '->L->O->V->E->' '->S->H->O->P->E->E => I->' '->E->V->O->L->' '->E->E->P->O->H->S）
+// 其实上一步的方法是本步骤的基础，可以先将I LOVE SHOPEE => I EVOL EEPOHS，然后利用结果字符串生成链表
+// 面试官好坏哦，谜底又在谜面上~
+// 这是我想的，不知道正确答案；不知道原地反转能不能行x'c
+class LinkedList{
+  constructor(){
+    this.length = 0
+    this.head = null
+  }
+  var Node = function(element){
+    this.element = element
+    this.next = null
+  }
 }
 ```
 
@@ -1416,6 +1576,14 @@ console.log(mergeSort(a)) // [1,1,2,4,5,8,11]
 
 
 
+## 跨端的方案
+
+内嵌webview、客户端内嵌js引擎、将js编译成客户端语言运行
+
+hybrid（webview壳子）、js+原生渲染（react native）、flutter自己花UI（Framework+Engine）
+
+
+
 ## Vue组件是如何渲染和更新组件的
 ### 初次渲染过程
 1. 解析模板为render函数（或在开发环境已完成，vue-loader）
@@ -1450,7 +1618,45 @@ async function step(){
   await light(red,1000)
   await light(green,1000)
   await light(yellow,1000)
+  // 递归，不断重复亮灯
+  await step()
 }
+step()
+```
+
+```javascript
+// Promise解法
+function red() {
+    console.log('red');
+}
+function green() {
+    console.log('green');
+}
+function yellow() {
+    console.log('yellow');
+}
+ 
+var light = function (timmer, cb) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            cb();
+            resolve();
+        }, timmer);
+    });
+};
+ 
+var step = function () {
+    Promise.resolve().then(function () {
+        return light(3000, red);
+    }).then(function () {
+        return light(2000, green);
+    }).then(function () {
+        return light(1000, yellow);
+    }).then(function () {
+        step();
+    });
+}
+ 
 step()
 ```
 
