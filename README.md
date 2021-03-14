@@ -351,13 +351,13 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
-## JS实现堆
+### JS实现堆
 
 包括插入和删除元素函数的实现
 
 
 
-## JS实现链表
+### JS实现链表
 
 新增、插入、删除
 
