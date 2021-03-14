@@ -2542,10 +2542,10 @@ Border-image
 >
 > - 存储位置不同：session在服务端、cookie在客户端
 > - 大小不同
-> - 过期时间不同：cookie可以保存很长一段时间，session只存在一次会话中，浏览器关闭之后session就失效了
+> - 过期时间不同：cookie可以保存很长一段时间，session只存在一次会话中，浏览器连接关闭之后session就失效了
 > - 安全性不同：cookie存储在客户端容易被篡改、盗用；session在服务端比较安全；
 > - 存储大小不同：cookie能存储4kB数据（不同浏览器限制不一样），session比cookie高很多
-> - 存取方式不同：cookie只保存ASCII字符串，加入需求存取 Unicode 字符或者二进制数据，需求先进行编码。Session 中能够存取**任何类型**的数据；
+> - 存取方式不同：cookie只保存ASCII字符串，如需存取 Unicode 字符或者二进制数据，需求先进行编码。Session 中能够存取**任何类型**的数据；
 > - 服务端压力不同：session是存储在服务端的，高并发时服务器资源极速上升；cookie则不存在此问题。
 
 
