@@ -6,7 +6,7 @@
 <meta viewport="width=device-width, initial-scale=1.0">
 ```
 
-viewport的字段有
+viewport的字段有width、height、initial-scale、maxinum-scale、minimum-scale、user-scalable，总共6个字段
 
 
 
