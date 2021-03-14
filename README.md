@@ -469,6 +469,129 @@ function factorial(n, total = 1) {
 
 
 
+## 跨域时GET、POST的区别
+
+GET产生一次TCP数据包、POST产生两次（一次预检请求、一次真正发起）
+
+对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+
+
+
+## async/await
+
+#### 两个（多个）await并行
+
+使用Promise.all
+
+```javascript
+async function doit() {
+  var list = [];
+
+
+  list.push(sayHello('a1'))
+  list.push(sayHello('a2'));
+  // 并行处理
+  var result = await Promise.all(list);
+  console.log(result);
+  console.log('over')
+}
+
+async function sayHello(name) {
+  await new Promise(function (resolve) {
+    setTimeout(function () {
+      console.log(name + new Date());
+      resolve(name);
+    }, 1000)
+  })
+}
+
+doit();
+// a1Sun Mar 14 2021 19:54:16 GMT+0800 (中国标准时间)
+// a2Sun Mar 14 2021 19:54:16 GMT+0800 (中国标准时间)
+// over
+```
+
+#### await循环
+
+foreach中使用await (结论：不可用)
+
+```javascript
+(async ()=>{
+  // 抽象一个函数 等待相应的时候后返回成功状态，如果小于0为失败状态
+  let waitFun = function (time) {
+    return new Promise((resolve, reject)=>{
+      if(time>0){
+        setTimeout(()=>{
+          resolve(time)
+        },time)
+      }else {
+        reject('执行失败')
+      }
+    })
+  }
+  //-----------------------------------------------------------------------------------------------------------------------------
+  let list = [{waitTime:3000},{waitTime:2000},{waitTime:1000}];
+  console.time('total time')
+  list.forEach( async (item)=>{
+    console.log('输出结果:',await waitFun(item.waitTime))
+  });
+  console.timeEnd('total time')
+
+  /**
+    * total time: 0.610107421875ms
+    * 输出结果: 1000
+    * 输出结果: 2000
+    * 输出结果: 3000
+    */
+  let promiseList = [waitFun(3000),waitFun(2000),waitFun(1000),];    
+  console.time('total time')
+  promiseList.forEach( async (item)=>{
+    console.log('输出结果:',await item)
+  });
+  console.timeEnd('total time')
+  // 输出结果同上，完全没停住
+})()
+```
+
+
+
+for循环
+
+```javascript
+(async ()=>{
+  // 抽象一个函数 等待相应的时候后返回成功状态，如果小于0为失败状态
+  let waitFun = function (time) {
+    return new Promise((resolve, reject)=>{
+      if(time>0){
+        setTimeout(()=>{
+          resolve(time)
+        },time)
+      }else {
+        reject('执行失败')
+      }
+    })
+  }
+  //-----------------------------------------------------------------------------------------------------------------------------
+let list = [{waitTime:3000},{waitTime:2000},{waitTime:1000}];
+let promiseList = [waitFun(3000),waitFun(2000),waitFun(1000),];
+console.time('total time')
+    for(let i = 0;i<list.length;i++){
+        console.log('输出结果:',await waitFun(list[i].waitTime))
+    }
+console.timeEnd('total time')
+// 停了！
+  
+// 使用 promise 循环如下
+for(let i = 0;i<promiseList.length;i++){
+    console.log('输出结果:',await promiseList[i]);
+}
+// 没停
+})()
+```
+
+
+
 
 # 2021-03-13
 
@@ -766,6 +889,14 @@ server.get('*', (req, res) => {
 ## requestAnimationFrame
 
 与setTimeout相比，`requestAnimationFrame`最大的优势是**由系统来决定回调函数的执行时机。**（[来源](https://juejin.cn/post/6844903649366245384)）
+
+requestAnimationFrame原理如下：
+
+- 注册回调函数
+- 浏览器更新时触发 animate
+- animate 会触发所有注册过的 callback
+
+requestAnimation的工作机制可以理解为所有权的转移，它把触发帧更新的时间所有权转交给浏览器内核，与浏览器的更新保持同步。这样既可以避免浏览器更新与动画帧更新不同步，又可以基于浏览器足够大的优化空间。
 
 > 首先要明白，**`setTimeout`的执行只是在内存中对图像属性进行改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上**。如果两者的步调不一致，就可能会导致中间某一帧的操作被跨越过去，而直接更新下一帧的图像。假设屏幕每隔16.7ms刷新一次，而`setTimeout`每隔10ms设置图像向左移动1px， 就会出现如下绘制过程：
 >
