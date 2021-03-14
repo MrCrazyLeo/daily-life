@@ -449,7 +449,7 @@ console.log(test('I LOVE SHOPEE')) // I EVOL EEPOHS
 // 链表按空格反转（I->' '->L->O->V->E->' '->S->H->O->P->E->E => I->' '->E->V->O->L->' '->E->E->P->O->H->S）
 // 其实上一步的方法是本步骤的基础，可以先将I LOVE SHOPEE => I EVOL EEPOHS，然后利用结果字符串生成链表
 // 面试官好坏哦，谜底又在谜面上~
-// 这是我想的，不知道正确答案；不知道原地反转能不能行x'c
+// 这是我想的，不知道正确答案；不知道原地反转能不能行
 class LinkedList{
   constructor(){
     this.length = 0

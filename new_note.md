@@ -54,7 +54,7 @@ Cookie与本地存储的区别：
 
 
 
-## Vue跟React区别
+### Vue跟React区别
 直接引用[vue官网](https://cn.vuejs.org/v2/guide/comparison.html)的就好
 **先说共同点：**
 
@@ -88,6 +88,18 @@ Cookie与本地存储的区别：
 - 原生渲染：React Native VS Vue + Weex
 
   React Native 能使你用相同的组件模型编写有本地渲染能力的 APP (iOS 和 Android)。能同时跨多平台开发，对开发者是非常棒的。相应地，Vue 和 [Weex](https://weex.apache.org/) 会进行官方合作，Weex 是阿里巴巴发起的跨平台用户界面开发框架，同时也正在 Apache 基金会进行项目孵化，Weex 允许你使用 Vue 语法开发不仅仅可以运行在浏览器端，还能被用于开发 iOS 和 Android 上的原生应用的组件。
+
+### Vue实现响应式
+
+[官网](https://cn.vuejs.org/v2/guide/reactivity.html)，最好的解释
+
+- **追踪变化**
+
+当你把一个普通的JS对象传入Vue实例作为data选项，Vue将遍历此对象所有的property，并使用`Object.defineProperty`把这些property全部转为getter/setter。（`Object.defineProperty` 是 ES5 中一个无法 shim 的特性，这也就是 Vue 不支持 IE8 以及更低版本浏览器的原因。）这些 getter/setter 对用户来说是不可见的，但是在内部它们让 Vue 能够追踪依赖，在 property 被访问和修改时通知变更。每个组件实例都对应一个 **watcher** 实例，它会在组件渲染的过程中把“接触”过的数据 property 记录为依赖。之后当依赖项的 setter 触发时，会通知 watcher，从而使它关联的组件重新渲染。
+
+- **异步更新**
+
+Vue在更新DOM时是异步执行的。只要侦听到数据变化，Vue将开启一个队列，并缓冲在同一时间循环中发生的所有数据变更。如果同一个Watcher被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作是非常重要的。然后，在下一个事件循环"tick"中，Vue刷新队列并执行实际（已去重）工作。Vue在内部对异步队列尝试使用原生的`Promise.then`、`MutationObserver` 和 `setImmediate`，如果执行环境不支持，则会采用 `setTimeout(fn, 0)` 代替。
 
 
 
