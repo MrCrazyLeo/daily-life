@@ -234,9 +234,11 @@ Function.prototype.call = (fn,context=window) => {
 }
 ```
 
-### 手写Map
+### 手写Map（不是map）
 
 [引自](http://www.fly63.com/article/detial/6582)
+
+虾皮一面的蛮有趣的一道题，我当时没做出来！
 
 Map利用链表，hash的思想来实现。用obj来存储map的属性名和属性值，这样就可以实现map的key可以是任意数据类型啦~~~
 
