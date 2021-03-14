@@ -18,16 +18,16 @@ function myDebounce(fn,delay) {
 
 ```javascript
 function myThrottle(fn,delay){
-	let flag = false
-	return (...args) => {
-    if(flag) return
-    flag = true
-    setTimeout(() => {
-      fn.apply(this, args)
-      flag = false
-    },delay)
-	}
-}
+    let flag = false
+    return (...args) => {
+      if(flag) return
+      flag = true
+      setTimeout(() => {
+        fn.apply(this, args)
+        flag = false
+      },delay)
+    }
+  }
 ```
 
 ### 手写new
@@ -40,10 +40,11 @@ function myThrottle(fn,delay){
 > 4. 如果构造函数的返回值是对象，那么返回对象；如果不是，返回当前实例o
 
 ```javascript
-function myNew(fn){
+function myNew(fn,...rest){
   const o = Object.create()
-  o.__proto__ = Object.prototype
-  o.
+  o.__proto__ = fn.prototype
+  const result = fn.apply(o,rest)
+  return typeof result === 'object' ? result : o;
 }
 ```
 
@@ -365,9 +366,21 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+# 2021-03-14
+
+## 剩余参数与arguments对象的区别
+
+[摘自MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Rest_parameters)
+
+> 剩余参数和 `arguments`对象之间的区别主要有三个：
+>
+> - 剩余参数只包含那些没有对应形参的实参，而 `arguments` 对象包含了传给函数的所有实参。
+> - `arguments`对象不是一个真正的数组，而剩余参数是真正的 `Array`实例，也就是说你能够在它上面直接使用所有的数组方法，比如 `sort`，`map`，`forEach`或`pop`。
+> - `arguments`对象还有一些附加的属性 （如`callee`属性）。
+
+
+
 # 2021-03-13
-
-
 
 ## base64
 
