@@ -186,9 +186,41 @@ function ajax(url, method, body, success, fail){
 ```javascript
 class EventEmitter{
   constructor(){
+    // 事件对象，存储订阅的名字和事件
     this.events = {}
   }
-  
+  // 注册事件
+  on(eventName,cb){
+    // 如果该事件类型不存在，则新建一个队列，存放callback函数
+    if(this.events[eventName]) this.events[eventName] = [cb]
+    else {
+    // 存在则push到指定事件类型的队列中
+    this.events[eventName].push(cb)
+    }
+  }
+  // 触发事件
+  emit(eventName){
+    if(!this.events[eventName].length) return
+    else {
+      this.events[eventName].map(cb => cb())
+    }
+    // 写成 this.events[eventName] && this.events[eventName].forEach(cb => cb()) 更快
+  }
+  // 注销事件
+  removeListener(eventName, cb){
+    if(this.events[eventName]){
+      this.events[eventName] = this.events[eventName].filter(item => item !== cb )
+    }
+  }
+  // 只执行一次订阅时间，然后移除
+  once(eventName,cb){
+    let fn = () => {
+      cb()
+      this.removeListener(eventName, cb)
+    }
+    // 先注册事件，监听到则执行fn，触发回调cb，然后注销事件removeListener
+    this.on(eventName, fn)
+  }
 }
 ```
 
@@ -432,6 +464,12 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 ## 大文件断点续传
 
 (字节面试官：请你实现一个大文件上传和断点续传)[https://cloud.tencent.com/developer/article/1586374]
+
+首先，前端对大文件进行切片，核心是借助Blob.peototype.slice这个方法，返回原文件的某个切片。
+
+之后，根据预先设置好的切片最大数量将文件分割成一个个切片，借助http的并发性，同时上传多个切片；由于并发上传，需要给切片记录顺序；
+
+再之后，服务端接收切片，等接收完成，合并、还原成原本的文件。
 
 
 
