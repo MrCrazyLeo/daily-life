@@ -10,7 +10,11 @@ viewport的字段有width、height、initial-scale、maxinum-scale、minimum-sca
 
 
 
+
+
+
 # ✨CSS
+
 ## 布局
 ### flex
 
@@ -154,6 +158,204 @@ const Foo = () => import('./Foo.vue')
 
 # ✨性能
 ## 白屏问题
+
+# ✨移动端
+以下基本来自[这里](https://blog.csdn.net/sookielulu/article/details/113835526)
+
+## 一般采用什么布局？设计稿一般多大尺寸
+
+定宽布局；
+
+640px（iphone 6？）和750px（安卓？）
+
+
+
+## 自适应不同屏幕的几种方法
+
+1. rem布局
+2. flex布局
+3. 百分比布局
+
+
+
+## 移动端用过哪些meta标签
+
+```html
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+```
+忽略将数字变为电话号码
+```html
+<meta content="telephone=no" name="format-detection">
+```
+忽略识别邮箱
+```html
+<meta content="email=no" name="format-detection">
+```
+IOS safari允许全屏浏览
+```html
+<meta content="yes" name="apple-mobile-web-app-capable">
+```
+
+
+
+## 300毫秒延迟
+
+因为移动端浏览器会有一些默认行为，比如双击缩放、双指滚动。这些行为尤其是双击缩放，主要是为桌面网站在移动端的浏览体验设计的，而在用户对页面操作时，移动端浏览器会优先判断用户是否触发默认行为
+
+
+
+## 点击穿透问题
+
+> 问题点击穿透问题：点击蒙层（mask）上的关闭按钮，蒙层消失后发现触发了按钮下面元素的click事件
+
+```
+zepto的tap事件是绑定到document的，所以一般点击tap事件都会冒泡到document才会触发。当点击隐藏蒙层的时候默认也会手指触发到蒙层下面的元素执行事件
+```
+
+为了解决这问题，一般在移动端用touchstart、touchend、touchmove、tap来取代click时间
+
+```js
+//tap事件出现点透问题
+$("#id").on("tap", function (event) {
+  //很多处理比如隐藏什么的
+  event.preventDefault();
+});
+
+//touchend事件解决点头问题
+$("#id").on("touchend", function (event) {
+  //很多处理比如隐藏什么的
+  event.preventDefault();
+});
+
+```
+
+或者使用FastClick库
+
+> FastClick的实现原理是在检测到touchend事件的时候，会通过DOM自定义事件立即出发模拟一个click事件，并把浏览器在300ms之后的click事件阻止掉。
+
+
+
+## 移动端横屏怎么处理
+
+写好一套样式 **获取窗口的宽度大于高度**的时候说明横屏了 。那么就显示一个遮罩层**提示用户竖屏观看更佳**
+
+
+
+## 移动端怎么横屏显示
+
+1. 检测到手机竖屏的时候，给最上边元素加90deg旋转
+2. 检测到横屏的时候，旋转角度改为0
+
+
+
+## 在某些安卓设备下背景图片模糊的问题
+
+设备像素比DPR的问题。安卓手机devicePixoRadio比较乱，有1.5的，有2的也有3的。想让图片在手机里显示更为清晰，必须使用2x的背景图来代替img标签（一般情况下都是2倍的），或者指定background-size:contain;都可以。
+
+用-webkit-min-device-pixel-ratio可以做到不同倍数不同尺寸的图片：
+
+```css
+.icon-logo{
+  background-image: url(src/assets/logo.png);
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2){
+  .icon-logo {
+    background-image: url(src/assets/logo@2.png); }
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3){
+	.icon-logo {
+    background-image: url(src/assets/logo@3.png); }
+}
+@media screen and (-webkit-min-device-pixel-ratio: 4){
+	.icon-logo { background-image: url(src/assets/logo@4.png); }
+}
+```
+
+
+
+## **pc端与移动端字体大小的问题**
+
+使用-webkit-text-size-adjust: 100%
+
+```css
+html,body,form,fieldset,p,div,h1,h2,h3,h4,h5,h6{
+	-webkit-text-size-adjust:100%;
+}
+```
+
+
+
+## **解决上下拉动滚动条时出现卡顿的现象**
+
+Android3+和iOSi5+
+
+```css
+body{
+	-webkit-overflow-scrolling:touch;
+	overflow-scrolling:touch;
+}
+```
+
+
+
+## 解决长时间按住页面闪退的现象
+
+```css
+element {
+  -webkit-touch-callout: none
+}
+```
+
+
+
+## 1px边框问题
+
+依旧是DPR问题
+
+- 使用媒体查询
+
+- 使用border-image
+
+  ```css
+  .border-image-1px {
+      border-width: 1px 0px;
+      -webkit-border-image: url("border.png") 2 0 stretch;
+      border-image: url("border.png") 2 0 stretch;
+  }
+  ```
+
+- 使用viewport + rem
+
+  设置meta标签
+
+  ```html
+  <meta id=“WebViewport” content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+  ```
+
+  然后使用js判断是几倍屏
+
+  ```js
+  function rem = () => {
+    document.documentElement.style.fontSize = document.documentElement.clientWidth/7.5 + 'px'
+    let viewport = document.queryElementById('WebViewport')
+    if (window.devicePixelRatio == 1) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')} 
+  
+    if (window.devicePixelRatio == 2) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no')}
+  
+    if (window.devicePixelRatio == 3) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=0.333333333, maximum-scale=0.333333333, minimum-scale=0.333333333, user-scalable=no')}
+  }
+  window.onresize = rem
+  rem() // 触发resize
+  ```
+
+- 通过引入**border.css**第三方库解决
+
 
 
 # ✨算法
