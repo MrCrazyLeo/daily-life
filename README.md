@@ -419,6 +419,23 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+# 2021-03-16
+
+## transform问题
+
+### 会引起重排吗？
+
+不会。因为transform开启了复合图层，不会影响默认复合图层（普通文档流），所以不会影响周边DOM结构，也就不会发生重排。
+
+### transform缺点
+
+1. 会使子元素fixed定位和absulote定位失效；
+2. 父元素设置border-radius和overflow:hidden，子元素有transform属性，那么父元素设置无效，还是直角边框；父元素添加属性`-webkit-transform:rotate(0deg)`可以解决。
+3. 影响z-index
+4. 影响fixed定位。fixed定位基于视窗定位。如果对固定定位元素的父元素设置transform为none，固定定位元素的表现可能退化为absolute定位。
+
+
+
 # 2021-03-15
 
 ## Axios、fetch
