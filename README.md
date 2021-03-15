@@ -471,6 +471,44 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 再之后，服务端接收切片，等接收完成，合并、还原成原本的文件。
 
+## 判断是不是手机靓号
+
+```js
+// 首先判断是不是手机号码，正则表达式，一搜就有。
+// 靓号的规则是4个连续相同的数或者4个连续升序的数
+function niceNumber(str){
+  let pre=0,count=0
+  const len = str.length
+  for(let i=1;i<len;i++){
+    // 判断连续4个相同
+    if(str[pre] !== str[i]){
+      count = 0
+      pre = i}
+    else {
+      count++
+      if(count === 3) return true}
+    if(pre>=len-3) break
+  }
+  // 判断是否有连续升序
+  count = 0
+  pre=0
+  for(let i=1;i<len;i++){
+    if(str[i]>str[pre]){
+      count++
+      if(count === 3)return true
+    } else {
+      count = 0
+    }
+    pre++
+  }
+  return false
+}
+var str = '15601234567'
+niceNumber(str) // true
+var str2 = '156010101010'
+niceNumber(str2) // false
+```
+
 
 
 # 2021-03-14
