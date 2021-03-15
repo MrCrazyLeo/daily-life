@@ -1593,6 +1593,39 @@ function myFlat(arr){
 
 
 
+## 拍平对象
+
+```js
+function flatObj(obj){
+  let clone = {}
+  Object.keys(obj).forEach( (key) => {
+    if(Array.isArray(obj[key])){
+      const len = obj[key].length
+      for(let i=0;i<len;i++){
+        clone[`${key}${i}`] = obj[key][i]}
+    } else if(Object.prototype.toString.call(obj[key]) === '[object Object]'){
+      // obj[key]也是一个对象，那么递归拍平
+      const obj2 = flatObj(obj[key])
+      Object.keys(obj2).forEach(key2 => {
+        clone[`${key+'.'+key2}`] = obj2[key2]
+      })
+    }
+    else clone[key] = obj[key] 
+  })
+  return clone
+}
+var o = {
+  a:{b:{c:{d:1}}},
+  aa:2,
+  c:[1,2]
+}
+flatObj(o)
+```
+
+
+
+
+
 
 # 2021-02-05
 
