@@ -1619,7 +1619,7 @@ var o = {
   aa:2,
   c:[1,2]
 }
-flatObj(o)
+flatObj(o) // {a.b.c.d: 1, aa: 2, c0: 1, c1: 2}
 ```
 
 
