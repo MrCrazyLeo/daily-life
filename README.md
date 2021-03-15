@@ -412,7 +412,8 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 ```javascript
 function camelize(str){
-  return str.replace(/\W+(.)/g, (match,chr) => {
+  // 增加对下划线的处理，不仅仅是^a-zA-Z0-9
+  return str.replace(/[\W|\_]+(.)/g, (match,chr) => {
     return chr.toUpperCase()
   })
 }
