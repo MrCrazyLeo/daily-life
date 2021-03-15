@@ -366,6 +366,27 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+# 2021-03-15
+
+## Axios、fetch
+
+- Axios
+
+  - Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
+
+  - [注意事项](https://zhuanlan.zhihu.com/p/58837269)
+
+    1. 使用GET方法传参使用`params`，POST、PUT、PATCH等方法使用对应的传参使用的是 `data`，data是作为 **请求体** 发送的。
+
+    2. `axios` 中 `POST` 的默认请求体类型为 `Content-Type:application/json`（JSON 规范流行），这也是最常见的请求体类型，也就是说使用的是序列化后的 `json` 格式字符串来传递参数，如： `{ "name" : "mike", "sex" : "male" }`；同时，后台必须要以支持 `@RequestBody` 的形式来接收参数，否则会出现前台传参正确，后台不接收的情况。如果想要设置类型为 `Content-Type:application/x-www-form-urlencoded`（浏览器原生支持），可以用 `qs` 这个库来格式化数据，默认情况下在安装完 `axios` 后就可以使用 `qs` 库；也可以使用 `URLSearchParams`，但并不是所有浏览器都支持 `URLSearchParams。
+
+       > - `plain object`（纯对象）：是指 `JSON` 形式定义的普通对象或者 `new Object()` 创建的简单对象；
+       > - `URLSearchParams object`：指的是一个可以由 [URLSearchParams](https://link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams) 接口定义的一些实用方法来处理 URL 的查询字符串的对象，也就是说 `params` 传参是以 `/user?ID=1&name=mike&sex=male` 形式传递的。
+
+- fetch
+
+
+
 # 2021-03-14
 
 ## 剩余参数与arguments对象的区别
@@ -411,6 +432,8 @@ camelize("Equipment Class Name"); // 均为"equipmentClassName"
 
 // 也可以
 function camelize(str) {
+  // 增加对下划线的处理 'Li_Sha' -> 'liSha' 
+  str = str.replace(/\_+/g,'')
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
     if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
     return index === 0 ? match.toLowerCase() : match.toUpperCase();
@@ -418,6 +441,11 @@ function camelize(str) {
 }
 camelize('   Leo Ha ha') // "LeoHaHa"
 camelize('L   Leo Ha ha') // "lLeoHaHa"
+
+// 使用lodash的camelCase()
+_.camelCase('__FOO_BAR__');
+// → 'fooBar'
+
 ```
 
 
