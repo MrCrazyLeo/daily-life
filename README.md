@@ -136,6 +136,27 @@ function myDeepCopy3(obj, map = new WeakMap()){
 
 ### 手写原生ajax
 
+核心是依赖XMLHttpRequest
+
+```js
+function ajax(url, method, body, success, fail){
+  let request = new XMLHttpRequest()
+  request.open(method,url)
+  request.onreadystatechange = () => {
+    if(request.readyState === 4){
+      if(request.status >= 200 && request.status < 300){
+        success.call(undefined, request.responseText)
+      } else {
+        fail.call(undefined, request)
+      }
+    }
+  }
+  request.send(body)
+}
+```
+
+
+
 ### 手写Promise
 
 - [Promise解决的问题](https://segmentfault.com/a/1190000016273587)：解决回调地狱，使得异步过程同步化，简洁代码逻辑（可读性问题）；还有一个是异步回调信任问题，比如回调过早（被当成同步调用）、回调过晚或者没有回调、回调次数过多（如下）。
@@ -384,6 +405,33 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
        > - `URLSearchParams object`：指的是一个可以由 [URLSearchParams](https://link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams) 接口定义的一些实用方法来处理 URL 的查询字符串的对象，也就是说 `params` 传参是以 `/user?ID=1&name=mike&sex=male` 形式传递的。
 
 - fetch
+
+
+
+## 上传文件进度显示
+
+- 借助XMLHttpRequest的progress事件，这个事件会返回文件已上传的大小和总大小，根据这两个值，就可以计算上传进度了，关于这个方法，在《Javascript高级程序设计(第3版)》21章第3节中有叙述：
+
+  ```js
+  var xhr = new XMLHttpRequest()
+  xhr.onload = (event) => {
+    if(xhr.status >=200 && xhr.status < 300 || xhr.status === 304) alert(xhr.responseText)
+    else alert('请求未成功，',xhr.responseText)
+  }
+  xhr.onprogress = (event) => {
+    let divStatus = document.getElementById('status')
+    // 如果响应头有Content-Length字段
+    if(event.lengthComputable){
+      divStatus.innerHTML = `接收到${event.position}字节（总共${event.totalSize}字节）`
+    }
+  }
+  ```
+
+  
+
+## 大文件断点续传
+
+(字节面试官：请你实现一个大文件上传和断点续传)[https://cloud.tencent.com/developer/article/1586374]
 
 
 
