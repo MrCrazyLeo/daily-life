@@ -258,6 +258,8 @@ Array.from(new Set(arr))
 (arr+',').replace(/(\d+,)\1+/ig,'$1').split(',').slice(0,-1) // ["1", "2", "3", "4", "5", "6"]
 ```
 
+
+
 ### 手写柯里化
 
 ```javascript
@@ -271,7 +273,13 @@ function curring(fn,...args){
 }
 ```
 
+
+
 ### 手写reduce
+
+
+
+
 
 ### 手写bind
 
