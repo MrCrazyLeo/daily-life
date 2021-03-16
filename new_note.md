@@ -482,3 +482,36 @@ var detectCycle = function(head) {
 ### 环形链表IV：求带环链表长度
 
 求出柄长+环长，即为环形链表的长度
+
+
+
+### 相交链表
+
+```js
+var getIntersectionNode = function (headA, headB) {
+    if (!headA || !headB) return null;
+
+    let pA = headA,
+        pB = headB;
+    while (pA !== pB) {
+        pA = pA === null ? headB : pA.next;
+        pB = pB === null ? headA : pB.next;
+    }
+    return pA;
+};
+```
+
+如果链表有交点：
+
+1. 如果长度一样，那么第一次遍历就能找到相交的点；
+
+2. 如果不一样，那么第二次遍历也能找到交点；
+
+   ![相交链表](img/相交链表.png)
+
+如果没有交点：
+
+1. 如果长度一样，第一次遍历最后都是null，测试AB指针相等，直接结束循环，返回null；
+2. 如果不一样，最后第二次遍历也会到达null，返回null
+
+​	
