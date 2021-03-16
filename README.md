@@ -436,6 +436,39 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+## 箭头函数
+
+- 特点：
+
+  - 书写优雅
+
+  - 拿到上一层封闭上下文作用域的this，不会有普通函数this可能跟直觉不一致或者在严格模式下没有this的问题 
+
+  - 不存在arguments对象。如果要用，可以用rest参数代替
+
+    ```js
+    (...args) => {}
+    ```
+
+  - 没有prototype属性
+
+    ```js
+    var foo  = () => {}
+    var bar = function(){}
+    console.log(foo.prototype) // undefinded
+    console.log(bar.prototype) // {constructor: ƒ}
+    ```
+
+  - 不可以使用yield命令
+
+
+
+
+
+
+
+
+
 # 2021-03-15
 
 ## Axios、fetch
