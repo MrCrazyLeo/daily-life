@@ -417,3 +417,68 @@ levelOrder(tree)
 
 ![层次遍历递归](img/层次遍历递归.gif)
 
+
+
+## 链表
+
+### 环形链表II：求环的入口（也是求柄的长度）
+
+> 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+>
+> 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
+>
+
+![环入口](img/环入口.png)
+
+```js
+var detectCycle = function(head) {
+    let slow = head, fast = head
+    while(fast && fast.next){
+      slow = slow.next
+      fast = fast.next.next
+      // 注意下边不是slow.val跟fast.val对比
+      if(slow === fast){
+        fast = head
+        while(fast !== slow){
+          slow = slow.next
+          fast = fast.next
+        }
+        return slow
+      }
+    }
+  return null
+};
+```
+
+
+
+### 环形链表III：求环的长度
+
+先保证有环，然后让快慢指针相遇，之后继续快2慢1的速度走，直到再次相遇，慢指针所走的长度即为环的长度
+
+```js
+var detectCycle = function(head) {
+    let slow = head, fast = head
+    while(fast && fast.next){
+      slow = slow.next
+      fast = fast.next.next
+      // 注意下边不是slow.val跟fast.val对比
+      if(slow === fast){
+        let res = 0
+        while(fast !== slow){
+          slow = slow.next
+          fast = fast.next.next
+          res++
+        }
+        return res
+      }
+    }
+  return null
+};
+```
+
+
+
+### 环形链表IV：求带环链表长度
+
+求出柄长+环长，即为环形链表的长度
