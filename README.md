@@ -440,9 +440,9 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 - 特点：
 
-  - 书写优雅
+  - 书写优雅：不需要写function关键字、省略return关键字
 
-  - 拿到上一层封闭上下文作用域的this，不会有普通函数this可能跟直觉不一致或者在严格模式下没有this的问题 
+  - 拿到上一层封闭上下文作用域的this，不会有普通函数this可能跟直觉不一致或者在严格模式下没有this的问题 。箭头函数的this永远指向上下文的this，call、apply、bind也无法改变。
 
   - 不存在arguments对象。如果要用，可以用rest参数代替
 
@@ -450,7 +450,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
     (...args) => {}
     ```
 
-  - 没有prototype属性
+  - 没有prototype属性（即没有原型对象）
 
     ```js
     var foo  = () => {}
@@ -461,11 +461,65 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
   - 不可以使用yield命令
 
+  - 不能作为构造函数
+
+    ```js
+    var foo  = () => {}
+    var newFoo = new foo() // foo is not a constructor
+    ```
+
+    
+
+## 脚本异步加载
+
+defer、 async
+
+```html
+<script src="path/to/myModule.js" defer></script>
+<script src="path/to/myModule.js" async></script>
+```
+
+上面代码中，`<script>`标签打开`defer`或`async`属性，脚本就会异步加载。渲染引擎遇到这一行命令，就会**开始下载外部脚本，但不会等它下载和执行**，而是直接执行后面的命令。
+
+**`defer`与`async`的区别**是：`defer`要等到整个页面在内存中正常渲染结束（DOM 结构完全生成，以及其他脚本执行完成），才会执行；`async`一旦下载完，渲染引擎就会中断渲染，执行这个脚本以后，再继续渲染。一句话，`defer`是“渲染完再执行”，`async`是“下载完就执行”。另外，如果有**多个`defer`脚本，会按照它们在页面出现的顺序加载**，而**多个`async`脚本是不能保证加载顺序**的。
 
 
 
+ES6的type="module"
 
+```html
+<script type="module" src="./foo.js"></script>
+<!-- 等同于 -->
+<script type="module" src="./foo.js" defer></script>
+```
 
+使用type="module"等同打开了defer。但是**如果写了async，那么就按照async去表现**，即只要加载完成，渲染引擎就会中断渲染、执行该js脚本，等执行完成之后再接着渲染。一旦使用了`async`属性，`<script type="module">`就不会按照在页面出现的顺序执行，而是只要该模块加载完成，就执行该模块。
+
+```html
+<script type="module" src="./foo.js" async></script>
+```
+
+对于外部模块脚本，有以下特点：
+
+1. 代码是在模块作用域内运行，不是在全局作用域运行。模块内部的顶层变量，外部不可见；
+
+2. 模块脚本自动采用严格模式，不管有没有声明use strict
+
+3. 模块之中，可以使用import加载其他模块（.js后缀不能省略、需要提供绝对URL或相对URL）、也可以使用export输出对外接口；
+
+4. 模块之中，顶层this关键字返回undefined，而不是指向window，也就是说在模块顶层使用this关键字，是无意义的
+
+5. 同一个模块如果加载多次，将只执行一次
+
+   ```js
+   // 某个模块内部
+   import utils from 'https://example.com/js/utils.js';
+   const x = 1;
+   console.log(x === window.x); //false
+   console.log(this === undefined); // true
+   ```
+
+   
 
 
 
@@ -515,11 +569,51 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 (字节面试官：请你实现一个大文件上传和断点续传)[https://cloud.tencent.com/developer/article/1586374]
 
+**>>>>> 法1：**
+
 首先，前端对大文件进行切片，核心是借助Blob.peototype.slice这个方法，返回原文件的某个切片。
 
 之后，根据预先设置好的切片最大数量将文件分割成一个个切片，借助http的并发性，同时上传多个切片；由于并发上传，需要给切片记录顺序；
 
 再之后，服务端接收切片，等接收完成，合并、还原成原本的文件。
+
+**>>>>> 法2:**
+
+参考https://blog.csdn.net/a910626/article/details/52098200
+
+首先，处理前端上传环节：
+
+1. 通过减少文件体积，减少上传流量来优化
+2. 通过合并小文件，减少请求数来优化
+
+所以有以下几种方法：
+
+- 图片上传压缩
+- zip合并小文件
+- sprite雪碧图
+- 直接合并内容
+
+> 不需要采用ZIP或者SPRIT方式合并文件，把文件读取出 arraybuffer 后是直接可以连接在一起的，之后还可以再次转成 blob 发送到服务端，或者直接发送 arraybuffer，理论上性能应该比SPRITE方案靠谱
+
+- 上传过程优化：
+
+并发上传、分块上传、断点续传
+
+- 算法优化：
+
+  小文件优先处理，减少用户等待时间
+
+> 因为第一个文件的验证等待无法避免，如果第一个文件处理的文件越小，是不是等待的时间就越短？所以把队列中最小的一个文件放到第一个优先处理可以进一步减少用户等待时间
+
+  验证过程提前到当前文件的传输期
+
+> 如果当前文件已经在传输了，这个时候，用户是处于等待状态，机器也处于等待期，如果把下一个文件的验证过程移至此过程，那么用户的等待 MD5 的时间和等待当前文件传输完成的时间就重合了。这样用户就只需要等待第一个文件的验证过程。
+
+  更换序列化算法，取段MD5
+
+> 其实对于某些二进制文件，如JPEG，前面一段数据记录了很多此图片的信息，比如：拍摄时间，相机名称，图片尺寸，图片旋转度等等，直接 MD5 这一段数据基本上就可以保证此文件的唯一性了。只要取段的总大小小于10M，再大的文件也能在1秒内完成序列号工作。
+
+
 
 ## 判断是不是手机靓号
 
