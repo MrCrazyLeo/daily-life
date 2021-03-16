@@ -275,18 +275,44 @@ function curring(fn,...args){
 
 ### 手写bind
 
-### 手写apply
+[JavaScript深入之bind的模拟实现](https://github.com/mqyqingfeng/Blog/issues/12)
+
+
 
 ### 手写call
 
+1. 将函数设为对象的属性
+2. 执行该函数
+3. 删除该函数
+
 ```javascript
-// xxxx.call(fn,'a','b','c')
-Function.prototype.call = (fn,context=window) => {
-  let args = [].slice.call(1)
-  let obj = fn(...args)
-  
+Function.prototype.myCall = function(context=window,...args) {
+  context = context || window; // 参数默认值并不会排除null，所以重新赋值
+  context.fn = this;
+  const res = context.fn(...args)
+  delete context.fn;
+  return res
 }
 ```
+
+
+
+### 手写apply
+
+```js
+// apply就是后边放一个数组
+Function.prototype.myApply = function(context=window,args=[]) {
+  // 如果传入一个类数组，将其转成数组
+  if(!Array.isArray(args)) args = [].slice.call(args)
+  context = context || window; // 参数默认值并不会排除null，所以重新赋值
+  context.fn = this;
+  const res = context.fn(...args)
+  delete context.fn;
+  return res
+}
+```
+
+
 
 ### 手写Map（不是map）
 
@@ -2651,8 +2677,15 @@ testAsync()
 ## JS将类数组转换成数组
 
 ```javascript
+var arrayLike = {
+  '0':'a',
+  '1':'b',
+  '2':'c',
+  length:3
+};
 // slice，经典方法
-var arr = Array.prototype.slice.call(arguments);
+var arr = Array.prototype.slice.call(arrayLike);
+console.log(arr) // ["a", "b", "c"]
 // 等同于
 var arr = [].slice.call(arguments)
 // 法2 Array.from
