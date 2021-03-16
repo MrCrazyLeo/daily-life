@@ -616,15 +616,25 @@ Reflect.ownKeys(obj).forEach((key) => {
     else alert('请求未成功，',xhr.responseText)
   }
   xhr.onprogress = (event) => {
-    let divStatus = document.getElementById('status')
+    let divStatus = document.getElementById("progressBar")
     // 如果响应头有Content-Length字段
-    if(event.lengthComputable){
-      divStatus.innerHTML = `接收到${event.position}字节（总共${event.totalSize}字节）`
-    }
+    if (e.lengthComputable) {
+          progressBar.max = e.total;
+          progressBar.value = e.loaded;
+      }
   }
   ```
-
+  进度条使用h5的progress标签
   
+  ```html
+   <progress id="progressBar" value="0" max="100"></progress>
+  ```
+  
+  
+
+
+
+
 
 ## 大文件断点续传
 
