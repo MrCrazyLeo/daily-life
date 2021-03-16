@@ -519,7 +519,68 @@ ES6的type="module"
    console.log(this === undefined); // true
    ```
 
-   
+
+
+
+## 遍历对象方法对比
+
+- for in
+
+  遍历自身、也遍历原型链上的继承的属性
+
+- Object.keys(obj)
+
+  遍历自身可枚举的字符串属性
+
+- Reflect.ownKeys(obj)
+  返回一个数组，包括自身可枚举、不可枚举、Symbol的属性、不包含原型链继承的属性
+
+- Object.getOwnPropertyNames(obj)
+  返回一个数组，包括自身可枚举、不可枚举的属性，不包含Symbol、不包含原型链继承的属性
+
+```js
+// 创建一个对象并指定其原型，bar 为原型上的属性
+// baz 为对象自身的属性并且不可枚举
+var obj = Object.create({
+  bar: 'bar'
+}, {
+  baz: {
+    value: 'baz',
+    enumerable: false
+  }
+})
+// obj自身属性foo
+obj.foo = 'foo'
+// 给对象添加一个不可枚举的 Symbol 属性
+Object.defineProperties(obj, {
+  [Symbol('baz')]: {
+    value: 'Symbol baz',
+    enumerable: false
+  }
+})
+// 不包括不可枚举的 baz 属性
+Object.keys(obj).forEach((key) => {
+  console.log(obj[key]) // foo
+})
+// 包括不可枚举的 baz 属性
+Object.getOwnPropertyNames(obj).forEach((key) => {
+  console.log(obj[key]) // baz, foo
+})
+// 返回对象自身的 Symbol 属性组成的数组，不包括字符串属性
+Object.getOwnPropertySymbols(obj).forEach((key) => {
+  console.log(obj[key]) // Symbol baz
+})
+// 给对象添加一个可枚举的 Symbol 属性
+obj[Symbol('foo')] = 'Symbol foo'
+// 不管Symbol可否枚举，都能遍历出
+Object.getOwnPropertySymbols(obj).forEach((key) => {
+  console.log(obj[key]) // Symbol baz, Symbol foo
+})
+// 包括不可枚举的属性和 Symbol 属性
+Reflect.ownKeys(obj).forEach((key) => {
+  console.log(obj[key]) // baz, foo, Symbol baz, Symbol foo
+})
+```
 
 
 
@@ -579,7 +640,7 @@ ES6的type="module"
 
 **>>>>> 法2:**
 
-参考https://blog.csdn.net/a910626/article/details/52098200
+参考http://www.zuidaima.com/blog/2819949848316928.htm
 
 首先，处理前端上传环节：
 
