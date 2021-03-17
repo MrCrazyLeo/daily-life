@@ -285,6 +285,44 @@ function curring(fn,...args){
 
 [JavaScript深入之bind的模拟实现](https://github.com/mqyqingfeng/Blog/issues/12)
 
+首先 获取到第一次传递的参数args1，此处要做截取处理，因为第一个参数是this。接下来声明一个函数bindFn，在该bindFn中获取了第二次传的参数args2，并且返回了that的执行。此处的that就是原函数，执行该原函数绑定原函数this的时候要注意判断。如果this是构造函数bindFn new出来的实例，那么此处的this一定是该实例本身。反之，则是bind方法传递的this(context)。最后再把两次获得的参数通过concat()连接起来传递进去，这样就实现了前3条。
+最后一条：构造函数上的属性和方法，每个实例上都有。 此处通过一个中间函数Fn，来连接原型链。Fn的prototype等于this的prototype。Fn和this指向同一个原型对象。bindFn的prototype又等于Fn的实例。Fn的实例的__proto__又指向Fn的prototype。即bindFn的prototype指向和this的prototype一样，指向同一个原型对象。至此，就实现了自己的bind方法。
+
+```js
+Function.prototype.mybind = function(context){
+  let that = this;
+  let args1 = Array.prototype.slice.call(arguments,1);
+  let bindFn = function(){
+    let args2 = Array.prototype.slice.call(arguments);
+    return that.apply(this instanceof bindFn?this:context,args1.concat(args2)); 
+  }
+  let Fn = function(){};
+  Fn.prototype = this.prototype;
+  bindFn.prototype = new Fn();
+  return bindFn;
+}
+
+let obj = {
+  name:'tiger'
+}
+
+function fn(name,age){
+  this.say = '汪汪~';
+  console.log(this);
+  console.log(this.name+'养了一只'+name+','+age+'岁了 ');
+}
+
+/** 第一次传参 */
+let bindFn = fn.mybind(obj,'🐶');
+/** 第二次传参 */
+bindFn('10');
+
+/* 构造函数上的属性和方法，每个实例上都有 */
+let instance = new bindFn('20');
+bindFn.prototype.type = '哺乳类';
+console.log(instance.type);
+```
+
 
 
 ### 手写call
@@ -566,11 +604,11 @@ ES6的type="module"
 
   遍历自身可枚举的字符串属性
 
-- Reflect.ownKeys(obj)
-  返回一个数组，包括自身可枚举、不可枚举、Symbol的属性、不包含原型链继承的属性
-
 - Object.getOwnPropertyNames(obj)
   返回一个数组，包括自身可枚举、不可枚举的属性，不包含Symbol、不包含原型链继承的属性
+
+- Reflect.ownKeys(obj)
+  返回一个数组，包括自身可枚举、不可枚举、Symbol的属性、不包含原型链继承的属性
 
 ```js
 // 创建一个对象并指定其原型，bar 为原型上的属性
@@ -626,6 +664,19 @@ Reflect.ownKeys(obj).forEach((key) => {
 
   - Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
 
+  - 特点：
+
+    - 提供了一些并发请求的接口（重要，方便了很多的操作）。
+    - 在浏览器中创建 XMLHttpRequests。
+    - 在 node.js 则创建 http 请求。（自动性强）
+    - 支持 Promise API。
+    - 支持拦截请求和响应。
+    - 转换请求和响应数据。
+    - 取消请求。
+    - 自动转换 JSON 数据。
+    - 客户端支持防止CSRF。
+    - 客户端支持防御 XSRF。
+
   - [注意事项](https://zhuanlan.zhihu.com/p/58837269)
 
     1. 使用GET方法传参使用`params`，POST、PUT、PATCH等方法使用对应的传参使用的是 `data`，data是作为 **请求体** 发送的。
@@ -636,8 +687,23 @@ Reflect.ownKeys(obj).forEach((key) => {
        > - `URLSearchParams object`：指的是一个可以由 [URLSearchParams](https://link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams) 接口定义的一些实用方法来处理 URL 的查询字符串的对象，也就是说 `params` 传参是以 `/user?ID=1&name=mike&sex=male` 形式传递的。
 
 - fetch
-
-
+   - 符合关注分离，没有将输入、输出和用事件来跟踪的状态混杂在一个对象里
+   
+   - 更好更方便的写法
+   
+   - 更加底层，提供的API丰富（request, response）
+   
+   - 脱离了XHR，是ES规范里新的实现方式
+   
+   - fetch只对网络请求报错，对400，500都当做成功的请求，需要封装去处理
+   
+   - fetch默认不会带cookie，需要添加配置项
+   
+   - fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了量的浪费
+   
+   - fetch没有办法原生监测请求的进度，而XHR可以。
+   
+     
 
 ## 上传文件进度显示
 
