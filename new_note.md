@@ -22,7 +22,9 @@ viewport的字段有width、height、initial-scale、maxinum-scale、minimum-sca
 
 ### grid
 
-也可以拿🎲来练手
+也可以拿🎲来[练手](https://codepen.io/townivan/pen/vrxOYY)
+
+![](img/gird布局骰子.png)
 
 
 
@@ -164,7 +166,7 @@ const Foo = () => import('./Foo.vue')
 
 
 
-Vue组件data为什么必须是函数
+### Vue组件data为什么必须是函数
 
 因为**组件是可以复用**的。也就是说会有多个组件实例同时存在，同时由于对象是引用类型，所以如果所有组件实例都共用一个data对象，那么一个组件对data进行修改，其他组件也受到影响。所以需要使用函数返回data对象的独立拷贝，使得每个对象实例都有自己的数据空间，相互之间独立、不受彼此影响，便于各自维护。
 
@@ -393,6 +395,10 @@ element {
   ```
 
 - 通过引入**border.css**第三方库解决
+
+
+
+## JsBridge
 
 
 

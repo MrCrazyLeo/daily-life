@@ -2332,7 +2332,7 @@ console.log(mergeSort(a)) // [1,1,2,4,5,8,11]
 
 内嵌webview、客户端内嵌js引擎、将js编译成客户端语言运行
 
-hybrid（webview壳子）、js+原生渲染（react native）、flutter自己花UI（Framework+Engine）
+hybrid（webview壳子）、js+原生渲染（react native）、flutter自己画UI（Framework+Engine）
 
 
 
