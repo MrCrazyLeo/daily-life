@@ -948,7 +948,7 @@ GET产生一次TCP数据包、POST产生两次（一次预检请求、一次真�
 
 ## async/await
 
-#### 两个（多个）await并行
+### 两个（多个）await并行
 
 使用Promise.all
 
@@ -980,7 +980,7 @@ doit();
 // over
 ```
 
-#### await循环
+### await循环
 
 foreach中使用await (结论：不可用)
 
