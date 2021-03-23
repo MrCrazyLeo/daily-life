@@ -202,6 +202,12 @@ const Foo = () => import('./Foo.vue')
 
 
 
+# ✨Node
+
+![node架构](img/node架构图.png)
+
+
+
 # ✨移动端
 以下基本来自[这里](https://blog.csdn.net/sookielulu/article/details/113835526)
 
