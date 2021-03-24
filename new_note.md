@@ -37,7 +37,10 @@ viewport的字段有width、height、initial-scale、maxinum-scale、minimum-sca
 ## CSS3专题
 
 
+
 # ✨JavaScript
+
+
 
 # ✨网络通信
 
@@ -196,6 +199,12 @@ const Foo = () => import('./Foo.vue')
 
 # ✨性能
 ## 白屏问题
+
+
+
+# ✨Node
+
+![node架构](img/node架构图.png)
 
 
 
@@ -558,6 +567,7 @@ var getIntersectionNode = function (headA, headB) {
 
 
 
+<<<<<<< HEAD
 ## 动态规划
 
 采用动态规划的方法，最重要的是要找到**子问题**
@@ -567,3 +577,14 @@ var getIntersectionNode = function (headA, headB) {
 https://gist.github.com/sing1ee/5971946	
 
 假设最少尝试次数为x，那么，x次的最少尝试，可以确定的最高的楼层是多少呢？ x + (x - 1) + (x - 2) + … + 1 = x(x+1) / 2 那反过来问，当最高楼层是100层，最少需要多少次呢？x(x+1)/2 >= 100, 得到x>=14，最少要尝试14次。
+=======
+### 扔鸡蛋问题
+
+
+
+
+
+### 背包问题
+
+​	
+>>>>>>> 88a75ae7d54a1510003688a6d58c6f5f5511e438
