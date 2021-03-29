@@ -491,6 +491,28 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+# 2021-03-29
+
+## ecma标准为什么没有对promise描述
+
+
+
+# 2021-03-28
+
+JavaScriptCore是一个JavaScript解释器，它在RN中主要有两个作用:
+
+1. 提供JS运行环境；
+2. 是JS与原生应用进行通信的桥梁，作用和JsBridge一样。事实上，IOS中，很多JsBridge的实现是基于JavaScriptCore的。
+
+
+
+RN中将虚拟DOM渲染成原生控件的过程分为两步：
+
+1. 布局消息传递：将虚拟DOM布局信息传递给原生；
+2. 原生根据布局信息通过对应的原生控件渲染控件树
+
+
+
 # 2021-03-16
 
 ## transform问题
