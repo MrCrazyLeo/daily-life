@@ -497,6 +497,8 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+
+
 # 2021-03-28
 
 JavaScriptCore是一个JavaScript解释器，它在RN中主要有两个作用:
