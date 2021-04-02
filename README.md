@@ -509,7 +509,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
     border: 1px dotted red;
     position: relative;
     box-sizing: border-box;
-  animation: spin2 infinite linear;
+  animation: spin2 1/3s infinite linear;
   background-color: red;
 }
 
@@ -534,16 +534,17 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 ```js
 var rect = document.getElementById("rect")
-// btn.addEventListener('click',)
-var animationDuration = 1/3
+var animationDuration = 1
 document.getElementById("btn1").addEventListener("click", ()=>{
-  animationDuration = animationDuration - 1 <= 0 ? 1/3 : animationDuration - 1;
-  rect.style["animation-duration"] = (+animationDuration-1) + "s";
+  console.log('click')
+  animationDuration = animationDuration - 1 <= 0 ? 1 : animationDuration - 1;
+  rect.style["animation-duration"] = animationDuration/3 + "s";
 });
 
 document.getElementById("btn2").addEventListener("click", ()=>{
-  animationDuration = animationDuration+1;
-  rect.style["-webkit-animation-duration"] =  animationDuration+ "s";
+  console.log('减速click');
+  animationDuration = animationDuration + 1;
+  rect.style["-webkit-animation-duration"] =  animationDuration/3 + "s";
 });
 ```
 
