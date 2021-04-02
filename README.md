@@ -495,7 +495,57 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 腾讯一道面试题：画一个正方形，1秒内自旋转3次；然后下边加俩按钮，一个加速、一个减速
 
+```html
+<div class="container" id="rect">
+</div>
+<div id="btn1" class="btn">加速</div>
+<div id="btn2" class="btn">减速</div>
+```
 
+```css
+.container {
+    width: 100px;
+    height: 100px;
+    border: 1px dotted red;
+    position: relative;
+    box-sizing: border-box;
+  animation: spin2 infinite linear;
+  background-color: red;
+}
+
+@keyframes spin2 {
+  
+  0% { transform: rotate(0deg) }
+  25% { transform: rotate(90deg) }
+  50% { transform: rotate(180deg) }
+  75% { transform: rotate(270deg) }
+  100% { transform: rotate(360deg) }
+  
+}
+
+.btn{
+  width: 100px;
+  height: 30px;
+  background: green;
+  margin-top:20px;
+  margin-bottom: 20px
+}
+```
+
+```js
+var rect = document.getElementById("rect")
+// btn.addEventListener('click',)
+var animationDuration = 1/3
+document.getElementById("btn1").addEventListener("click", ()=>{
+  animationDuration = animationDuration - 1 <= 0 ? 1/3 : animationDuration - 1;
+  rect.style["animation-duration"] = (+animationDuration-1) + "s";
+});
+
+document.getElementById("btn2").addEventListener("click", ()=>{
+  animationDuration = animationDuration+1;
+  rect.style["-webkit-animation-duration"] =  animationDuration+ "s";
+});
+```
 
 
 
