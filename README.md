@@ -493,6 +493,26 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 # 2021-04-02
 
+## git 老是push不上去
+
+sudo nano  /etc/hosts
+
+输入下边命令
+
+```kotlin
+192.30.255.112  github.com  //github地址
+```
+
+然后ping以下github地址
+
+```bash
+ping github.com
+```
+
+正常回包说明就是solved的。
+
+
+
 腾讯一道面试题：画一个正方形，1秒内自旋转3次；然后下边加俩按钮，一个加速、一个减速
 
 ```html
