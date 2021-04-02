@@ -548,6 +548,8 @@ document.getElementById("btn2").addEventListener("click", ()=>{
 });
 ```
 
+我原本把面试官的题理解错成了一个球绕圆周运动。也不难写出，看这里http://jsfiddle.net/p2osaaL3/6/
+
 
 
 # 2021-03-29
