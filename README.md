@@ -493,7 +493,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 # 2021-04-03
 
-git 快捷设置
+## git 快捷设置
 
 新建文件 vim ~/.zshrc
 
