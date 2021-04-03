@@ -491,6 +491,32 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 
 
+# 2021-04-03
+
+git 快捷设置
+
+新建文件 vim ~/.bashrc
+
+```bash
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git pull'
+alias gf='git diff'
+alias gm='git merge'
+alias gst='git status'
+alias gsta='git stash'
+alias gstp='git stash pop'
+```
+
+保存并退出 
+
+```bash
+:x
+```
+
+
+
 # 2021-04-02
 
 ## git 老是push不上去
