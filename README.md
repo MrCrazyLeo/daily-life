@@ -495,7 +495,7 @@ console.log(map.get(b)) // undefined，map可以存储任意类型
 
 git 快捷设置
 
-新建文件 vim ~/.bashrc
+新建文件 vim ~/.zshrc
 
 ```bash
 alias ga='git add'
