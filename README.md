@@ -517,7 +517,33 @@ https://cloud.tencent.com/developer/article/1082876
 
 - 5 ~ 10 未知
 
-  
+
+
+# 2021-04-06
+
+## 解决chrome无法保存或自动填充密码
+
+https://blog.csdn.net/littleboyandgirl/article/details/82746782
+
+问题描述：
+
+> 访问某些网站时,Chrome浏览器弹出密码保存提示框.询问是否保存密码.点击"一律保存"后没有提示保存出错. 下次再进入到该网站后,不能自动填充密码,需要重复输入.
+
+解决方案：
+
+> 1. 退出Chrome 浏览器.
+> 2. 打开Chrome的Profile.删除Login Data 与 Login Data-journal 
+> 注:Chrome的个人配置即Profile文件可以有多个,默认的是Default,其他的依次为Profile1,Profile2...需要将其目录下的 Login Data , Login Data-journal 2个文件全部删除.
+> 注意: 不是删除Default 或者 Profile1,2整个目录
+> Mac
+> ~/Library/Application Support/Google/Chrome
+> Linux
+> ~/.config/google-chrome
+> Windows
+> %UserProfile%\AppData\Local\Google\Chrome\User Data
+> 3. 启动即自动填充密码.
+
+
 
 # 2021-04-03
 
