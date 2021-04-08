@@ -545,6 +545,12 @@ https://blog.csdn.net/littleboyandgirl/article/details/82746782
 
 
 
+## \<head\>中放置css
+
+最早放置css的位置是\<head\>标签，能解决两个问题：无样式闪烁问题、加载时提升页面渲染性能。
+
+
+
 # 2021-04-03
 
 ## git 快捷设置

@@ -28,8 +28,6 @@ viewport的字段有width、height、initial-scale、maxinum-scale、minimum-sca
 
 
 
-
-
 ### 响应式布局
 
 
