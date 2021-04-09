@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .animated-banner {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+        }
+        
+        .layer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="animated-banner" id="animated-banner">
+        <div class="layer" id="layer">
+            <img id="forest" src="./imgs/p1.png" data-height="250" data-width="3000" height="250" width="3000" style="transform: translate(0px, 0px) rotate(0deg); filter: blur(4px)" />
+        </div>
+        <div class="layer" id="layer">
+            <img id="big-person" src="./imgs/p2.png" data-height="275" data-width="3000" height="165" width="1800" style="transform: translate(0px, 0px) rotate(0deg); filter: blur(0px)" />
+        </div>
+        <div class="layer" id="layer">
+            <img id="hill" src="./imgs/p3.png" data-height="250" data-width="3000" height="250" width="3000" style="
+            transform: translate(-50px, 0px) rotate(0deg);
+            filter: blur(1px);
+          " />
+        </div>
+        <div class="layer" id="layer">
+            <img id="leaves" src="./imgs/p4.png" data-height="250" data-width="3000" height="150" width="1800" style="transform: translate(0px, 7px) rotate(0deg); filter: blur(4px)" />
+        </div>
+        <div class="layer" id="layer">
+            <img id="small-person" src="./imgs/p5.png" data-height="275" data-width="3000" height="165" width="1800" style="
+            transform: translate(0px, -3px) rotate(0deg);
+            filter: blur(5px);
+          " />
+        </div>
+        <div class="layer" id="layer">
+            <img id="left" src="./imgs/p6.png" data-height="275" data-width="3000" height="178" width="1950" style="transform: translate(0px, 0px) rotate(0deg); filter: blur(6px)" />
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script>
+        var layerConfig = [{
+            images: [{
+                src: "./imgs/p1.png",
+            }, ],
+            initial: {
+                blur: 4,
+            },
+        }, {
+            images: [{
+                src: "./imgs/g1.png",
+                duration: 5000,
+            }, {
+                src: "./imgs/g2.png",
+                duration: 60,
+            }, {
+                src: "./imgs/g3.png",
+                duration: 200,
+            }, {
+                src: "./imgs/g4.png",
+                duration: 60,
+            }, ],
+            initial: {
+                blur: 0,
+            },
+        }, {
+            images: [{
+                src: "./imgs/p3.png",
+            }, ],
+            initial: {
+                translate: [-50, 0],
+                blur: 1,
+            },
+        }, {
+            images: [{
+                src: "./imgs/p4.png",
+            }, ],
+            initial: {
+                translate: [0, 7],
+                blur: 4,
+            },
+        }, {
+            images: [{
+                src: "./imgs/p5.png",
+            }, ],
+            initial: {
+                translate: [0, -3],
+                blur: 5,
+            },
+        }, {
+            images: [{
+                src: "/imgs/p6.png",
+            }, ],
+            initial: {
+                blur: 6,
+            },
+        }, ];
+
+        // 人物动画（眨眼动作）
+        function playImgTimer(i, index) {
+            setTimeout(function() {
+                var n = index === i.length - 1 ? 0 : index + 1;
+                $("#big-person").attr("src", i[n].src);
+                playImgTimer(i, n);
+            }, i[index].duration);
+        }
+        playImgTimer(layerConfig[1].images, 0);
+
+        // 区间限定函数
+        function clamp(x, min, max) {
+            if (x < min) return min;
+            if (x > max) return max;
+            return x;
+        }
+
+        (t = document.getElementById("layer")),
+        // 鼠标移开还原
+        (t.handleMouseLeave = function() {
+            layerConfig.forEach(function(t) {
+                document
+                    .getElementById("forest")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[0].initial.blur +
+                        "px); transform: translate(0px, 0px) rotate(0deg);"
+                    );
+                document
+                    .getElementById("big-person")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[1].initial.blur +
+                        "px); transform: translate(0px, 0px) rotate(0deg);"
+                    );
+                document
+                    .getElementById("hill")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[2].initial.blur +
+                        "px); transform: translate(" +
+                        layerConfig[2].initial.translate[0] +
+                        "px," +
+                        layerConfig[2].initial.translate[1] +
+                        "px) rotate(0deg);"
+                    );
+                document
+                    .getElementById("leaves")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[3].initial.blur +
+                        "px); transform: translate(" +
+                        layerConfig[3].initial.translate[0] +
+                        "px," +
+                        layerConfig[3].initial.translate[1] +
+                        "px) rotate(0deg);"
+                    );
+                document
+                    .getElementById("small-person")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[4].initial.blur +
+                        "px); transform: translate(" +
+                        layerConfig[4].initial.translate[0] +
+                        "px," +
+                        layerConfig[4].initial.translate[1] +
+                        "px) rotate(0deg);"
+                    );
+                document
+                    .getElementById("left")
+                    .setAttribute(
+                        "style",
+                        "filter: blur(" +
+                        layerConfig[5].initial.blur +
+                        "px); transform: translate(0px, 0px) rotate(0deg);"
+                    );
+            });
+        }),
+        // 鼠标移动
+        (t.handleMouseMove = function(t) {
+            var x = t.pageX;
+            // console.log("当前鼠标位置：", t.pageX);
+
+            document
+                .getElementById("forest")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    clamp(x / 35, 0, 9) +
+                    "px); transform: translate(0px, 0px) rotate(0deg);"
+                );
+            document
+                .getElementById("big-person")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    Math.abs(clamp(x / 75 - 7, -3, 7)) +
+                    "px); transform: translate(" +
+                    x / 50 +
+                    "px, 0px) rotate(0deg);"
+                );
+            document
+                .getElementById("hill")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    Math.abs(clamp(x / 125 - 5, -5, 5)) +
+                    "px); transform: translate(" +
+                    x / 40 +
+                    "px, 0px) rotate(0deg);"
+                );
+            document
+                .getElementById("leaves")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    Math.abs(clamp(x / 250 - 3, -7, 3)) +
+                    "px); transform: translate(" +
+                    x / 30 +
+                    "px, 0px) rotate(0deg);"
+                );
+            document
+                .getElementById("small-person")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    clamp(5 - x / 250, 0, 5) +
+                    "px); transform: translate(" +
+                    x / 20 +
+                    "px, 0px) rotate(0deg);"
+                );
+            document
+                .getElementById("left")
+                .setAttribute(
+                    "style",
+                    "filter: blur(" +
+                    clamp(6 - x / 250, 0, 6) +
+                    "px); transform: translate(" +
+                    x / 10 +
+                    "px, 0px) rotate(0deg);"
+                );
+        }),
+        window.requestAnimationFrame(t.handleMouseMove),
+            document.addEventListener("mouseleave", t.handleMouseLeave),
+            window.addEventListener("mousemove", t.handleMouseMove);
+    </script>
+</body>
+
+</html>
