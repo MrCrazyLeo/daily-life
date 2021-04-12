@@ -517,6 +517,37 @@ https://cloud.tencent.com/developer/article/1082876
 
 - 5 ~ 10 未知
 
+# 2021-04-12
+
+腾讯AlloyTeam笔试题
+
+> 给定一个num，输出num下所有正常括号对组合
+>
+> 举个例子：num=3
+>
+> 输出： ['((()))', '(()())', '()(())', '(())()', '()()()']
+
+```js
+function solution(num){    
+  if(num < 1) return []
+  const pattern1 = "()"    // 存储计算过的历史
+  let res = [['()']]
+
+  if(num  === 1) return pattern1
+  else {
+    for(let i=1;i<num;i++){
+      // 要么包起来，要么放外边
+      res[i] = []
+      for(let j=i-1;j<res[i-1].length;j++){
+        const item = res[i-1][j]
+        res[i].push('' + item + pattern1)
+        res[i].push('' + pattern1 + item)
+        res[i].push('('+item+')')
+      }
+    }}
+  return res
+}
+```
 
 
 # 2021-04-06
