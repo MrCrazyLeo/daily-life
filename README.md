@@ -523,7 +523,7 @@ https://cloud.tencent.com/developer/article/1082876
 
 # 2021-04-12
 
-腾讯AlloyTeam笔试题
+腾讯AlloyTeam笔试题：[力扣22](https://leetcode-cn.com/problems/generate-parentheses/)
 
 > 给定一个num，输出num下所有正常括号对组合
 >
