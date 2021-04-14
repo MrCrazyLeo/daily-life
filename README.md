@@ -521,6 +521,20 @@ https://cloud.tencent.com/developer/article/1082876
 
 - 5 ~ 10 未知
 
+
+
+# 2021-04-14
+
+## 首屏优化方案
+
+[参考](https://segmentfault.com/a/1190000020383064)
+
+- SSR
+- prerender-spa-plugin做预渲染
+- 骨架屏：page-skeleton-webpack-plugin
+
+
+
 # 2021-04-12
 
 腾讯AlloyTeam笔试题：[力扣22](https://leetcode-cn.com/problems/generate-parentheses/)
@@ -555,6 +569,9 @@ function solution(num){
 ```
 
 [题解](https://leetcode-cn.com/problems/generate-parentheses/solution/shou-hua-tu-jie-gua-hao-sheng-cheng-hui-su-suan-fa/)
+
+- 时间复杂度：O(2^N)
+- 空间复杂度：O(2^N)
 
 ```js
 var generateParenthesis = function (n) {
