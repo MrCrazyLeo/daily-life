@@ -523,6 +523,42 @@ https://cloud.tencent.com/developer/article/1082876
 
 
 
+# 2021-04-21
+
+## 如何让setTimeout准时
+
+众所周知，浏览器页面是由消息队列和事件循环驱动的，创建一个 setTimeout 的时候是将它推进了一个队列，并没有立即执行，只有本轮宏任务执行完，才会去检查当前的消息队列是否有有到期的任务。setTimeout如果设置时间太小，会因为js来不及处理而不断延迟。根据[这篇文章](https://mp.weixin.qq.com/s/JYfm8oiQmomkNnJIFWDkrQ)，作者借鉴Stack Overflow的方法做了计时器补偿
+
+```
+function timer() {
+   var speed = 500,
+   counter = 1, 
+   start = new Date().getTime();
+   
+   function instance()
+   {
+    var real = (counter * speed),
+    ideal = (new Date().getTime() - start);
+    
+    counter++;
+
+    var diff = (ideal - real);
+    form.diff.value = diff;
+
+    window.setTimeout(function() { instance(); }, (speed - diff)); // 通过系统时间进行修复
+
+   };
+   
+   window.setTimeout(function() { instance(); }, speed);
+}
+```
+
+> 当每一次定时器执行时后，都去获取系统的时间来进行修正，虽然每次运行可能会有误差，但是通过系统时间对每次运行的修复，能够让后面每一次时间都得到一个补偿。
+
+![WX20210421-151255](img/WX20210421-151255.png)
+
+
+
 # 2021-04-14
 
 ## 首屏优化方案
